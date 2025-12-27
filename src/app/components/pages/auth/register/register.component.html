@@ -1,18 +1,21 @@
-<div class="login-container">
-  <h2>Welcome Back</h2>
+<div class="register-container">
+  <h2>Welcome</h2>
 
-  <input [ngModel]="email()" (ngModelChange)="email.set($event)" placeholder="Email" type="email" />
+  <form [formGroup]="form">
 
-  <input
-    [ngModel]="password()"
-    (ngModelChange)="password.set($event)"
-    placeholder="Password"
-    type="password"
-  />
+    <input formControlName="displayName" placeholder="Display Name" type="text" />
 
-  <button (click)="handleLogin()">Log In</button>
+    <input formControlName="email" placeholder="Email" type="email" />
 
-  @if (errorMessage()) {
-  <p class="error">{{ errorMessage() }}</p>
-  }
+    <input
+      formControlName="password"
+      placeholder="Password"
+      type="password"
+    />
+
+
+    <button type="submit" class="btn" [disabled]="form.invalid" (click)="handleLogin()">Register</button>
+
+  </form>
+
 </div>
