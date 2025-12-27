@@ -1,0 +1,14 @@
+ <div class="jobs-page">
+      <div class="page-header">
+        <h1 class="page-title">All Job Offers</h1>
+        <p class="page-description">Browse through {{ filteredJobCount }} available positions</p>
+      </div>
+
+      <app-job-search ></app-job-search>
+
+      <app-category-filter>
+      </app-category-filter>
+
+      <app-jobs-counter [count]="filteredJobCount"></app-jobs-counter>
+
+      <app-job-list ></app-job-list>>

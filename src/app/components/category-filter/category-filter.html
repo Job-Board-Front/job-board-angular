@@ -1,0 +1,9 @@
+<div class="filter-section">
+  <h3 class="filter-title">Filter by Category</h3>
+  <div class="category-chips">
+    @for (category of categories; track category.id) {
+      <button 
+        class="category-chip">{{ category.name }}</button>
+    }
+  </div>
+</div>

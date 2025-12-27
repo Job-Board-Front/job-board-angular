@@ -1,0 +1,44 @@
+.filter-section {
+  margin-bottom: 2rem;
+}
+
+.filter-title {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #1e293b;
+  margin: 0 0 1rem 0;
+}
+
+.category-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.category-chip {
+  padding: 0.5rem 1rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 20px;
+  background: white;
+  color: #64748b;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.category-chip:hover {
+  border-color: #cbd5e1;
+  background: #f8fafc;
+}
+
+.category-chip.active {
+  background: #2563eb;
+  color: white;
+  border-color: #2563eb;
+}
+
+.category-chip.active:hover {
+  background: #1d4ed8;
+  border-color: #1d4ed8;
+}
