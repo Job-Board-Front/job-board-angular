@@ -1,0 +1,9 @@
+<button
+  type="button"
+  class="app-button"
+  [class.app-button--disabled]="disabled()"
+  [attr.aria-pressed]="pressed()"
+  [disabled]="disabled()"
+>
+  <span class="app-button__label">{{ label() }}</span>
+</button>
