@@ -1,0 +1,80 @@
+<div class="min-h-screen flex items-center justify-center p-4">
+  <div class="w-full max-w-md rounded-lg border border-border bg-card text-card-foreground shadow-sm">
+      <div class="flex flex-col space-y-1.5 p-6 text-center">
+        <div class="flex justify-center mb-4">
+          <div class="flex h-12 w-12 items-center justify-center rounded-lg bg-primary">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              class="h-6 w-6 text-primary-foreground"
+            >
+              <path d="M16 20V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
+              <rect width="20" height="14" x="2" y="6" rx="2"></rect>
+            </svg>
+          </div>
+        </div>
+        <h1 class="text-2xl font-bold">Welcome back</h1>
+        <p class="text-sm text-muted-foreground">Sign in to your account to continue</p>
+      </div>
+      <div class="p-6 pt-0">
+        <form (ngSubmit)="handleLogin()" class="space-y-4">
+          <div class="space-y-2">
+            <label for="email" class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+              Email
+            </label>
+            <input
+              id="email"
+              name="email"
+              type="email"
+              placeholder="name@example.com"
+              [ngModel]="email()"
+              (ngModelChange)="email.set($event)"
+              class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+              required
+            />
+          </div>
+          <div class="space-y-2">
+            <div class="flex items-center justify-between">
+              <label for="password" class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                Password
+              </label>
+              <a href="#" class="text-sm text-primary hover:underline">
+                Forgot password?
+              </a>
+            </div>
+            <input
+              id="password"
+              name="password"
+              type="password"
+              [ngModel]="password()"
+              (ngModelChange)="password.set($event)"
+              class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+              required
+            />
+          </div>
+          @if (errorMessage()) {
+            <p class="text-sm text-destructive">{{ errorMessage() }}</p>
+          }
+          <button
+            type="submit"
+            class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2 w-full"
+          >
+            Sign In
+          </button>
+        </form>
+        <div class="mt-6 text-center text-sm">
+          <span class="text-muted-foreground">Don't have an account? </span>
+          <a [routerLink]="['/register']" class="text-primary hover:underline font-medium">
+            Sign up
+          </a>
+        </div>
+      </div>
+    </div>
+</div>

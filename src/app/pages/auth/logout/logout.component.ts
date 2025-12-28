@@ -9,7 +9,11 @@ import { Component, inject } from '@angular/core';
 })
 export class LogoutComponent {
   private _authService = inject(AuthService);
-  constructor() {}
+  
+  constructor() {
+    this.logout();
+  }
+  
   async logout() {
     await this._authService.logout();
   }

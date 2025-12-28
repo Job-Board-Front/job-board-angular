@@ -1,10 +1,11 @@
 import { AuthService } from '@/app/services/auth/auth.service';
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-register',
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, RouterLink],
   templateUrl: './register.component.html',
   styleUrl: './register.component.css',
 })
@@ -12,19 +13,27 @@ export class RegisterComponent {
   private _authService = inject(AuthService);
   private formBuilder = inject(FormBuilder);
 
+  errorMessage = signal('');
+
   form = this.formBuilder.group({
     email: ['', { validators: [Validators.required, Validators.email] }],
     password: ['', { validators: [Validators.required, Validators.minLength(6)] }],
     displayName: ['', { validators: [Validators.required] }],
+    confirmPassword: ['', { validators: [Validators.required] }],
   });
 
   async handleLogin() {
     if (this.form.valid) {
-      await this._authService.register(
-        this.email.value!,
-        this.password.value!,
-        this.displayName.value!
-      );
+      try {
+        this.errorMessage.set('');
+        await this._authService.register(
+          this.email.value!,
+          this.password.value!,
+          this.displayName.value!
+        );
+      } catch (err: any) {
+        this.errorMessage.set(err.message || 'Registration failed. Please try again.');
+      }
     } else {
       console.log('Form is invalid');
     }
@@ -40,5 +49,9 @@ export class RegisterComponent {
 
   get password() {
     return this.form.get('password')!;
+  }
+
+  get confirmPassword() {
+    return this.form.get('confirmPassword')!;
   }
 }
