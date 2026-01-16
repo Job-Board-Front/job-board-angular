@@ -42,11 +42,20 @@
 
           <div class="flex flex-wrap items-center gap-4 text-sm text-gray-500 mt-2">
             <span class="px-3 py-1 bg-blue-100 text-blue-600 rounded-full">
-              Engineering
+              {{job.value()!.category}}
             </span>
-            <span>📍 {{job.value()!.candidate_required_location}}</span>
-            <span>💼 {{job.value()!.job_type}}</span>
-            <span>💰 {{job.value()!.salary}}</span>
+            <span class="flex items-center gap-1">
+              <lucide-icon [img]="MapPin" [size]="16" class="text-gray-700"></lucide-icon>
+              {{job.value()!.candidate_required_location}}
+            </span>
+            <span class="flex items-center gap-1">
+              <lucide-icon [img]="Briefcase" [size]="16" class="text-gray-700"></lucide-icon>
+              {{job.value()!.job_type}}
+            </span>
+            <span class="flex items-center gap-1">
+              <lucide-icon [img]="DollarSign" [size]="16" class="text-gray-700"></lucide-icon>
+              {{job.value()!.salary}}
+            </span>
           </div>
 
           <p class="text-sm text-gray-400 mt-2">
@@ -96,12 +105,14 @@
       
       <div class="bg-white rounded-xl border border-gray-400/40 p-8 shadow-xl ">
         <button
-          class="w-full bg-blue-900 hover:bg-blue-800 text-white py-3 rounded-lg font-medium mb-2 cursor-pointer">
-          Apply Now ↗
+          class="w-full bg-blue-900 hover:bg-blue-800 text-white py-3 rounded-lg font-medium mb-2 cursor-pointer flex items-center justify-center gap-2" (click)="openJobUrl()">
+          Apply Now
+          <lucide-icon [img]="ExternalLink" [size]="18"></lucide-icon>
         </button>
 
         <button
-          class="w-full border py-3 rounded-lg font-medium hover:bg-gray-50 border-gray-400/40  cursor-pointer">
+          class="w-full border py-3 rounded-lg font-medium hover:bg-gray-50 border-gray-400/40  cursor-pointer flex items-center justify-center gap-2">
+          <lucide-icon [img]="Bookmark" [size]="18"></lucide-icon>
           Bookmark
         </button>
       </div>
@@ -175,8 +186,10 @@
 
 
           <div class="space-y-2 text-sm text-gray-600 mb-4 ">
-            <p>📍 {{ job.candidate_required_location }}</p>
-            <p>💰 {{ job.salary }}</p>
+            <span class="flex items-center gap-1">
+              <lucide-icon [img]="MapPin" [size]="16" class="text-gray-700"></lucide-icon>{{ job.candidate_required_location }}</span>
+            <span class="flex items-center gap-1">
+              <lucide-icon [img]="DollarSign" [size]="16" class="text-gray-700"></lucide-icon> {{ job.salary }}</span>
             <span class="inline-block px-3 py-1 bg-gray-100 text-gray-600 rounded-full text-xs">
               {{ job.tags?.[0] || 'Other' }}
             </span>
@@ -193,8 +206,9 @@
   }
 </div>
 <div class="text-center mt-8">
-        <button class="px-6 py-3 border border-gray-400/40 rounded-lg font-medium hover:bg-gray-50 transition-colors">
-          View All Similar Jobs →
+        <button class="mx-auto px-6 py-3 border border-gray-400/40 rounded-lg font-medium cursor-pointer hover:bg-gray-50 transition-colors flex items-center justify-center gap-2">
+          View All Similar Jobs 
+          <lucide-icon [img]="ArrowRight" [size]="18"></lucide-icon>
         </button>
       </div>
   </div>  

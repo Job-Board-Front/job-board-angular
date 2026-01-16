@@ -1,71 +1,5 @@
-/*import { Component } from '@angular/core';
-
-@Component({
-  selector: 'app-job-details',
-  standalone: true,
-  templateUrl: './job-details.component.html'
-})
-export class JobDetailsComponent {}
-*/
-/*
-import { Component, OnInit ,signal} from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-
-@Component({
-  selector: 'app-job-details',
-  templateUrl: './job-details.component.html',
-  styleUrls: ['./job-details.component.css']
-})
-export class JobDetailsComponent implements OnInit {
-job = signal<any | null>(null);
-loading = signal(true);
-logoError= signal(false);
-error = signal<string | null>(null);
-
-
-  constructor(private http: HttpClient) {}
-
-  ngOnInit(): void {
-  this.http.get('https://remotive.com/api/remote-jobs?limit=3')
-    .subscribe({
-      next: (data: any) => {
-        if (data.jobs?.length) {
-          this.job.set(data.jobs[0]);
-          console.log(this.job());
-        } else {
-          this.error.set('No jobs found');
-        }
-        this.loading.set(false);
-      },
-      error: (err) => {
-        this.error.set('Failed to fetch job data');
-        this.loading.set(false);
-        console.error(err);
-      }
-    });
-}
-logoErrorf(){
-  this.logoError.set(true);
-}
-
-  getInitials(name: string): string {
-    return name
-      .split(' ')
-      .map(word => word[0])
-      .join('')
-      .toUpperCase()
-      .slice(0, 2);
-  }
-
-  formatDate(dateString: string): string {
-    return new Date(dateString).toLocaleDateString('en-US', {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric'
-    });
-  }
-}*/
 import { Component, signal, resource, Resource } from '@angular/core';
+import { LucideAngularModule,MapPin, Briefcase, DollarSign, ExternalLink, Bookmark ,ArrowRight} from 'lucide-angular';
 export interface Job {
   id: number;
   url: string;
@@ -84,11 +18,17 @@ export interface Job {
 
 @Component({
   selector: 'app-job-details',
+  imports: [LucideAngularModule],
   templateUrl: './job-details.component.html',
   styleUrls: ['./job-details.component.css'],
 })
 export class JobDetailsComponent {
-
+  readonly MapPin = MapPin;
+  readonly Briefcase = Briefcase;
+  readonly DollarSign = DollarSign;
+  readonly ExternalLink = ExternalLink;
+  readonly Bookmark = Bookmark;
+  readonly ArrowRight= ArrowRight;
   logoError = signal(false);
 
 
@@ -130,6 +70,16 @@ readMore = signal(false);
 toggleReadMore() {
   this.readMore.update(v => !v);
 }
+
+openJobUrl() {
+  const url = this.job.value()?.url;
+  if (url) {
+    window.open(url, '_blank'); // opens in a new tab
+  } else {
+    console.warn('Job URL is not defined');
+  }
+}
+
 similarJobs = resource<Job[] | null, { category?: string }>({
   params: () => ({
     category: this.job.value()?.category || this.job.value()?.tags?.[0] // fallback to first tag
