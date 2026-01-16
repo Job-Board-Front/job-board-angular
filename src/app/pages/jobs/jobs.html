@@ -9,6 +9,5 @@
       <app-category-filter>
       </app-category-filter>
 
-      <app-jobs-counter [count]="filteredJobCount"></app-jobs-counter>
-
-      <app-job-list ></app-job-list>>
+ <p class="jobs-counter">Showing {{ filteredJobCount }} jobs</p>
+<app-job-list [infinite]="true" (jobCount)="filteredJobCount = $event"></app-job-list>>

@@ -1,8 +1,18 @@
 <section class="job-list-section">
   <div class="jobs-grid">
-    <app-job-card 
-      *ngFor="let job of jobs" 
-      [job]="job">
-    </app-job-card>
+   @if (jobsResource.isLoading()) {
+  <p>Loading jobs...</p>
+}
+
+@if (jobsResource.error()) {
+  <p>Failed to load jobs</p>
+}
+
+@if (jobsResource.value(); as jobs) {
+  @for (job of jobs; track job.id) {
+      <app-job-card [job]="job" />
+  } 
+}
+
   </div>
 </section>

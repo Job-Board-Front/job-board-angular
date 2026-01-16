@@ -1,78 +1,69 @@
-import { Component, Input } from '@angular/core';
-import { Job } from '../../models/job.model';
+import { Component, EventEmitter, HostListener, inject, Input, Output } from '@angular/core';
 import { JobCard } from '../job-card/job-card';
+import { Job } from '../../interfaces/api/job.models';
 import { CommonModule } from '@angular/common';
+import { JobsService } from '@/app/api/jobs.service';
+import { rxResource } from '@angular/core/rxjs-interop';
+import { concatMap, map, Observable, of, scan, startWith, Subject, switchMap, tap } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-job-list',
-  imports: [JobCard, CommonModule, JobCard],
+  standalone: true,
+  imports: [JobCard, CommonModule],
   templateUrl: './job-list.html',
-  styleUrl: './job-list.css',
+  styleUrls: ['./job-list.css'],
 })
 export class JobList {
+  private http = inject(HttpClient);
 
-  jobs: Job[] = [
-    {
-      id: 1,
-      title: 'Senior Frontend Developer',
-      company: 'TechCorp',
-      category: 'Engineering',
-      location: 'San Francisco, CA',
-      type: 'Full-time',
-      salary: '$120k - $180k',
-      logo: '🦋'
-    },
-    {
-      id: 2,
-      title: 'Product Designer',
-      company: 'DesignHub',
-      category: 'Design',
-      location: 'Remote',
-      type: 'Full-time',
-      salary: '$90k - $140k',
-      logo: '🎨',
-      remote: true
-    },
-    {
-      id: 3,
-      title: 'Backend Engineer',
-      company: 'DataFlow',
-      category: 'Engineering',
-      location: 'New York, NY',
-      type: 'Full-time',
-      salary: '$130k - $190k',
-      logo: '💎'
-    },
-    {
-      id: 4,
-      title: 'Marketing Manager',
-      company: 'GrowthLabs',
-      category: 'Marketing',
-      location: 'Austin, TX',
-      type: 'Full-time',
-      salary: '$80k - $120k',
-      logo: '📊'
-    },
-    {
-      id: 5,
-      title: 'DevOps Engineer',
-      company: 'CloudScale',
-      category: 'Engineering',
-      location: 'Seattle, WA',
-      type: 'Full-time',
-      salary: '$110k - $160k',
-      logo: '☁️'
-    },
-    {
-      id: 6,
-      title: 'Data Scientist',
-      company: 'AI Innovations',
-      category: 'Data Science',
-      location: 'Boston, MA',
-      type: 'Full-time',
-      salary: '$120k - $170k',
-      logo: '🤖'
+  private trigger$ = new Subject<void>(); 
+  private allJobs: Job[] = [];
+  private page = 0;
+  private limit = 6;
+  private loading = false;
+  @Input() infinite = true; 
+  @Output() jobCount = new EventEmitter<number>();
+
+  jobsResource = rxResource<Job[], null>({
+    stream: () =>
+      this.trigger$.pipe(
+        startWith(undefined),
+        concatMap(() => {
+          if (!this.infinite && this.page > 0) return of([]); 
+          if (this.loading) return of([]); 
+
+          this.loading = true;
+          this.page++;
+
+          return this.http
+            .get<{ jobs: Job[] }>(`https://remotive.com/api/remote-jobs?page=${this.page}&limit=${this.limit}`)
+            .pipe(
+              tap(() => (this.loading = false)),
+              map(res => res.jobs)
+            ); 
+        }),
+        scan((acc, page) => [...acc, ...page], [] as Job[]),
+        tap(jobs => this.jobCount.emit(jobs.length))
+      ),
+    defaultValue: [],
+  });
+
+
+  @HostListener('window:scroll', [])
+  onWindowScroll() {
+    if (!this.infinite || this.loading) return;
+
+    const scrollPosition =
+      window.innerHeight + window.scrollY;
+
+    const pageHeight =
+      document.documentElement.offsetHeight;
+
+    if (scrollPosition >= pageHeight - 200) {
+      this.trigger$.next();
+      console.log('Scrolled near bottom of page, loading more jobs');
     }
-  ];
+  }
 
 }
