@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
-import { JobList } from '../../components/job-list/job-list';
-import { CategoryFilter } from '../../components/category-filter/category-filter';
-import { JobSearch } from '../../components/job-search/job-search';
+import { JobList } from '../../components/Jobs/job-list/job-list';
+import { CategoryFilter } from '../../components/Jobs/category-filter/category-filter';
+import { JobSearch } from '../../components/Jobs/job-search/job-search';
 
 @Component({
   selector: 'app-jobs',

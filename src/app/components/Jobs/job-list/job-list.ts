@@ -1,6 +1,6 @@
 import { Component, EventEmitter, HostListener, inject, Input, Output } from '@angular/core';
 import { JobCard } from '../job-card/job-card';
-import { Job } from '../../interfaces/api/job.models';
+import { Job } from '../../../interfaces/api/job.models';
 import { CommonModule } from '@angular/common';
 import { JobsService } from '@/app/api/jobs.service';
 import { rxResource } from '@angular/core/rxjs-interop';
