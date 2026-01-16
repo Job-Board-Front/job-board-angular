@@ -30,7 +30,7 @@
             />
           } @else {
             <span class="font-bold text-gray-600">
-              {{ job.value()!.company_name!.slice(0, 2).toUpperCase() }}
+              {{ job.value()!.company_name | getInitials }}
             </span>
           }
         </div>
@@ -59,7 +59,7 @@
           </div>
 
           <p class="text-sm text-gray-400 mt-2">
-            Posted {{ formatDate(job.value()!.publication_date) }}
+            Posted {{ job.value()!.publication_date | formatDate }}
           </p>
         </div>
       </div>
@@ -147,7 +147,7 @@
           <hr class="my-4 border-gray-400/40">
           <div>
             <p class="text-gray-400 pt-1">Posted Date</p>
-            <p class="font-medium">{{ formatDate((job.value()!).publication_date) }}</p>
+            <p class="font-medium">{{ (job.value()!).publication_date | formatDate}}</p>
           </div>
         </div>
       </div>
@@ -173,7 +173,7 @@
           />
         } @else {
           <span class="font-bold text-gray-600">
-            {{ job.company_name!.slice(0, 2).toUpperCase() }}
+            {{ job.company_name | getInitials }}
           </span>
         }
       </div>

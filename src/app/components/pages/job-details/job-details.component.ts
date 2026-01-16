@@ -1,3 +1,5 @@
+import { FormatDatePipe } from '@/app/pipes/job-details-pipes/format-date.pipe';
+import { GetInitialsPipe } from '@/app/pipes/job-details-pipes/get-initials.pipe';
 import { Component, signal, resource, Resource } from '@angular/core';
 import { LucideAngularModule,MapPin, Briefcase, DollarSign, ExternalLink, Bookmark ,ArrowRight} from 'lucide-angular';
 export interface Job {
@@ -13,12 +15,12 @@ export interface Job {
   publication_date: string;
   description?: string;
   tags?: string[];
-  [key: string]: any; // fallback for extra fields from API
+  [key: string]: any; 
 }
 
 @Component({
   selector: 'app-job-details',
-  imports: [LucideAngularModule],
+  imports: [LucideAngularModule,FormatDatePipe, GetInitialsPipe],
   templateUrl: './job-details.component.html',
   styleUrls: ['./job-details.component.css'],
 })
@@ -58,13 +60,7 @@ export class JobDetailsComponent {
       .slice(0, 2);
   }
 
-  formatDate(dateString: string): string {
-    return new Date(dateString).toLocaleDateString('en-US', {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric'
-    });
-  }
+
 readMore = signal(false);
 
 toggleReadMore() {
