@@ -1,9 +1,6 @@
-//This is an ai generated content, just for testing the services
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, signal, effect, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
- 
-import {  Job, 
-  Bookmark, 
+import { 
   CreateJobDto, 
   EmploymentType, 
   ExperienceLevel,
@@ -12,433 +9,209 @@ import {  Job,
 import { BookmarksService } from '../api/bookmarks.service';
 import { JobsService } from '../api/jobs.service';
 
-
 @Component({
   selector: 'app-test-page',
   standalone: true,
   imports: [CommonModule],
   template: `
     <div class="container">
-      <h1>🧪 Test Your Services</h1>
+      <h1>🧪 Service Tester (Raw & Dirty)</h1>
       
-      <!-- JOBS SECTION -->
-      <section class="section">
-        <h2>📋 Jobs Service</h2>
-        <div class="buttons">
-          <button (click)="getAllJobs()">Get All Jobs</button>
-          <button (click)="getFilteredJobs()">Get Filtered Jobs (Full-time, Senior)</button>
-          <button (click)="testPagination()">Test Pagination (Load More)</button>
-          <button (click)="createTestJob()">Create Test Job</button>
-          <button (click)="getFirstJob()">Get First Job Details</button>
-          <button (click)="deleteFirstJob()">Delete First Job</button>
-        </div>
-        
-        <div class="results" *ngIf="jobs().length > 0">
-          <h3>Results: {{ jobs().length }} jobs</h3>
-          <div class="job-card" *ngFor="let job of jobs()">
-            <strong>{{ job.title }}</strong> at {{ job.company }}<br>
-            <small>{{ job.location }} • {{ job.employmentType }} • {{ job.experienceLevel }}</small><br>
-            <small>ID: {{ job.id }}</small>
-          </div>
-        </div>
-
-        <div class="json-view" *ngIf="selectedJob()">
-          <h3>Selected Job Details:</h3>
-          <pre>{{ selectedJob() | json }}</pre>
-        </div>
-      </section>
-
-      <!-- BOOKMARKS SECTION -->
-      <section class="section">
-        <h2>⭐ Bookmarks Service</h2>
-        <div class="buttons">
-          <button (click)="getMyBookmarks()">Get My Bookmarks</button>
-          <button (click)="bookmarkFirstJob()">Bookmark First Job</button>
-          <button (click)="unbookmarkFirst()">Remove First Bookmark</button>
-        </div>
-        
-        <div class="results" *ngIf="bookmarks().length > 0">
-          <h3>My Bookmarks: {{ bookmarks().length }}</h3>
-          <div class="bookmark-card" *ngFor="let bookmark of bookmarks()">
-            Job ID: {{ bookmark.jobId }}<br>
-            <small>Bookmarked at: {{ bookmark.createdAt }}</small>
-          </div>
-        </div>
-      </section>
-
-      <!-- STATUS MESSAGES -->
       <section class="section status" *ngIf="status()">
         <div [class]="status()?.type">
           {{ status()?.message }}
         </div>
       </section>
 
-      <!-- CONSOLE LOG -->
       <section class="section">
-        <p><strong>💡 Tip:</strong> Open the browser console (F12) to see detailed logs!</p>
+        <h2>📋 Jobs Service</h2>
+        <div class="status-badge" [class.ready]="jobsResource.value()">
+           Resource Status: {{ jobsResource.isLoading() ? 'Loading...' : 'Ready' }}
+        </div>
+
+        <div class="buttons">
+          <button (click)="resetFilters()">Reset / Get All</button>
+          <button (click)="applyFilter()">Filter (Senior/FullTime)</button>
+          
+          <button (click)="createTestJob()">Create Test Job</button>
+          <button (click)="deleteFirstJob()">Delete First Job</button>
+        </div>
+        
+        <div class="results" *ngIf="jobsList().length > 0">
+          <h3>Results: {{ jobsList().length }} jobs</h3>
+          <div class="job-card" *ngFor="let job of jobsList()">
+            <strong>{{ job.title }}</strong> ({{ job.id }}) <br>
+            <button (click)="selectJob(job.id)">View Details</button>
+            <button (click)="bookmarkJob(job.id)">
+               {{ isBookmarked(job.id) ? '★ Unbookmark' : '☆ Bookmark' }}
+            </button>
+          </div>
+        </div>
+
+        <div class="json-view" *ngIf="selectedJobResource.value()">
+          <h3>Selected Job Details (Fetched via ID):</h3>
+          <pre>{{ selectedJobResource.value() | json }}</pre>
+        </div>
       </section>
+
+      <section class="section">
+        <h2>⭐ Bookmarks Service</h2>
+        
+
+        <div class="results">
+          <h3>My Bookmarks: {{ bookmarksList().length }}</h3>
+          <div class="bookmark-card" *ngFor="let b of bookmarksList()">
+            Job ID: {{ b.jobId }} 
+          </div>
+        </div>
+        </section>
     </div>
   `,
   styles: [`
-    .container {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 20px;
-      font-family: system-ui, -apple-system, sans-serif;
-    }
-
-    h1 {
-      color: #333;
-      border-bottom: 3px solid #4CAF50;
-      padding-bottom: 10px;
-    }
-
-    .section {
-      background: white;
-      border: 1px solid #ddd;
-      border-radius: 8px;
-      padding: 20px;
-      margin: 20px 0;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    }
-
-    h2 {
-      margin-top: 0;
-      color: #555;
-    }
-
-    .buttons {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin: 15px 0;
-    }
-
-    button {
-      background: #2196F3;
-      color: white;
-      border: none;
-      padding: 12px 20px;
-      border-radius: 5px;
-      cursor: pointer;
-      font-size: 14px;
-      transition: background 0.3s;
-    }
-
-    button:hover {
-      background: #1976D2;
-    }
-
-    button:active {
-      transform: scale(0.98);
-    }
-
-    .results {
-      margin-top: 20px;
-      background: #f5f5f5;
-      padding: 15px;
-      border-radius: 5px;
-    }
-
-    .job-card, .bookmark-card {
-      background: white;
-      padding: 12px;
-      margin: 10px 0;
-      border-left: 4px solid #4CAF50;
-      border-radius: 4px;
-    }
-
-    .json-view {
-      background: #263238;
-      color: #aed581;
-      padding: 15px;
-      border-radius: 5px;
-      margin-top: 15px;
-      overflow-x: auto;
-    }
-
-    .json-view pre {
-      margin: 0;
-      font-size: 13px;
-    }
-
-    .status {
-      margin-top: 20px;
-    }
-
-    .success {
-      background: #d4edda;
-      color: #155724;
-      padding: 15px;
-      border-radius: 5px;
-      border-left: 4px solid #28a745;
-    }
-
-    .error {
-      background: #f8d7da;
-      color: #721c24;
-      padding: 15px;
-      border-radius: 5px;
-      border-left: 4px solid #dc3545;
-    }
-
-    small {
-      color: #666;
-    }
+    .container { max-width: 800px; margin: 20px auto; font-family: monospace; }
+    .section { border: 1px solid #ccc; padding: 15px; margin-bottom: 20px; border-radius: 5px; }
+    .buttons { margin-bottom: 10px; display: flex; gap: 5px; flex-wrap: wrap; }
+    button { padding: 8px 12px; cursor: pointer; }
+    .job-card { background: #f0f0f0; margin: 5px 0; padding: 10px; border-left: 5px solid #2196F3; }
+    .json-view { background: #333; color: #8bc34a; padding: 10px; overflow: auto; }
+    .status-badge { font-weight: bold; margin-bottom: 10px; }
+    .ready { color: green; }
+    .success { background: #dff0d8; color: #3c763d; padding: 10px; }
+    .error { background: #f2dede; color: #a94442; padding: 10px; }
   `]
 })
 export class TestPageComponent {
   private jobsService = inject(JobsService);
   private bookmarksService = inject(BookmarksService);
 
-  jobs = signal<Job[]>([]);
-  selectedJob = signal<Job | null>(null);
-  bookmarks = signal<Bookmark[]>([]);
+  filterSignal = signal<JobSearchFilters | undefined>({ limit: 20 });
+  selectedJobId = signal<string | undefined>(undefined);
   status = signal<{ message: string; type: 'success' | 'error' } | null>(null);
-  nextCursor = signal<string | null>(null);
 
-  // ============ JOBS SERVICE METHODS ============
+  jobsResource = this.jobsService.getJobs(this.filterSignal);
+  bookmarksResource = this.bookmarksService.getBookmarks();
+  selectedJobResource = this.jobsService.getJobById(this.selectedJobId);
 
-  getAllJobs() {
-    console.log('🔵 Calling: jobsService.getJobs()');
-    
-    this.jobsService.getJobs().subscribe({
-      next: (jobs) => {
-        console.log('✅ Success! Received jobs:', jobs);
-        console.log('Type of response:', typeof jobs);
-        console.log('Is Array?', Array.isArray(jobs));
-        console.log('Jobs length:', jobs?.length);
-        console.log('First job:', jobs?.[0]);
-        
-        this.jobs.set(jobs);
-        this.showStatus(`Loaded ${jobs?.length ?? 0} jobs`, 'success');
-      },
-      error: (error) => {
-        console.error('❌ Error getting jobs:', error);
-        console.log('Error details:', {
-          status: error.status,
-          message: error.message,
-          error: error.error
-        });
-        this.showStatus(`Error: ${error.message}`, 'error');
+  jobsList = computed(() => this.jobsResource.value()?.data || []);
+  bookmarksList = computed(() => this.bookmarksResource.value() || []);
+
+  constructor() {
+   effect(() => {
+      const jobs = this.jobsResource.value();
+      if (jobs) {
+        console.log('✅ [Auto-Log] Jobs Updated:', jobs.data.length, 'items');
+      }
+    });
+
+    effect(() => {
+      const b = this.bookmarksResource.value();
+      if (b) {
+        console.log('✅ [Auto-Log] Bookmarks Updated:', b.length, 'items');
       }
     });
   }
 
-  getFilteredJobs() {
-    const filters: JobSearchFilters = {
+
+  resetFilters() {
+    console.log('🔵 Resetting filters & Reloading...');
+    this.filterSignal.set(undefined);
+    
+    this.jobsResource.reload(); 
+  }
+
+  applyFilter() {
+    console.log('🔵 Applying filters...');
+    this.filterSignal.set({
       employmentType: EmploymentType.FULL_TIME,
       experienceLevel: ExperienceLevel.SENIOR
-      // Note: isActive is NOT a valid filter - backend filters this automatically
-    };
-
-    console.log('🔵 Calling: jobsService.getJobs() with filters:', filters);
-    
-    this.jobsService.getJobs(filters).subscribe({
-      next: (jobs) => {
-        console.log('✅ Success! Filtered jobs:', jobs);
-        console.log('Filtered jobs length:', jobs?.length);
-        this.jobs.set(jobs);
-        this.showStatus(`Found ${jobs?.length ?? 0} full-time senior jobs`, 'success');
-      },
-      error: (error) => {
-        console.error('❌ Error filtering jobs:', error);
-        console.log('Error status:', error.status);
-        console.log('Error body:', error.error);
-        this.showStatus(`Error: ${error.status} - ${error.error?.message || error.message}`, 'error');
-      }
     });
   }
 
-  getFirstJob() {
-    const firstJobId = this.jobs()[0]?.id;
-    
-    if (!firstJobId) {
-      this.showStatus('No jobs loaded. Click "Get All Jobs" first!', 'error');
-      return;
-    }
-
-    console.log('🔵 Calling: jobsService.getJobById()', firstJobId);
-    
-    this.jobsService.getJobById(firstJobId).subscribe({
-      next: (job) => {
-        console.log('✅ Success! Job details:', job);
-        this.selectedJob.set(job);
-        this.showStatus(`Loaded job: ${job.title}`, 'success');
-      },
-      error: (error) => {
-        console.error('❌ Error getting job:', error);
-        this.showStatus(`Error: ${error.message}`, 'error');
-      }
-    });
+  selectJob(id: string) {
+    console.log('🔵 Selecting Job ID:', id);
+    this.selectedJobId.set(id); 
   }
 
   createTestJob() {
     const newJob: CreateJobDto = {
-      title: 'Test Angular Developer',
-      description: 'This is a test job created from the frontend service',
-      company: 'Test Company',
+      title: 'Test Job ' + Math.floor(Math.random() * 100),
+      description: 'Auto-generated test',
+      company: 'Test Co',
       location: 'Remote',
       employmentType: EmploymentType.FULL_TIME,
-      experienceLevel: ExperienceLevel.SENIOR,
-      salaryRange: '$100k - $150k',
-      techStack: ['Angular', 'TypeScript', 'RxJS']
+      experienceLevel: ExperienceLevel.MID,
+      salaryRange: '$50k',
+      techStack: ['Angular']
     };
 
-    console.log('🔵 Calling: jobsService.createJob()', newJob);
-    
+    console.log('🔵 Creating Job...');
     this.jobsService.createJob(newJob).subscribe({
-      next: (createdJob) => {
-        console.log('✅ Success! Created job:', createdJob);
-        console.log('Created job ID:', createdJob?.id);
-        console.log('Full response:', JSON.stringify(createdJob, null, 2));
-        this.showStatus(`Created job: ${createdJob.title} (ID: ${createdJob.id})`, 'success');
+      next: (job) => {
+        this.showStatus(`Created: ${job.title}`, 'success');
         
-        // Wait a bit then refresh to ensure backend saved it
-        console.log('⏳ Waiting 1 second before refreshing list...');
-        setTimeout(() => {
-          console.log('🔄 Refreshing job list...');
-          this.getAllJobs();
-        }, 1000);
+        this.jobsResource.reload(); 
       },
-      error: (error) => {
-        console.error('❌ Error creating job:', error);
-        console.log('Error status:', error.status);
-        console.log('Error body:', error.error);
-        this.showStatus(`Error: ${error.status} - ${error.error?.message || error.message}`, 'error');
-      }
+      error: (err) => this.showStatus(err.message, 'error')
     });
   }
-
   deleteFirstJob() {
-    const firstJobId = this.jobs()[0]?.id;
-    
-    if (!firstJobId) {
-      this.showStatus('No jobs loaded. Click "Get All Jobs" first!', 'error');
-      return;
-    }
+    const list = this.jobsList();
+    if (list.length === 0) return alert('No jobs to delete');
+    const id = list[0].id;
 
-    if (!confirm(`Delete job: ${this.jobs()[0].title}?`)) {
-      return;
-    }
+    if(!confirm('Delete ' + id + '?')) return;
 
-    console.log('🔵 Calling: jobsService.deleteJob()', firstJobId);
-    
-    this.jobsService.deleteJob(firstJobId).subscribe({
+    this.jobsService.deleteJob(id).subscribe({
       next: () => {
-        console.log('✅ Success! Job deleted');
-        this.showStatus(`Deleted job: ${firstJobId}`, 'success');
-        // Refresh the list
-        this.getAllJobs();
+        this.showStatus('Deleted ' + id, 'success');
+        this.resetFilters();
       },
-      error: (error) => {
-        console.error('❌ Error deleting job:', error);
-        this.showStatus(`Error: ${error.message}`, 'error');
-      }
+      error: (err) => this.showStatus(err.message, 'error')
     });
   }
 
-  testPagination() {
-    const cursor = this.nextCursor();
+ 
+
+  isBookmarked(jobId: string | number) {
+    const list = this.bookmarksList();
+    if (!list) return false;
     
-    console.log('🔵 Calling: jobsService.getJobsPaginated() with cursor:', cursor);
-    
-    this.jobsService.getJobsPaginated({}, cursor || undefined, 10).subscribe({
-      next: (response) => {
-        console.log('✅ Success! Paginated response:', response);
-        console.log('Data length:', response.data.length);
-        console.log('Next cursor:', response.nextCursor);
-        
-        // Append to existing jobs
-        this.jobs.update(current => [...current, ...response.data]);
-        this.nextCursor.set(response.nextCursor);
-        
-        this.showStatus(
-          `Loaded ${response.data.length} more jobs. Total: ${this.jobs().length}${response.nextCursor ? ' (More available)' : ' (Last page)'}`,
-          'success'
-        );
-      },
-      error: (error) => {
-        console.error('❌ Error with pagination:', error);
-        this.showStatus(`Error: ${error.message}`, 'error');
-      }
-    });
+    return list.some(b => String(b.id) === String(jobId));
   }
 
-  // ============ BOOKMARKS SERVICE METHODS ============
+  bookmarkJob(jobId: string | number) {
+    console.log('🖱️ Clicked Bookmark for ID:', jobId, 'Type:', typeof jobId);
 
-  getMyBookmarks() {
-    console.log('🔵 Calling: bookmarksService.getBookmarks()');
-    
-    this.bookmarksService.getBookmarks().subscribe({
-      next: (bookmarks) => {
-        console.log('✅ Success! My bookmarks:', bookmarks);
-        this.bookmarks.set(bookmarks);
-        this.showStatus(`Loaded ${bookmarks.length} bookmarks`, 'success');
-      },
-      error: (error) => {
-        console.error('❌ Error getting bookmarks:', error);
-        this.showStatus(`Error: ${error.message}`, 'error');
-      }
-    });
-  }
-
-  bookmarkFirstJob() {
-    const firstJobId = this.jobs()[0]?.id;
-    
-    if (!firstJobId) {
-      this.showStatus('No jobs loaded. Click "Get All Jobs" first!', 'error');
+    if (!jobId) {
+      this.showStatus('❌ Error: Job ID is missing/undefined', 'error');
       return;
     }
 
-    console.log('🔵 Calling: bookmarksService.bookmarkJob()', firstJobId);
-    
-    this.bookmarksService.bookmarkJob(firstJobId).subscribe({
-      next: (bookmark) => {
-        console.log('✅ Success! Bookmarked:', bookmark);
-        this.showStatus(`Bookmarked job: ${this.jobs()[0].title}`, 'success');
-        // Refresh bookmarks
-        this.getMyBookmarks();
-      },
-      error: (error) => {
-        console.error('❌ Error bookmarking:', error);
-        this.showStatus(`Error: ${error.message}`, 'error');
-      }
-    });
-  }
+    const idStr = String(jobId);
 
-  unbookmarkFirst() {
-    const firstBookmark = this.bookmarks()[0];
-    
-    if (!firstBookmark) {
-      this.showStatus('No bookmarks. Bookmark a job first!', 'error');
-      return;
+    if (this.isBookmarked(idStr)) {
+      console.log('🔵 Action: Unbookmarking', idStr);
+      this.bookmarksService.unbookmarkJob(idStr).subscribe({
+        next: () => this.showStatus('➖ Unbookmarked successfully', 'success'),
+        error: (err) => {
+          console.error('❌ Unbookmark failed:', err);
+          this.showStatus('Error unbookmarking: ' + err.message, 'error');
+        }
+      });
+    } else {
+      console.log('🔵 Action: Bookmarking', idStr);
+      this.bookmarksService.bookmarkJob(idStr).subscribe({
+        next: () => this.showStatus('➕ Bookmarked successfully', 'success'),
+        error: (err) => {
+          console.error('❌ Bookmark failed:', err);
+          this.showStatus('Error bookmarking: ' + err.message, 'error');
+        }
+      });
     }
-
-    console.log('🔵 Calling: bookmarksService.unbookmarkJob()', firstBookmark.jobId);
-    
-    this.bookmarksService.unbookmarkJob(firstBookmark.jobId).subscribe({
-      next: () => {
-        console.log('✅ Success! Bookmark removed');
-        this.showStatus(`Removed bookmark: ${firstBookmark.jobId}`, 'success');
-        // Refresh bookmarks
-        this.getMyBookmarks();
-      },
-      error: (error) => {
-        console.error('❌ Error removing bookmark:', error);
-        this.showStatus(`Error: ${error.message}`, 'error');
-      }
-    });
   }
 
-  // ============ HELPER METHODS ============
-
-  private showStatus(message: string, type: 'success' | 'error') {
-    this.status.set({ message, type });
-    
-    // Auto-clear after 5 seconds
-    setTimeout(() => {
-      this.status.set(null);
-    }, 5000);
+  private showStatus(msg: string, type: 'success' | 'error') {
+    this.status.set({ message: msg, type });
+    setTimeout(() => this.status.set(null), 3000);
   }
 }

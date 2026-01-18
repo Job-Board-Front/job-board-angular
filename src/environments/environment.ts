@@ -1,13 +1,13 @@
 export const environment = {
-  apiUrl: 'http://localhost:3000/api',
+  apiUrl: process.env['NG_APP_API_URL'],
   
   firebase: {
-    apiKey: 'AIzaSyDD3Xor1Wn6kyNwru0cGSoZdCZwzvKv69Y',
-    authDomain: 'job-board-322da.firebaseapp.com',
-    projectId: 'job-board-322da',
-    storageBucket: 'job-board-322da.firebasestorage.app',
-    messagingSenderId: '958423443778',
-    appId: '1:958423443778:web:09238143188297b378c0db',
-    measurementId: 'G-RMZEKE1NKP',
+    apiKey: process.env['NG_APP_FIREBASE_API_KEY'],
+    authDomain: process.env['NG_APP_FIREBASE_AUTH_DOMAIN'],
+    projectId: process.env['NG_APP_FIREBASE_PROJECT_ID'],
+    storageBucket: process.env['NG_APP_FIREBASE_STORAGE_BUCKET'],
+    messagingSenderId: process.env['NG_APP_FIREBASE_MESSAGING_SENDER_ID'],
+    appId: process.env['NG_APP_FIREBASE_APP_ID']  ,
+    measurementId: process.env['NG_APP_FIREBASE_MEASUREMENT_ID'],
   },
 };
