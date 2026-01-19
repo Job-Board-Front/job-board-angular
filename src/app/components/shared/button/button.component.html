@@ -1,0 +1,42 @@
+@if (href()) {
+  <a [routerLink]="href()" [class]="computedClasses()">
+    <ng-container *ngTemplateOutlet="content"></ng-container>
+  </a>
+}
+<!-- Case 2: Standard Button -->
+@else {
+  <button
+    [type]="type()"
+    [disabled]="disabled() || loading()"
+    [class]="computedClasses()"
+    (click)="onClick.emit($event)"
+  >
+    <!-- Loading Spinner -->
+    @if (loading()) {
+      <svg class="animate-spin -ml-1 h-4 w-4" fill="none" viewBox="0 0 24 24">
+        <circle
+          class="opacity-25"
+          cx="12"
+          cy="12"
+          r="10"
+          stroke="currentColor"
+          stroke-width="4"
+        ></circle>
+        <path
+          class="opacity-75"
+          fill="currentColor"
+          d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
+        ></path>
+      </svg>
+    }
+
+    <ng-container *ngTemplateOutlet="content"></ng-container>
+  </button>
+}
+
+<!-- Shared Content Template -->
+<ng-template #content>
+  <div class="flex items-center justify-center gap-2">
+    <ng-content></ng-content>
+  </div>
+</ng-template>
