@@ -18,14 +18,8 @@ export interface Job {
   readonly company: string;
   readonly location: string;
   readonly employmentType: EmploymentType;
-  readonly company_name: string;
-  readonly candidate_required_location: string;
-  readonly company_logo?: string;
-  readonly job_type: string;
   readonly experienceLevel: ExperienceLevel;
   readonly salaryRange?: string;
-  readonly salary: string;
-  readonly category: string;
   readonly techStack: readonly string[];
   readonly keywords: readonly string[];
   readonly source: 'seeded' | 'manual';
@@ -69,10 +63,4 @@ export interface PaginatedResponse<T> {
   data: T[];
   nextCursor: string | null;
 }
-export interface RemotiveResponse<T> {
-  jobs: T[];
-  "job-count": number;
-  "total-job-count": number;
-  "00-warning"?: string;
-  "0-legal-notice"?: string;
-}
+

@@ -4,7 +4,7 @@ import { httpResource } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
-import { CreateJobDto, Job, JobSearchFilters, PaginatedResponse, RemotiveResponse } from '../interfaces/api/job.models';
+import { CreateJobDto, Job, JobSearchFilters, PaginatedResponse } from '../interfaces/api/job.models';
 
 
 @Injectable({
@@ -36,7 +36,7 @@ export class JobsService {
       if (request?.cursor) {
         params = params.set('cursor', request.cursor);
       }
-      return { url: this.baseUrl, params };
+      return { url: `${this.baseUrl}/jobs`, params };
     });
   }
 
@@ -58,35 +58,6 @@ export class JobsService {
   deleteJob(id: string): Observable<void> {
     return this.http.delete<void>(`${this.baseUrl}/${id}`);
   }
-  
-  getJobsByPage(
-  page: number, 
-  limit: number,
-  filters?: JobSearchFilters
-): Observable<Job[]> {
-  let params = new HttpParams().set('limit', String(limit*page));
-
-  if (filters) {
-    Object.entries(filters).forEach(([key, value]) => {
-      if (value !== undefined && value !== null && value !== '') {
-        params = params.append(key, String(value));
-      }
-    });
-  }
-
-  console.log(`Fetching page ${page} with limit ${limit}`);
-  console.log('URL params:', params.toString());
-
-  return this.http.get<RemotiveResponse<Job>>(this.baseUrl, { params }).pipe(
-    map(res => {
-      this.allJobs = res.jobs; 
-      const start = (page - 1) * limit;
-      const end = start + limit;
-      return this.allJobs.slice(start, end);
-    }),
-    tap(data => console.log(`Received ${data.length} jobs for page ${page}`))
-  );
-}
 
   private buildHttpParams(filters?: JobSearchFilters): HttpParams {
     let params = new HttpParams();
