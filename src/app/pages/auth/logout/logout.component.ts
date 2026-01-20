@@ -1,10 +1,9 @@
-import { ButtonComponent } from '@/app/components/shared/button/button.component';
 import { AuthService } from '@/app/services/auth/auth.service';
 import { Component, inject } from '@angular/core';
 
 @Component({
   selector: 'app-logout',
-  imports: [ButtonComponent],
+  imports: [],
   templateUrl: './logout.component.html',
   styleUrl: './logout.component.css',
 })

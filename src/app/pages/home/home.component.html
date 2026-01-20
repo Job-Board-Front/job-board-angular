@@ -2,20 +2,7 @@
   <main class="container py-12 mx-auto px-4">
     <div class="max-w-3xl mb-12">
       <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 text-primary text-sm font-medium mb-4">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="16"
-          height="16"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          class="h-4 w-4"
-        >
-          <path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"></path>
-        </svg>
+        <app-icon path="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z" class="h-4 w-4" />
         <span>Your career journey starts here</span>
       </div>
       <h1 class="text-4xl md:text-5xl font-bold mb-4 text-balance">Find Your Dream Job Today</h1>
@@ -24,27 +11,10 @@
         your career.
       </p>
       <div class="flex flex-wrap gap-3 mt-6">
-        <a
-          [routerLink]="['/jobs']"
-          class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-11 px-8"
-        >
+        <app-button [href]="'/jobs'" variant="primary" size="lg">
           Browse All Jobs
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="16"
-            height="16"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            class="ml-2 h-4 w-4"
-          >
-            <path d="M5 12h14"></path>
-            <path d="m12 5 7 7-7 7"></path>
-          </svg>
-        </a>
+          <app-icon path="M5 12h14m-7-7 7 7-7 7" class="ml-2 h-4 w-4" />
+        </app-button>
       </div>
     </div>
     <div>
@@ -53,27 +23,10 @@
           <h2 class="text-2xl font-bold">Recent Job Offers</h2>
           <p class="text-muted-foreground">Latest opportunities posted</p>
         </div>
-        <a
-          [routerLink]="['/jobs']"
-          class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2 bg-transparent"
-        >
+        <app-button [href]="'/jobs'" variant="ghost" size="md">
           View All
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="16"
-            height="16"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            class="ml-2 h-4 w-4"
-          >
-            <path d="M5 12h14"></path>
-            <path d="m12 5 7 7-7 7"></path>
-          </svg>
-        </a>
+          <app-icon path="M5 12h14m-7-7 7 7-7 7" class="ml-2 h-4 w-4" />
+        </app-button>
       </div>
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 items-stretch">
         @for (job of recentJobs; track job.id) {

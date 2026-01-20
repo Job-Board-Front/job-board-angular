@@ -3,21 +3,7 @@
     <div class="flex items-center gap-8">
       <a [routerLink]="['/']" class="flex items-center gap-2">
         <div class="flex h-9 w-9 items-center justify-center rounded-lg bg-primary">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="20"
-            height="20"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            class="h-5 w-5 text-primary-foreground"
-          >
-            <path d="M16 20V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
-            <rect width="20" height="14" x="2" y="6" rx="2"></rect>
-          </svg>
+          <app-icon path="M16 20V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16m8 0h2a2 2 0 0 0 2-2v-7.5L14 4.5m2 15.5H8m8 0v-4m-8 4H6a2 2 0 0 1-2-2v-7.5L10 4.5M8 20v-4" class="h-5 w-5 text-primary-foreground" />
         </div>
         <span class="text-xl font-semibold">JobBoard</span>
       </a>
@@ -42,25 +28,16 @@
 
     <div class="flex items-center gap-2">
       @if (isLoggedIn()) {
-        <a
-          [routerLink]="['/', AUTH_ROUTES.logout]"
-          class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-background text-foreground hover:bg-accent hover:text-accent-foreground h-9 px-4 py-2"
-        >
+        <app-button [href]="'/' + AUTH_ROUTES.logout" variant="ghost" size="sm">
           Logout
-        </a>
+        </app-button>
       } @else {
-        <a
-          [routerLink]="['/', AUTH_ROUTES.login]"
-          class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-background text-foreground hover:bg-accent hover:text-accent-foreground h-9 px-4 py-2"
-        >
+        <app-button [href]="'/' + AUTH_ROUTES.login" variant="ghost" size="sm">
           Login
-        </a>
-        <a
-          [routerLink]="['/', AUTH_ROUTES.register]"
-          class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-9 px-4 py-2"
-        >
+        </app-button>
+        <app-button [href]="'/' + AUTH_ROUTES.register" variant="primary" size="sm">
           Sign Up
-        </a>
+        </app-button>
       }
     </div>
   </nav>

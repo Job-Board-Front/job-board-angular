@@ -1,5 +1,5 @@
 import { Job } from '@/app/interfaces/api/job.models';
-import { Component, computed, input, output } from '@angular/core';
+import { Component, computed, effect, input, output, signal } from '@angular/core';
 import { BadgeComponent } from '../badge/badge.component';
 import { IconComponent } from '../icon/icon.component';
 import { CommonModule } from '@angular/common';
@@ -15,6 +15,19 @@ export class JobCardComponent {
 
   onBookmark = output<string>();
   onCardClick = output<string>();
+
+  isBookmarked = signal<boolean>(false);
+
+  constructor() {
+    // Check bookmark status when job changes
+    effect(() => {
+      const jobId = this.job().id;
+      if (typeof window !== 'undefined') {
+        const bookmarks = JSON.parse(localStorage.getItem('bookmarks') || '[]');
+        this.isBookmarked.set(bookmarks.includes(jobId));
+      }
+    });
+  }
 
   // Enhanced container classes with better light/dark mode support
   containerClasses = computed(() => {
@@ -64,5 +77,33 @@ export class JobCardComponent {
 
   formatEnum(value: string): string {
     return value.toLowerCase().replace(/_/g, ' ');
+  }
+
+  handleBookmark(event: Event) {
+    event.stopPropagation();
+    const jobId = this.job().id;
+    
+    if (typeof window !== 'undefined') {
+      let bookmarks = JSON.parse(localStorage.getItem('bookmarks') || '[]');
+      
+      if (this.isBookmarked()) {
+        // Remove bookmark
+        bookmarks = bookmarks.filter((id: string) => id !== jobId);
+        this.isBookmarked.set(false);
+      } else {
+        // Add bookmark
+        if (!bookmarks.includes(jobId)) {
+          bookmarks.push(jobId);
+        }
+        this.isBookmarked.set(true);
+      }
+      
+      localStorage.setItem('bookmarks', JSON.stringify(bookmarks));
+      
+      // Dispatch custom event to notify other components
+      window.dispatchEvent(new CustomEvent('bookmarksChanged', { detail: { jobId } }));
+      
+      this.onBookmark.emit(jobId);
+    }
   }
 }

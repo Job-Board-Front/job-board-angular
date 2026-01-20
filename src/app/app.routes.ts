@@ -1,11 +1,24 @@
 import { Routes } from '@angular/router';
-import { App } from './app';
-import { authRoutes } from './components/pages/auth/routes/auth.routes';
+import { authRoutes } from './pages/auth/routes/auth.routes';
+import { authGuard, redirectUnauthorized } from './guards/auth/auth.guard';
+import { APP_ROUTES } from './route-names/route-names.constants';
 
 export const routes: Routes = [
   {
-    path: '',
-    component: App,
+    path: APP_ROUTES.home,
+    loadComponent: () => import('./pages/home/home.component').then((m) => m.HomeComponent),
+    canActivate: [authGuard],
+    data: {
+      authGuardPipe: redirectUnauthorized,
+    },
+  },
+  {
+    path: APP_ROUTES.bookmarked,
+    loadComponent: () => import('./pages/bookmarked/bookmarked.component').then((m) => m.BookmarkedComponent),
+    canActivate: [authGuard],
+    data: {
+      authGuardPipe: redirectUnauthorized,
+    },
   },
   ...authRoutes,
   {
@@ -14,5 +27,9 @@ export const routes: Routes = [
       import('./components/pages/test/test-page/test-page.component').then(
         (m) => m.TestPageComponent,
       ),
+  },
+  {
+    path: '**',
+    redirectTo: APP_ROUTES.home,
   },
 ];
