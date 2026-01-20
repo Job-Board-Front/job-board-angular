@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { JobCardComponent } from '@/app/components/job-card/job-card.component';
+import { JobCardComponent } from '@/app/components/shared/job-card/job-card.component';
 import { mockJobs } from '@/app/lib/mock-data';
 
 @Component({

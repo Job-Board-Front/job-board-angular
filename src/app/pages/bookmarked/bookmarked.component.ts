@@ -1,7 +1,7 @@
 import { Component, signal } from '@angular/core';
-import { JobCardComponent } from '@/app/components/job-card/job-card.component';
+import { JobCardComponent } from '@/app/components/shared/job-card/job-card.component';
 import { mockJobs } from '@/app/lib/mock-data';
-import { Job } from '@/app/models/job.model';
+import { Job } from '@/app/interfaces/api/job.models';
 
 @Component({
   selector: 'app-bookmarked',

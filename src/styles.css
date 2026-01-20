@@ -1,126 +1,169 @@
-/* You can add global styles to this file, and also import other style files */
-
 @import "tailwindcss";
 
-@custom-variant dark (&:is(.dark *));
+@config "../tailwind.config.js";
 
-:root {
-  --background: oklch(0.99 0 0);
-  --foreground: oklch(0.15 0 0);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.15 0 0);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.15 0 0);
-  --primary: oklch(0.42 0.19 264);
-  --primary-foreground: oklch(1 0 0);
-  --secondary: oklch(0.96 0.01 264);
-  --secondary-foreground: oklch(0.15 0 0);
-  --muted: oklch(0.96 0.01 264);
-  --muted-foreground: oklch(0.52 0.02 264);
-  --accent: oklch(0.42 0.19 264);
-  --accent-foreground: oklch(1 0 0);
-  --destructive: oklch(0.577 0.245 27.325);
-  --destructive-foreground: oklch(1 0 0);
-  --border: oklch(0.9 0.01 264);
-  --input: oklch(0.9 0.01 264);
-  --ring: oklch(0.42 0.19 264);
-  --radius: 0.75rem;
-  --chart-1: oklch(0.646 0.222 41.116);
-  --chart-2: oklch(0.6 0.118 184.704);
-  --chart-3: oklch(0.398 0.07 227.392);
-  --chart-4: oklch(0.828 0.189 84.429);
-  --chart-5: oklch(0.769 0.188 70.08);
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: oklch(0.205 0 0);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.97 0 0);
-  --sidebar-accent-foreground: oklch(0.205 0 0);
-  --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: oklch(0.708 0 0);
-}
-
-.dark {
-  --background: oklch(0.12 0.01 264);
-  --foreground: oklch(0.98 0 0);
-  --card: oklch(0.16 0.01 264);
-  --card-foreground: oklch(0.98 0 0);
-  --popover: oklch(0.16 0.01 264);
-  --popover-foreground: oklch(0.98 0 0);
-  --primary: oklch(0.55 0.22 264);
-  --primary-foreground: oklch(1 0 0);
-  --secondary: oklch(0.22 0.02 264);
-  --secondary-foreground: oklch(0.98 0 0);
-  --muted: oklch(0.22 0.02 264);
-  --muted-foreground: oklch(0.65 0.03 264);
-  --accent: oklch(0.55 0.22 264);
-  --accent-foreground: oklch(1 0 0);
-  --destructive: oklch(0.55 0.25 27);
-  --destructive-foreground: oklch(1 0 0);
-  --border: oklch(0.22 0.02 264);
-  --input: oklch(0.22 0.02 264);
-  --ring: oklch(0.55 0.22 264);
-  --chart-1: oklch(0.488 0.243 264.376);
-  --chart-2: oklch(0.696 0.17 162.48);
-  --chart-3: oklch(0.769 0.188 70.08);
-  --chart-4: oklch(0.627 0.265 303.9);
-  --chart-5: oklch(0.645 0.246 16.439);
-  --sidebar: oklch(0.205 0 0);
-  --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.269 0 0);
-  --sidebar-accent-foreground: oklch(0.985 0 0);
-  --sidebar-border: oklch(0.269 0 0);
-  --sidebar-ring: oklch(0.439 0 0);
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --color-card: var(--card);
-  --color-card-foreground: var(--card-foreground);
-  --color-popover: var(--popover);
-  --color-popover-foreground: var(--popover-foreground);
-  --color-primary: var(--primary);
-  --color-primary-foreground: var(--primary-foreground);
-  --color-secondary: var(--secondary);
-  --color-secondary-foreground: var(--secondary-foreground);
-  --color-muted: var(--muted);
-  --color-muted-foreground: var(--muted-foreground);
-  --color-accent: var(--accent);
-  --color-accent-foreground: var(--accent-foreground);
-  --color-destructive: var(--destructive);
-  --color-destructive-foreground: var(--destructive-foreground);
-  --color-border: var(--border);
-  --color-input: var(--input);
-  --color-ring: var(--ring);
-  --color-chart-1: var(--chart-1);
-  --color-chart-2: var(--chart-2);
-  --color-chart-3: var(--chart-3);
-  --color-chart-4: var(--chart-4);
-  --color-chart-5: var(--chart-5);
-  --radius-sm: calc(var(--radius) - 4px);
-  --radius-md: calc(var(--radius) - 2px);
-  --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) + 4px);
-  --color-sidebar: var(--sidebar);
-  --color-sidebar-foreground: var(--sidebar-foreground);
-  --color-sidebar-primary: var(--sidebar-primary);
-  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
-  --color-sidebar-accent: var(--sidebar-accent);
-  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
-  --color-sidebar-border: var(--sidebar-border);
-  --color-sidebar-ring: var(--sidebar-ring);
-}
+@variant dark (&:where(.dark, .dark *));
 
 @layer base {
+
+  /* Smooth font rendering */
   * {
-    border-color: var(--border);
-    outline-color: color-mix(in oklch, var(--ring) 50%, transparent);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
+
   body {
-    background-color: var(--background);
-    color: var(--foreground);
+    @apply transition-colors duration-300 ease-in-out;
+
+    /* Light mode: clean, crisp white with subtle warmth */
+    @apply bg-gradient-to-br from-slate-50 via-white to-slate-50/80;
+    @apply text-slate-900;
+
+    /* Dark mode: deep, rich blacks */
+    @apply dark:from-slate-950 dark:via-slate-900 dark:to-slate-950;
+    @apply dark:text-slate-50;
   }
+
+  /* Better focus states for accessibility */
+  button:focus-visible,
+  a:focus-visible {
+    @apply outline-none ring-2 ring-blue-500 ring-offset-2;
+    @apply dark:ring-blue-400 dark:ring-offset-slate-900;
+    @apply rounded-lg;
+  }
+
+  /* Improved link styles */
+  a {
+    @apply text-blue-600 hover:text-blue-700;
+    @apply dark:text-blue-400 dark:hover:text-blue-300;
+    @apply transition-colors duration-150;
+  }
+}
+
+@layer components {
+
+  /* Card styles with better light mode appearance */
+  .card {
+    @apply rounded-xl p-6;
+    @apply bg-white shadow-card;
+    @apply border border-slate-200/60;
+    @apply hover:shadow-card-hover;
+    @apply transition-all duration-300;
+
+    /* Dark mode */
+    @apply dark:bg-slate-800/90;
+    @apply dark:border-slate-700/50;
+    @apply dark:shadow-dark-card;
+  }
+
+  /* Input styles */
+  .input {
+    @apply w-full px-4 py-2 rounded-lg;
+    @apply bg-white text-slate-900;
+    @apply border border-slate-300;
+    @apply placeholder:text-slate-400;
+    @apply focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent;
+    @apply transition-all duration-200;
+
+    /* Dark mode */
+    @apply dark:bg-slate-800 dark:text-slate-100;
+    @apply dark:border-slate-600;
+    @apply dark:placeholder:text-slate-500;
+    @apply dark:focus:ring-blue-400;
+  }
+}
+
+@layer utilities {
+
+  /* Custom scrollbar styles */
+  .custom-scrollbar::-webkit-scrollbar {
+    @apply w-2;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-track {
+    @apply bg-slate-100 dark:bg-slate-800 rounded-full;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    @apply bg-slate-300 dark:bg-slate-600 rounded-full;
+    @apply hover:bg-slate-400 dark:hover:bg-slate-500;
+    @apply transition-colors duration-150;
+  }
+
+  /* Enhanced glassmorphism effect */
+  .glass {
+    @apply bg-white/80 backdrop-blur-lg border border-slate-200/60;
+    @apply shadow-lg;
+    @apply dark:bg-slate-800/80 dark:border-slate-700/40;
+  }
+
+  /* Smooth shimmer animation for loading states */
+  @keyframes shimmer {
+    0% {
+      background-position: -1000px 0;
+    }
+
+    100% {
+      background-position: 1000px 0;
+    }
+  }
+
+  .shimmer {
+    animation: shimmer 2s infinite linear;
+    background: linear-gradient(to right,
+        transparent 0%,
+        rgba(148, 163, 184, 0.2) 50%,
+        transparent 100%);
+    background-size: 1000px 100%;
+  }
+
+  .dark .shimmer {
+    background: linear-gradient(to right,
+        transparent 0%,
+        rgba(255, 255, 255, 0.1) 50%,
+        transparent 100%);
+  }
+
+  /* Responsive job grid */
+  .job-grid {
+    @apply grid gap-6;
+    @apply grid-cols-1 md:grid-cols-2 xl:grid-cols-3;
+  }
+
+  /* Smooth transitions for interactive elements */
+  .interactive {
+    @apply transition-all duration-300 ease-out;
+    @apply hover:scale-[1.02] active:scale-[0.98];
+  }
+
+  /* Section dividers */
+  .divider {
+    @apply border-t border-slate-200 dark:border-slate-700;
+  }
+
+  /* Text utilities with proper contrast */
+  .text-muted {
+    @apply text-slate-600 dark:text-slate-400;
+  }
+
+  .text-emphasis {
+    @apply text-slate-900 dark:text-slate-50;
+  }
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.4s ease-out;
 }

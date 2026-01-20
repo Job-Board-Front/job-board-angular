@@ -1,24 +1,18 @@
 import { Routes } from '@angular/router';
-import { authRoutes } from './pages/auth/routes/auth.routes';
-import { authGuard, redirectUnauthorized } from './guards/auth/auth.guard';
-import { APP_ROUTES } from './route-names/route-names.constants';
+import { App } from './app';
+import { authRoutes } from './components/pages/auth/routes/auth.routes';
 
 export const routes: Routes = [
   {
-    path: APP_ROUTES.home,
-    loadComponent: () => import('./pages/home/home.component').then((m) => m.HomeComponent),
-    canActivate: [authGuard],
-    data: {
-      authGuardPipe: redirectUnauthorized,
-    },
+    path: '',
+    component: App,
   },
+  ...authRoutes,
   {
-    path: APP_ROUTES.bookmarked,
-    loadComponent: () => import('./pages/bookmarked/bookmarked.component').then((m) => m.BookmarkedComponent),
-    canActivate: [authGuard],
-    data: {
-      authGuardPipe: redirectUnauthorized,
-    },
+    path: 'test',
+    loadComponent: () =>
+      import('./components/pages/test/test-page/test-page.component').then(
+        (m) => m.TestPageComponent,
+      ),
   },
-  ...authRoutes
 ];
