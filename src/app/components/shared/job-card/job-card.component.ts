@@ -1,33 +1,28 @@
 import { Job } from '@/app/interfaces/api/job.models';
-import { Component, computed, effect, input, output, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, input, output } from '@angular/core';
 import { BadgeComponent } from '../badge/badge.component';
 import { IconComponent } from '../icon/icon.component';
 import { CommonModule } from '@angular/common';
+import { BookmarkService } from '@/app/services/bookmark/bookmark.service';
 
 @Component({
   selector: 'app-job-card',
   imports: [CommonModule, BadgeComponent, IconComponent],
   templateUrl: './job-card.component.html',
   styleUrl: './job-card.component.css',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class JobCardComponent {
+  private bookmarkService = inject(BookmarkService);
+
   job = input.required<Job>();
 
-  onBookmark = output<string>();
   onCardClick = output<string>();
 
-  isBookmarked = signal<boolean>(false);
-
-  constructor() {
-    // Check bookmark status when job changes
-    effect(() => {
-      const jobId = this.job().id;
-      if (typeof window !== 'undefined') {
-        const bookmarks = JSON.parse(localStorage.getItem('bookmarks') || '[]');
-        this.isBookmarked.set(bookmarks.includes(jobId));
-      }
-    });
-  }
+  isBookmarked = computed(() => {
+    const jobId = this.job().id;
+    return this.bookmarkService.hasBookmark(jobId);
+  });
 
   // Enhanced container classes with better light/dark mode support
   containerClasses = computed(() => {
@@ -82,28 +77,6 @@ export class JobCardComponent {
   handleBookmark(event: Event) {
     event.stopPropagation();
     const jobId = this.job().id;
-    
-    if (typeof window !== 'undefined') {
-      let bookmarks = JSON.parse(localStorage.getItem('bookmarks') || '[]');
-      
-      if (this.isBookmarked()) {
-        // Remove bookmark
-        bookmarks = bookmarks.filter((id: string) => id !== jobId);
-        this.isBookmarked.set(false);
-      } else {
-        // Add bookmark
-        if (!bookmarks.includes(jobId)) {
-          bookmarks.push(jobId);
-        }
-        this.isBookmarked.set(true);
-      }
-      
-      localStorage.setItem('bookmarks', JSON.stringify(bookmarks));
-      
-      // Dispatch custom event to notify other components
-      window.dispatchEvent(new CustomEvent('bookmarksChanged', { detail: { jobId } }));
-      
-      this.onBookmark.emit(jobId);
-    }
+    this.bookmarkService.toggleBookmark(jobId);
   }
 }
