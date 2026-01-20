@@ -69,3 +69,10 @@ export interface PaginatedResponse<T> {
   data: T[];
   nextCursor: string | null;
 }
+export interface RemotiveResponse<T> {
+  jobs: T[];
+  "job-count": number;
+  "total-job-count": number;
+  "00-warning"?: string;
+  "0-legal-notice"?: string;
+}

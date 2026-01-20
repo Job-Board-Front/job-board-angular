@@ -1,5 +1,5 @@
 export const environment = {
-  apiUrl: 'http://localhost:3000/api',
+  apiUrl: 'https://remotive.com/api/remote-jobs',
   
   firebase: {
     apiKey: 'AIzaSyDD3Xor1Wn6kyNwru0cGSoZdCZwzvKv69Y',

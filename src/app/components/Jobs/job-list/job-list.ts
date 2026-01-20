@@ -15,8 +15,7 @@ import { HttpClient } from '@angular/common/http';
   styleUrls: ['./job-list.css'],
 })
 export class JobList {
-  private http = inject(HttpClient);
-
+  private JobsService = inject(JobsService);
   private trigger$ = new Subject<void>(); 
   private allJobs: Job[] = [];
   private page = 0;
@@ -36,12 +35,9 @@ export class JobList {
           this.loading = true;
           this.page++;
 
-          return this.http
-            .get<{ jobs: Job[] }>(`https://remotive.com/api/remote-jobs?page=${this.page}&limit=${this.limit}`)
-            .pipe(
-              tap(() => (this.loading = false)),
-              map(res => res.jobs)
-            ); 
+          return this.JobsService.getJobsByPage(this.page, this.limit).pipe(
+          tap(() => (this.loading = false))
+        );
         }),
         scan((acc, page) => [...acc, ...page], [] as Job[]),
         tap(jobs => this.jobCount.emit(jobs.length))
