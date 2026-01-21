@@ -4,14 +4,13 @@
   <a href="#" class="inline-flex items-center text-m text-gray-600 hover:text-gray-900 hover:font-bold mb-6">
     ← Back to Jobs
   </a>
-  <!--
-@if(job.isLoading()) {
+@if(isLoading()) {
   <p>Loading job…</p>
 }
 
-@if(job.error()) {
+@if(error()) {
   <p class="text-red-500">Failed to load job</p>
-}-->
+}
 
 @if(job()) {
 
@@ -163,55 +162,15 @@
 }
 
     <div class="mt-12">
-      <h2 class="text-2xl font-bold mb-6">Similar Jobs</h2>
+  <h2 class="text-2xl font-bold mb-6">Similar Jobs</h2>
 
-      @if(similarJobs().length) {
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          @for(job of similarJobs(); track job.id) {
-            <div
-              class="bg-white rounded-xl border border-gray-400/40 p-6 shadow-xl hover:shadow-2xl transition-shadow cursor-pointer">
-              <div class="flex items-start gap-3 mb-4">
-      <div class="w-10 h-10 bg-gray-200 rounded-lg flex items-center justify-center flex-shrink-0">
-        <!--@if (job.logo) {
-          <img
-            [src]="job.logo"
-            [alt]="job.company"
-            class="w-full h-full object-contain"
-          />
-        } @else {
-          <span class="font-bold text-gray-600">
-            {{ job.company | getInitials }}
-          </span>
-        }-->
-          <span class="font-bold text-gray-600">
-            {{ job.company | getInitials }}
-          </span>
-      </div>
-
-      <div class="job-info description-collapsed">
-        <h3 class="job-title">{{ job.title }}</h3>
-        <p class="text-gray-600 text-sm">{{ job.company }}</p>
-      </div>
-    </div>
-
-
-          <div class="space-y-2 text-sm text-gray-600 mb-4 ">
-            <span class="flex items-center gap-1">
-              <lucide-icon [img]="MapPin" [size]="16" class="text-gray-700"></lucide-icon>{{ job.location }}</span>
-            <span class="flex items-center gap-1">
-              <lucide-icon [img]="DollarSign" [size]="16" class="text-gray-700"></lucide-icon> {{ job.salaryRange }}</span>
-            <span class="inline-block px-3 py-1 bg-gray-100 text-gray-600 rounded-full text-xs">
-              {{ job.techStack[0] || 'Other' }}
-            </span>
-          </div>
-
-          <div class="text-sm text-gray-500 line-clamp-2" [innerHTML]="job.description"></div>
-          
-        </div>
+  @if(similarJobs().length) {
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      @for(job of similarJobs(); track job.id) {
+        <app-job-card [job]="job"></app-job-card>
       }
     </div>
-  }
-  @else {
+  } @else {
     <p class="text-gray-400">No similar jobs found.</p>
   }
 </div>

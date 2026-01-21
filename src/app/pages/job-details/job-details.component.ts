@@ -1,14 +1,18 @@
 import { JobsService } from '@/app/api/jobs.service';
+import { JobCardComponent } from '@/app/components/shared/job-card/job-card.component';
 import { Job, JobSearchFilters } from '@/app/interfaces/api/job.models';
 import { FormatDatePipe } from '@/app/pipes/job-details-pipes/format-date.pipe';
 import { GetInitialsPipe } from '@/app/pipes/job-details-pipes/get-initials.pipe';
 import { Component, signal, resource, Resource, computed, inject } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { ActivatedRoute } from '@angular/router';
 import { LucideAngularModule,MapPin, Briefcase, DollarSign, ExternalLink, Bookmark ,ArrowRight} from 'lucide-angular';
+import { map } from 'rxjs';
 
 
 @Component({
   selector: 'app-job-details',
-  imports: [LucideAngularModule,FormatDatePipe, GetInitialsPipe],
+  imports: [LucideAngularModule,FormatDatePipe, GetInitialsPipe,JobCardComponent],
   templateUrl: './job-details.component.html',
   styleUrls: ['./job-details.component.css'],
 })
@@ -21,12 +25,18 @@ export class JobDetailsComponent {
   readonly ArrowRight= ArrowRight;
   logoError = signal(false);
   readMore = signal(false);
+  private route = inject(ActivatedRoute);
   private jobService = inject(JobsService);
-  private jobParams = signal<{ filters?: JobSearchFilters; cursor?: string; limit?: number }>({ 
-    limit: 30
-  });
-  private jobsResource = this.jobService.getJobsPaginated(this.jobParams);
-  job = computed(() => this.jobsResource.value()?.data?.[25] ?? null);
+  private jobId = toSignal(
+    this.route.paramMap.pipe(map(params => params.get('id') ?? undefined))
+  );
+
+  private jobResource = this.jobService.getJobById(this.jobId);
+
+  job = computed(() => this.jobResource.value());
+
+  isLoading = computed(() => this.jobResource.isLoading?.() ?? false);
+  error = computed(() => this.jobResource.error?.() ?? undefined);
 
 
 

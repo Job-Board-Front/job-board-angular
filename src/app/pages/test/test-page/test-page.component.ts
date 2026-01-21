@@ -1,4 +1,4 @@
-import { ButtonComponent } from '@/app/components/shared/button/button.component';
+/*import { ButtonComponent } from '@/app/components/shared/button/button.component';
 import { JobCardComponent } from '@/app/components/shared/job-card/job-card.component';
 import { EmploymentType, ExperienceLevel, Job } from '@/app/interfaces/api/job.models';
 import { Component, HostBinding, inject, signal } from '@angular/core';
@@ -58,3 +58,4 @@ export class TestPageComponent {
     console.log('Open', id);
   }
 }
+*/

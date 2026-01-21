@@ -1,8 +1,9 @@
 import { Job } from '@/app/interfaces/api/job.models';
-import { Component, computed, input, output } from '@angular/core';
+import { Component, computed, inject, input, output } from '@angular/core';
 import { BadgeComponent } from '../badge/badge.component';
 import { IconComponent } from '../icon/icon.component';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-job-card',
@@ -12,7 +13,7 @@ import { CommonModule } from '@angular/common';
 })
 export class JobCardComponent {
   job = input.required<Job>();
-
+  private router = inject(Router);
   onBookmark = output<string>();
   onCardClick = output<string>();
 
@@ -65,4 +66,8 @@ export class JobCardComponent {
   formatEnum(value: string): string {
     return value.toLowerCase().replace(/_/g, ' ');
   }
+
+   goToDetails() {
+    this.router.navigate(['/Details', this.job().id]);
+   }
 }

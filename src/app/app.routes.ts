@@ -10,7 +10,12 @@ import { JobDetailsComponent } from './pages/job-details/job-details.component';
 export const routes: Routes = [
     { path: "", component: Home },
     { path: "jobs", component: Jobs },
-    { path: 'Details', component: JobDetailsComponent },
+    {
+    path: 'Details/:id',
+    loadComponent: () =>
+      import('./pages/job-details/job-details.component')
+        .then(m => m.JobDetailsComponent),
+  },
   //added route for testing the services
   { path: 'test', component: TestPageComponent },
   ...authRoutes
