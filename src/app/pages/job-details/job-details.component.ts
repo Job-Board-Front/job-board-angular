@@ -5,7 +5,7 @@ import { FormatDatePipe } from '@/app/pipes/job-details-pipes/format-date.pipe';
 import { GetInitialsPipe } from '@/app/pipes/job-details-pipes/get-initials.pipe';
 import { Component, signal, resource, Resource, computed, inject } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { LucideAngularModule,MapPin, Briefcase, DollarSign, ExternalLink, Bookmark ,ArrowRight} from 'lucide-angular';
 import { map } from 'rxjs';
 
@@ -30,6 +30,7 @@ export class JobDetailsComponent {
   private jobId = toSignal(
     this.route.paramMap.pipe(map(params => params.get('id') ?? undefined))
   );
+  private router = inject(Router);
 
   private jobResource = this.jobService.getJobById(this.jobId);
 
@@ -62,18 +63,18 @@ export class JobDetailsComponent {
   }
 
   private similarJobsParams = computed(() => {
-    const currentJob = this.job();
-    if (!currentJob?.keywords?.[0]) {
-      return undefined; 
-    }
-    
-    return {
-      filters: {
-        search: currentJob.keywords[0], 
-      },
-      limit: 4 
-    };
-  });
+  const currentJob = this.job();
+  if (!currentJob?.keywords || currentJob.keywords.length === 0) {
+    return undefined; 
+  }
+  
+  return {
+    filters: {
+      search: currentJob.keywords.join(' '), // Space-separated keywords
+    },
+    limit: 4 
+  };
+});
 
   private similarJobsResource = this.jobService.getJobsPaginated(this.similarJobsParams);
 
@@ -91,6 +92,18 @@ export class JobDetailsComponent {
       .filter(j => j.id !== currentJob.id)
       .slice(0, 3);
   });
+  viewSimilarJobs() {
+    const currentJob = this.job();
+    if (!currentJob?.keywords || currentJob.keywords.length === 0) {
+      return;
+    }
+    
+    this.router.navigate(['/jobs'], {
+      queryParams: {
+        search: currentJob.keywords.slice(0, 5).join(' ')
+      }
+    });
+  }
 
 
 }
