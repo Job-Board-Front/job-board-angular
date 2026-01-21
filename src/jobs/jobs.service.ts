@@ -1,8 +1,9 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { JobsRepository } from './jobs.repository';
 import { CreateJobDto } from './dto/create-job.dto';
 import { JobQueryDto } from './dto/job-query.dto';
 import { Job } from './entities/job.entity';
+import { UpdateJobDto } from './dto/update-job.dto';
 
 @Injectable()
 export class JobsService {
@@ -54,5 +55,30 @@ export class JobsService {
     });
 
     return Array.from(set);
+  }
+  async update(id: string, updateJobDto: UpdateJobDto): Promise<Job> {
+    const existingJob = await this.findOne(id);
+    if (!existingJob) {
+      throw new NotFoundException(`Job with ID ${id} not found`);
+    }
+    let keywords = existingJob.keywords;
+    
+    if (updateJobDto.title || updateJobDto.company || updateJobDto.techStack) {
+      const title = updateJobDto.title || existingJob.title;
+      const company = updateJobDto.company || existingJob.company;
+      const techStack = updateJobDto.techStack || existingJob.techStack;
+      
+      keywords = this.generateKeywords([title, company, ...techStack]);
+    }
+    
+    const updatedData: Partial<Job> = {
+      ...updateJobDto,
+      keywords,
+      updatedAt: new Date(), 
+    };
+    
+    await this.jobsRepository.update(id, updatedData);
+    const updatedJob = await this.findOne(id);
+    return updatedJob;
   }
 }

@@ -9,11 +9,13 @@ import {
   UseGuards,
   HttpCode,
   HttpStatus,
+  Put,
 } from '@nestjs/common';
 import { JobsService } from './jobs.service';
 import { CreateJobDto } from './dto/create-job.dto';
 import { JobQueryDto } from './dto/job-query.dto';
 import { FirebaseAuthGuard } from '../common/guards/auth.guard';
+import { UpdateJobDto } from './dto/update-job.dto';
 
 @Controller('jobs')
 export class JobsController {
@@ -42,5 +44,15 @@ export class JobsController {
   async remove(@Param('id') id: string) {
     await this.jobsService.remove(id);
     return { message: 'Job deleted successfully' };
+  }
+  
+  @Put(':id')
+  @UseGuards(FirebaseAuthGuard)
+  async update(
+    @Param('id') id: string,
+    @Body() updateJobDto: UpdateJobDto,
+  ) {
+    const updatedJob = await this.jobsService.update(id, updateJobDto);
+    return { updatedJob, message: 'Job updated successfully' };
   }
 }
