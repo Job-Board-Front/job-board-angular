@@ -1,0 +1,84 @@
+<div class="min-h-screen transition-colors duration-300">
+  <!-- Navbar -->
+  <nav
+    class="bg-white/80 backdrop-blur-md border-b border-slate-200 px-6 py-4 flex justify-between items-center sticky top-0 z-50 dark:bg-slate-900/80 dark:border-slate-800"
+  >
+    <div class="font-bold text-xl text-primary-900 dark:text-white flex gap-2 items-center">
+      <div class="w-8 h-8 bg-primary-600 rounded-lg"></div>
+      JobBoard
+    </div>
+
+    <div class="flex gap-3 items-center">
+      <!-- Insert Toggle Here -->
+      <app-theme-toggle></app-theme-toggle>
+
+      <div class="w-px h-6 bg-slate-200 dark:bg-slate-700 mx-2"></div>
+
+      <app-button variant="ghost" label="Login">Login</app-button>
+      <app-button variant="primary" rounded="full" label="Sign Up">Sign Up</app-button>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <header
+    class="bg-white pb-12 pt-16 px-6 text-center dark:bg-slate-900 transition-colors duration-300"
+  >
+    <h1
+      class="text-4xl md:text-5xl font-extrabold text-slate-900 dark:text-white tracking-tight mb-4"
+    >
+      Find Your <span class="text-primary-600 dark:text-primary-400">Dream Job</span> Today
+    </h1>
+    <p class="text-lg text-slate-500 dark:text-slate-400 max-w-2xl mx-auto mb-8">
+      Discover opportunities from top companies around the world.
+    </p>
+    <app-drop-down-menu>
+      <!-- Trigger -->
+      <div slot="trigger">
+        <app-button variant="ghost" class="gap-2">
+          <img src="avatar.jpg" class="w-6 h-6 rounded-full" />
+          <span>John Doe</span>
+          <app-icon path="M19 9l-7 7-7-7" class="w-4 h-4" />
+          <!-- Chevron Down -->
+        </app-button>
+      </div>
+
+      <!-- Items -->
+      <app-menu-item (action)="toggleBookmark('fdfdfg')">
+        <app-icon path="...user-icon-path..." />
+        Profile
+      </app-menu-item>
+
+      <app-menu-item (action)="toggleBookmark('fdfdfg')">
+        <app-icon path="...gear-icon-path..." />
+        Settings
+      </app-menu-item>
+
+      <div class="border-t border-slate-100 dark:border-slate-700 my-1"></div>
+
+      <app-menu-item (action)="toggleBookmark('fdfdfg')">
+        <span class="text-red-600">Logout</span>
+      </app-menu-item>
+    </app-drop-down-menu>
+
+    <!-- Search Bar Container -->
+    <div
+      class="max-w-3xl mx-auto flex flex-col md:flex-row gap-4 bg-white p-2 md:rounded-full md:shadow-soft md:border md:border-slate-100 dark:bg-slate-800 dark:border-slate-700"
+    >
+      <div class="flex-1">
+        <input placeholder="Job title or keyword" />
+      </div>
+      <app-button variant="primary" rounded="full">Search Jobs</app-button>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="max-w-7xl mx-auto px-6 py-12">
+    <h2 class="text-2xl font-bold text-slate-900 dark:text-white mb-8">Recent Job Offers</h2>
+    <!-- Grid remains same, JobCard handles the rest -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 animate-slide-up">
+      @for (job of jobs(); track job.id) {
+        <app-job-card [job]="job"></app-job-card>
+      }
+    </div>
+  </main>
+</div>
