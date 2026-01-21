@@ -93,7 +93,7 @@
   }
 </section>
 
-    @if (job()!.techStack?.length) {
+    @if (job()!.techStack.length) {
             <section class="mt-8">
               <h2 class="text-lg font-semibold mb-3">Key skills</h2>
               <ul class="flex flex-wrap gap-2">
@@ -165,7 +165,7 @@
     <div class="mt-12">
       <h2 class="text-2xl font-bold mb-6">Similar Jobs</h2>
 
-      @if(similarJobs()?.length) {
+      @if(similarJobs().length) {
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           @for(job of similarJobs(); track job.id) {
             <div
@@ -201,7 +201,7 @@
             <span class="flex items-center gap-1">
               <lucide-icon [img]="DollarSign" [size]="16" class="text-gray-700"></lucide-icon> {{ job.salaryRange }}</span>
             <span class="inline-block px-3 py-1 bg-gray-100 text-gray-600 rounded-full text-xs">
-              {{ job.techStack?.[0] || 'Other' }}
+              {{ job.techStack[0] || 'Other' }}
             </span>
           </div>
 
