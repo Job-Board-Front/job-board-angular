@@ -1,3 +1,169 @@
-/* You can add global styles to this file, and also import other style files */
-
 @import "tailwindcss";
+
+@config "../tailwind.config.js";
+
+@variant dark (&:where(.dark, .dark *));
+
+@layer base {
+
+  /* Smooth font rendering */
+  * {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    @apply transition-colors duration-300 ease-in-out;
+
+    /* Light mode: clean, crisp white with subtle warmth */
+    @apply bg-gradient-to-br from-slate-50 via-white to-slate-50/80;
+    @apply text-slate-900;
+
+    /* Dark mode: deep, rich blacks */
+    @apply dark:from-slate-950 dark:via-slate-900 dark:to-slate-950;
+    @apply dark:text-slate-50;
+  }
+
+  /* Better focus states for accessibility */
+  button:focus-visible,
+  a:focus-visible {
+    @apply outline-none ring-2 ring-blue-500 ring-offset-2;
+    @apply dark:ring-blue-400 dark:ring-offset-slate-900;
+    @apply rounded-lg;
+  }
+
+  /* Improved link styles */
+  a {
+    @apply text-blue-600 hover:text-blue-700;
+    @apply dark:text-blue-400 dark:hover:text-blue-300;
+    @apply transition-colors duration-150;
+  }
+}
+
+@layer components {
+
+  /* Card styles with better light mode appearance */
+  .card {
+    @apply rounded-xl p-6;
+    @apply bg-white shadow-card;
+    @apply border border-slate-200/60;
+    @apply hover:shadow-card-hover;
+    @apply transition-all duration-300;
+
+    /* Dark mode */
+    @apply dark:bg-slate-800/90;
+    @apply dark:border-slate-700/50;
+    @apply dark:shadow-dark-card;
+  }
+
+  /* Input styles */
+  .input {
+    @apply w-full px-4 py-2 rounded-lg;
+    @apply bg-white text-slate-900;
+    @apply border border-slate-300;
+    @apply placeholder:text-slate-400;
+    @apply focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent;
+    @apply transition-all duration-200;
+
+    /* Dark mode */
+    @apply dark:bg-slate-800 dark:text-slate-100;
+    @apply dark:border-slate-600;
+    @apply dark:placeholder:text-slate-500;
+    @apply dark:focus:ring-blue-400;
+  }
+}
+
+@layer utilities {
+
+  /* Custom scrollbar styles */
+  .custom-scrollbar::-webkit-scrollbar {
+    @apply w-2;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-track {
+    @apply bg-slate-100 dark:bg-slate-800 rounded-full;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    @apply bg-slate-300 dark:bg-slate-600 rounded-full;
+    @apply hover:bg-slate-400 dark:hover:bg-slate-500;
+    @apply transition-colors duration-150;
+  }
+
+  /* Enhanced glassmorphism effect */
+  .glass {
+    @apply bg-white/80 backdrop-blur-lg border border-slate-200/60;
+    @apply shadow-lg;
+    @apply dark:bg-slate-800/80 dark:border-slate-700/40;
+  }
+
+  /* Smooth shimmer animation for loading states */
+  @keyframes shimmer {
+    0% {
+      background-position: -1000px 0;
+    }
+
+    100% {
+      background-position: 1000px 0;
+    }
+  }
+
+  .shimmer {
+    animation: shimmer 2s infinite linear;
+    background: linear-gradient(to right,
+        transparent 0%,
+        rgba(148, 163, 184, 0.2) 50%,
+        transparent 100%);
+    background-size: 1000px 100%;
+  }
+
+  .dark .shimmer {
+    background: linear-gradient(to right,
+        transparent 0%,
+        rgba(255, 255, 255, 0.1) 50%,
+        transparent 100%);
+  }
+
+  /* Responsive job grid */
+  .job-grid {
+    @apply grid gap-6;
+    @apply grid-cols-1 md:grid-cols-2 xl:grid-cols-3;
+  }
+
+  /* Smooth transitions for interactive elements */
+  .interactive {
+    @apply transition-all duration-300 ease-out;
+    @apply hover:scale-[1.02] active:scale-[0.98];
+  }
+
+  /* Section dividers */
+  .divider {
+    @apply border-t border-slate-200 dark:border-slate-700;
+  }
+
+  /* Text utilities with proper contrast */
+  .text-muted {
+    @apply text-slate-600 dark:text-slate-400;
+  }
+
+  .text-emphasis {
+    @apply text-slate-900 dark:text-slate-50;
+  }
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.4s ease-out;
+}
