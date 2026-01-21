@@ -13,6 +13,7 @@ export enum ExperienceLevel {
 
 export interface Job {
   readonly id: string;
+  readonly logo?: string;
   readonly title: string;
   readonly description: string;
   readonly company: string;
@@ -63,4 +64,3 @@ export interface PaginatedResponse<T> {
   data: T[];
   nextCursor: string | null;
 }
-
