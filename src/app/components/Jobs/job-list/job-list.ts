@@ -1,4 +1,4 @@
-import { Component, EventEmitter, HostListener, inject, Input, linkedSignal, Output, signal } from '@angular/core';
+import { Component, EventEmitter, HostListener, inject, input, Input, linkedSignal, output, Output, Signal, signal } from '@angular/core';
 import { JobCard } from '../job-card/job-card';
 import { Job, JobSearchFilters, PaginatedResponse } from '../../../interfaces/api/job.models';
 import { CommonModule } from '@angular/common';
@@ -15,11 +15,11 @@ import {effect} from '@angular/core';
 })
 export class JobList {
   private JobsService = inject(JobsService);
- private lastCursor: string | undefined = undefined;
-   private limit = 6;
+  private lastCursor: string | undefined = undefined;
+  private limit = 6;
   private loading = false;
-  @Input() infinite = true; 
-  @Output() jobCount = new EventEmitter<number>();
+  infinite = input<boolean>();  
+  jobCount = output<number>();
 
    filterSignal = signal<JobSearchFilters | undefined>({
     limit: this.limit,
@@ -45,13 +45,14 @@ export class JobList {
   });
 }
 
-// Puis dans le constructeur
 constructor() {
   this.JobCountEffect();
 }
+
   @HostListener('window:scroll', [])
   onWindowScroll() {
-    if (!this.infinite || this.loading || !this.lastCursor) return;
+    console.log (this.infinite())
+    if (!this.infinite() || this.loading || !this.lastCursor) return;
 
     const scrollPosition =
       window.innerHeight + window.scrollY;

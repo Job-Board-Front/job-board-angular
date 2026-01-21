@@ -1,7 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, signal, viewChild } from '@angular/core';
 import { JobList } from '../../components/Jobs/job-list/job-list';
 import { CategoryFilter } from '../../components/Jobs/category-filter/category-filter';
 import { JobSearch } from '../../components/Jobs/job-search/job-search';
+import { InfiniteScrollDirective } from '@/app/directives/infinite-scroll.directive';
 
 @Component({
   selector: 'app-jobs',
@@ -10,5 +11,5 @@ import { JobSearch } from '../../components/Jobs/job-search/job-search';
   styleUrl: './jobs.css',
 })
 export class Jobs {
- filteredJobCount: number = 6;
+  filteredJobCount = 0;
 }
