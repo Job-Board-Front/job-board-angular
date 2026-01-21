@@ -2,15 +2,19 @@ import { Injectable, inject, Signal } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { httpResource } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { map, tap } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
 import { CreateJobDto, Job, JobSearchFilters, PaginatedResponse } from '../interfaces/api/job.models';
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class JobsService {
   private readonly http = inject(HttpClient);
-  private readonly baseUrl = `${environment.apiUrl}/jobs`;
+  private readonly baseUrl = `${environment.apiUrl}`;
+  allJobs: Job[] = [];
+
 
   getJobs(filters: Signal<JobSearchFilters | undefined>) {
     return httpResource<PaginatedResponse<Job>>(() => {
@@ -32,7 +36,7 @@ export class JobsService {
       if (request?.cursor) {
         params = params.set('cursor', request.cursor);
       }
-      return { url: this.baseUrl, params };
+      return { url: `${this.baseUrl}/jobs`, params };
     });
   }
 
