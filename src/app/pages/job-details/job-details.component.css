@@ -1,3 +1,4 @@
+/* Read More/Less Section */
 .description-collapsed {
   max-height: 13.5em; /* 3 lines × 1.5 line-height */
   line-height: 1.5;
@@ -12,6 +13,12 @@
   right: 0;
   background: white;
   padding-left: 0.5em;
+  transition: background-color 0.3s;
+}
+
+/* Dark mode for description */
+:host-context(.dark) .description-collapsed::after {
+  background: #1e293b; /* Dark card background */
 }
 
 .description-expanded {
@@ -21,6 +28,8 @@
 .description-expanded::after {
   display: none;
 }
+
+/* Job Info Section */
 .job-info {
   position: relative;
   height: 4.5em;
@@ -35,4 +44,153 @@
   right: 0;
   background: white;
   padding-left: 0.5em;
+  transition: background-color 0.3s;
+}
+
+/* Dark mode for job info */
+:host-context(.dark) .job-info::after {
+  background: #1e293b; /* Dark card background */
+}
+
+/* Additional dark mode styles for the job details page */
+
+/* Body background */
+:host-context(.dark) body {
+  background-color: #0f172a;
+}
+
+/* Container */
+:host-context(.dark) .max-w-7xl {
+  background-color: transparent;
+}
+
+/* Back link */
+:host-context(.dark) .text-gray-600 {
+  color: #94a3b8;
+}
+
+:host-context(.dark) .text-gray-600:hover {
+  color: #f1f5f9;
+}
+
+/* White cards */
+:host-context(.dark) .bg-white {
+  background-color: #1e293b;
+  border-color: #334155;
+}
+
+/* Text colors */
+:host-context(.dark) h1,
+:host-context(.dark) h2,
+:host-context(.dark) h3 {
+  color: #f1f5f9;
+}
+
+:host-context(.dark) .text-gray-600 {
+  color: #94a3b8;
+}
+
+:host-context(.dark) .text-gray-500 {
+  color: #64748b;
+}
+
+:host-context(.dark) .text-gray-400 {
+  color: #64748b;
+}
+
+:host-context(.dark) .font-medium {
+  color: #e2e8f0;
+}
+
+/* Logo background */
+:host-context(.dark) .bg-gray-200 {
+  background-color: #334155;
+}
+
+/* Category badge */
+:host-context(.dark) .bg-blue-100 {
+  background-color: rgba(59, 130, 246, 0.2);
+}
+
+:host-context(.dark) .text-blue-600 {
+  color: #60a5fa;
+}
+
+/* Tech stack tags */
+:host-context(.dark) .bg-gray-100 {
+  background-color: #334155;
+}
+
+:host-context(.dark) .text-gray-600 {
+  color: #cbd5e1;
+}
+
+/* Buttons */
+:host-context(.dark) .bg-blue-900 {
+  background: linear-gradient(135deg, #2563eb 0%, #8b5cf6 100%);
+}
+
+:host-context(.dark) .bg-blue-900:hover {
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.4);
+}
+
+:host-context(.dark) .border {
+  border-color: #334155;
+}
+
+:host-context(.dark) .hover\:bg-gray-50:hover {
+  background-color: #334155;
+}
+
+/* Horizontal rules */
+:host-context(.dark) hr {
+  border-color: #334155;
+}
+
+/* Loading and error states */
+:host-context(.dark) .text-red-500 {
+  color: #ef4444;
+}
+
+/* Description content */
+:host-context(.dark) .description-wrapper {
+  color: #cbd5e1;
+}
+
+/* Read more button */
+:host-context(.dark) .text-blue-600 {
+  color: #60a5fa;
+}
+
+:host-context(.dark) .text-blue-600:hover {
+  color: #3b82f6;
+}
+
+/* Similar jobs section */
+:host-context(.dark) .text-2xl {
+  color: #f1f5f9;
+}
+
+/* View all button */
+:host-context(.dark) button.border {
+  background-color: transparent;
+  border-color: #334155;
+  color: #f1f5f9;
+}
+
+:host-context(.dark) button.border:hover {
+  background-color: #334155;
+}
+
+/* Smooth transitions for theme changes */
+.bg-white,
+.text-gray-600,
+.text-gray-500,
+.text-gray-400,
+.bg-gray-100,
+.bg-gray-200,
+hr,
+.border,
+button {
+  transition: background-color 0.3s, color 0.3s, border-color 0.3s;
 }

@@ -11,12 +11,24 @@ export const routes: Routes = [
     { path: "", component: Home },
     { path: "jobs", component: Jobs },
     {
-    path: 'Details/:id',
-    loadComponent: () =>
-      import('./pages/job-details/job-details.component')
-        .then(m => m.JobDetailsComponent),
-  },
-  //added route for testing the services
+      path: 'Details/:id',
+      loadComponent: () =>
+        import('./pages/job-details/job-details.component')
+          .then(m => m.JobDetailsComponent),
+    },
+    {
+      path: 'privacy',
+      loadComponent: () =>
+        import('./pages/static-pages/privacy.component')
+          .then(m => m.PrivacyComponent),
+    },
+    {
+      path: 'terms',
+      loadComponent: () =>
+        import('./pages/static-pages/terms.component')
+          .then(m => m.TermsComponent),
+    },
+    //added route for testing the services
   { path: 'test', component: TestPageComponent },
   ...authRoutes
 
