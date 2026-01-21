@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
 import { Home } from './pages/home/home';
 import { Jobs } from './pages/jobs/jobs';
+import { App } from './app';
 import { authRoutes } from './pages/auth/routes/auth.routes';
 import { TestPageComponent } from './components/test-page.component';
 
