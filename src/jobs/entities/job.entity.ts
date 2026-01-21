@@ -27,4 +27,6 @@ export class Job {
   expiresAt: Date;
   createdAt?: Date; // Optional on creation (handled by repo)
   updatedAt?: Date; // Optional on creation
+  logoUrl?: string;
+  submissionLink?: string;
 }

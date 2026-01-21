@@ -5,6 +5,7 @@ import {
   IsOptional,
   IsString,
   IsBoolean,
+  isString,
 } from 'class-validator';
 import { EmploymentType, ExperienceLevel } from '../entities/job.entity';
 
@@ -38,4 +39,11 @@ export class CreateJobDto {
   @IsArray()
   @IsString({ each: true })
   techStack: string[];
+
+  @IsOptional()
+  @IsString()
+  logoUrl?: string;
+
+  @IsString()
+  submissionLink?: string;
 }
