@@ -29,10 +29,10 @@
         <div
           class="h-14 w-14 flex-shrink-0 rounded-xl flex items-center justify-center bg-gradient-to-br from-slate-100 to-slate-200 border border-slate-300/60 dark:from-slate-700 dark:to-slate-800 dark:border-slate-600/50 overflow-hidden shadow-sm group-hover:shadow-md transition-all duration-300 group-hover:scale-105"
         >
-          @if (job().logo) {
+          @if (job().logoUrl) {
             <img
               [alt]="job().company"
-              [src]="job().logo"
+              [src]="(job().logoUrl ?? null) | absoluteUrl"  
               class="h-full w-full object-contain p-2"
             />
           } @else {
