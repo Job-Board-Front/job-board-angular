@@ -81,4 +81,34 @@ export class JobsService {
     const updatedJob = await this.findOne(id);
     return updatedJob;
   }
+
+  async updateLogo(jobId: string, logoUrl: string) {
+    const job = await this.findOne(jobId);
+
+    if (!job) {
+      throw new NotFoundException('Job not found');
+    }
+
+    await this.jobsRepository.update(jobId, {
+      logoUrl,
+      updatedAt: new Date(),
+    });
+
+    return logoUrl;
+  }
+  async getLogoUrl(jobId: string): Promise<string | null> {
+    const job = await this.findOne(jobId);
+    if (!job) {
+      throw new NotFoundException('Job not found');
+    }
+    if (!job.logoUrl) return null;
+    if (!job.logoUrl.startsWith('/uploads/job-logos/')) {
+      return `/uploads/job-logos/${job.logoUrl}`;
+    }
+
+    return job.logoUrl;
+  }
+
+
+
 }
