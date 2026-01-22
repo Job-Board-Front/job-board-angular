@@ -53,14 +53,14 @@ export class JobList {
     });
     }
     private loadMoreJobs() {
-      if (!this.lastCursor || this.jobsResource.isLoading()|| !this.hasMoreJobs()) return;
-
-      this.filterSignal.set({
-        ...this.filterSignal(),
+     if (!this.lastCursor || this.jobsResource.isLoading()|| !this.hasMoreJobs()) return;
+     
+      this.filterSignal.update(current => ({
+        ...current,
         cursor: this.lastCursor,
         limit: this.limit,
-      });
-      
+      }));
+
       console.log('Loading more jobs with cursor:', this.lastCursor);
     }
 
