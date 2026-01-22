@@ -1,3 +1,4 @@
+import { UI_TOKENS } from '@/app/core/ui/ui.config';
 import { Component, input } from '@angular/core';
 
 @Component({
@@ -9,8 +10,12 @@ import { Component, input } from '@angular/core';
 export class BadgeComponent {
   label = input.required<string>();
   variant = input<'blue' | 'gray' | 'green'>('gray');
+  size = input<'sm' | 'md' | 'lg'>('sm');
+  rounded = input<'sm' | 'md' | 'lg' | 'full'>('md');
+  class = input<string>('');
 
   getClasses() {
+    //create class for size , rounded
     const styles = {
       gray: [
         // Light mode: subtle gray with good contrast
@@ -61,6 +66,20 @@ export class BadgeComponent {
         'dark:hover:bg-amber-500/30',
       ].join(' '),
     };
-    return styles[this.variant()];
+    console.log(
+      [
+        styles[this.variant()],
+        `text-${this.size()}`,
+        UI_TOKENS.rounded[this.rounded()],
+        this.class(),
+      ].join(' '),
+    );
+
+    return [
+      styles[this.variant()],
+      `text-${this.size()}`,
+      UI_TOKENS.rounded[this.rounded()],
+      this.class(),
+    ].join(' ');
   }
 }

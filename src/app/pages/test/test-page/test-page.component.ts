@@ -2,15 +2,22 @@ import { ButtonComponent } from '@/app/components/shared/button/button.component
 import { JobCardComponent } from '@/app/components/shared/job-card/job-card.component';
 import { EmploymentType, ExperienceLevel, Job } from '@/app/interfaces/api/job.models';
 import { Component, HostBinding, inject, signal } from '@angular/core';
-import { ThemeToggleComponent } from '@/app/components/navbar/theme-toggle/theme-toggle.component';
+import { ThemeToggleComponent } from '@/app/components/shared/navbar/theme-toggle/theme-toggle.component';
 import { ThemeService } from '@/app/services/theme/theme.service';
-import { DropDownMenuComponent } from "@/app/components/shared/drop-down-menu/drop-down-menu.component";
-import { MenuItemComponent } from "@/app/components/shared/drop-down-menu/menu-item/menu-item.component";
-import { IconComponent } from "@/app/components/shared/icon/icon.component";
+import { DropDownMenuComponent } from '@/app/components/shared/drop-down-menu/drop-down-menu.component';
+import { MenuItemComponent } from '@/app/components/shared/drop-down-menu/menu-item/menu-item.component';
+import { IconComponent } from '@/app/components/shared/icon/icon.component';
 
 @Component({
   selector: 'app-test-page',
-  imports: [JobCardComponent, ButtonComponent, ThemeToggleComponent, DropDownMenuComponent, MenuItemComponent, IconComponent],
+  imports: [
+    JobCardComponent,
+    ButtonComponent,
+    ThemeToggleComponent,
+    DropDownMenuComponent,
+    MenuItemComponent,
+    IconComponent,
+  ],
   templateUrl: './test-page.component.html',
   styleUrl: './test-page.component.css',
 })
@@ -35,6 +42,10 @@ export class TestPageComponent {
       experienceLevel: 'SENIOR' as ExperienceLevel,
       salaryRange: '$60k - $90k',
       isActive: true,
+      source: 'manual',
+      createdAt: '2023-02-01T00:00:00.000Z',
+      updatedAt: '2023-02-01T00:00:00.000Z',
+      expiresAt: '2023-02-01T00:00:00.000Z',
     },
     {
       id: '2',
@@ -48,6 +59,10 @@ export class TestPageComponent {
       employmentType: 'CONTRACT' as EmploymentType,
       experienceLevel: 'MID' as ExperienceLevel,
       isActive: false, // Will test the closed state
+      source: 'manual',
+      createdAt: '2023-02-01T00:00:00.000Z',
+      updatedAt: '2023-02-01T00:00:00.000Z',
+      expiresAt: '2023-02-01T00:00:00.000Z',
     },
   ]);
 

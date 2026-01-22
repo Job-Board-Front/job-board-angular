@@ -20,7 +20,7 @@ export const UI_TOKENS = {
   sizes: {
     sm: 'px-3 py-1.5 text-xs',
     md: 'px-4 py-2.5 text-sm',
-    lg: 'px-6 py-3.5 text-base',
+    lg: 'px-6 py-3.5 text-lg',
     icon_sm: 'w-8 h-8 p-1', // Square for icon buttons
     icon_md: 'w-10 h-10 p-2',
     icon_lg: 'w-12 h-12 p-3',
