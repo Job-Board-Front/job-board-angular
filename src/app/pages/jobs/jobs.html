@@ -1,7 +1,7 @@
- <div class="jobs-page">
+ <div class="jobs-page" appInfiniteScroll #scrollDir="infiniteScroll" (scrolledToBottom)="onScrollBottom()">
       <div class="page-header">
         <h1 class="page-title">All Job Offers</h1>
-        <p class="page-description">Browse through {{ filteredJobCount }} available positions</p>
+        <p class="page-description">Browse through {{ jobCount() }} available positions</p>
       </div>
 
       <app-job-search ></app-job-search>
@@ -9,5 +9,6 @@
       <app-category-filter>
       </app-category-filter>
 
- <p class="jobs-counter">Showing {{ filteredJobCount }} jobs</p>
-<app-job-list [infinite]="true" (jobCount)="filteredJobCount = $event"></app-job-list>
+ <p class="jobs-counter">Showing {{ jobCount() }} jobs</p>
+<app-job-list [infinite]="true" [loadMore]="loadMoreSignal()"  (isLoading)="onLoadingChange($event, scrollDir)" 
+(jobCount)="onJobCountChange($event)"></app-job-list>

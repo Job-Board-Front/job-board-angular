@@ -17,7 +17,8 @@ export class JobList {
   private JobsService = inject(JobsService);
   private lastCursor: string | undefined = undefined;
   private limit = 6;
-  private loading = false;
+  loadMore = input<boolean>(false);
+  isLoading = output<boolean>();
   infinite = input<boolean>();  
   jobCount = output<number>();
 
@@ -38,35 +39,34 @@ export class JobList {
       else return src.data;
     },
   });
- private JobCountEffect(): void {
-  effect(() => {
-    const jobs = this.jobsList();
-    this.jobCount.emit(jobs.length);
-  });
-}
 
-constructor() {
-  this.JobCountEffect();
-}
 
-  @HostListener('window:scroll', [])
-  onWindowScroll() {
-    console.log (this.infinite())
-    if (!this.infinite() || this.loading || !this.lastCursor) return;
-
-    const scrollPosition =
-      window.innerHeight + window.scrollY;
-
-    const pageHeight =
-      document.documentElement.offsetHeight;
-
-    if (scrollPosition >= pageHeight - 200) {
-       this.filterSignal.set({
-      ...this.filterSignal(),
-      cursor: this.lastCursor,
-      limit: this.limit,
+    constructor() {
+    effect(() => {
+        const jobs = this.jobsList();
+        this.jobCount.emit(jobs.length);
+      });
+    effect(() => {
+        if (this.loadMore() && this.lastCursor) {
+          this.loadMoreJobs();
+        }
     });
-      console.log('Scrolled near bottom of page, loading more jobs');
     }
-  }
+    private loadMoreJobs() {
+      if (!this.lastCursor || this.jobsResource.isLoading()|| !this.hasMoreJobs()) return;
+
+      this.filterSignal.set({
+        ...this.filterSignal(),
+        cursor: this.lastCursor,
+        limit: this.limit,
+      });
+      
+      console.log('Loading more jobs with cursor:', this.lastCursor);
+    }
+
+    hasMoreJobs(): boolean {
+      return !!this.lastCursor;
+    }
+
+
 }
