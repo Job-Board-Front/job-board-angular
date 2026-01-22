@@ -1,4 +1,4 @@
-import { Component, signal, viewChild } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { JobList } from '../../components/Jobs/job-list/job-list';
 import { CategoryFilter } from '../../components/Jobs/category-filter/category-filter';
 import { JobSearch } from '../../components/Jobs/job-search/job-search';
@@ -24,7 +24,7 @@ export class Jobs {
   }
   onScrollBottom() {
     console.log('Scroll bottom detected in parent');
-    
+
     if (!this.isLoading() ) {
       this.loadMoreSignal.set(true);
       setTimeout(() => this.loadMoreSignal.set(false), 100);
