@@ -12,6 +12,7 @@ import {
   Put,
   UploadedFile,
   UseInterceptors,
+  Req,
 } from '@nestjs/common';
 import { JobsService } from './jobs.service';
 import { CreateJobDto } from './dto/create-job.dto';
@@ -21,6 +22,7 @@ import { UpdateJobDto } from './dto/update-job.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import { extname } from 'path';
+import type { Request } from 'express';
 
 @Controller('jobs')
 export class JobsController {
@@ -61,7 +63,7 @@ export class JobsController {
     return { updatedJob, message: 'Job updated successfully' };
   }
   @Post(':id/logo')
-  //@UseGuards(FirebaseAuthGuard)
+  @UseGuards(FirebaseAuthGuard)
   @UseInterceptors(
     FileInterceptor('logo', {
       storage: diskStorage({
@@ -88,24 +90,24 @@ export class JobsController {
     @Param('id') id: string,
     @UploadedFile() file: Express.Multer.File,
   ) {
-    const logoUrl = `/uploads/job-logos/${file.filename}`;
+    const logoUrl = `${file.filename}`;
     await this.jobsService.updateLogo(id, logoUrl);
     return {
       logoUrl,
       message: 'Job logo uploaded successfully',
     };
   }
-  
-  //@UseGuards(FirebaseAuthGuard)
+
+  @UseGuards(FirebaseAuthGuard)
   @Get(':id/logo')
-  async getLogo(@Param('id') id: string) {
-  const logoUrl = await this.jobsService.getLogoUrl(id);
+  async getLogo(@Param('id') id: string, @Req() req: Request) {
+    const logoUrl = await this.jobsService.getLogoUrl(id);
 
-  if (!logoUrl) {
-    return { message: 'No logo uploaded for this job' };
-  }
-
-  return { logoUrl };
+    if (!logoUrl) {
+      return { message: 'No logo uploaded for this job' };
+    }
+    return { logoUrl };
+  
 }
 
   

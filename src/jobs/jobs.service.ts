@@ -102,12 +102,9 @@ export class JobsService {
       throw new NotFoundException('Job not found');
     }
     if (!job.logoUrl) return null;
-    if (!job.logoUrl.startsWith('/uploads/job-logos/')) {
-      return `/uploads/job-logos/${job.logoUrl}`;
-    }
 
     return job.logoUrl;
-  }
+}
 
 
 
