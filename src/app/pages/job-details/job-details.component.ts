@@ -14,11 +14,20 @@ import {
 } from 'lucide-angular';
 import { ButtonComponent } from '@/app/components/shared/button/button.component';
 import { RouterLink } from '@angular/router';
-import { BadgeComponent } from "@/app/components/shared/badge/badge.component";
+import { BadgeComponent } from '@/app/components/shared/badge/badge.component';
+import { JobCardComponent } from '@/app/components/shared/job-card/job-card.component';
 
 @Component({
   selector: 'app-job-details',
-  imports: [LucideAngularModule, FormatDatePipe, GetInitialsPipe, ButtonComponent, RouterLink, BadgeComponent],
+  imports: [
+    LucideAngularModule,
+    FormatDatePipe,
+    GetInitialsPipe,
+    ButtonComponent,
+    RouterLink,
+    BadgeComponent,
+    JobCardComponent,
+  ],
   templateUrl: './job-details.component.html',
   styleUrls: ['./job-details.component.css'],
 })

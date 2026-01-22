@@ -37,7 +37,7 @@
             />
           } @else {
             <span class="text-xl font-bold text-slate-600 dark:text-slate-400">
-              {{ job().company.charAt(0) | uppercase }}
+              {{ job().company | getInitials }}
             </span>
           }
         </div>
@@ -111,10 +111,8 @@
 
       <!-- Employment Type -->
       <span class="flex items-center gap-1.5 text-slate-700 dark:text-slate-400">
-        <app-icon
-          path="M16 20V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16m8 0h2a2 2 0 0 0 2-2v-7.5L14 4.5m2 15.5H8m8 0v-4m-8 4H6a2 2 0 0 1-2-2v-7.5L10 4.5M8 20v-4"
-          class="w-4 h-4 text-slate-500 dark:text-slate-500"
-        />
+        <lucide-icon [img]="Briefcase" class="text-slate-500" [size]="15"></lucide-icon>
+
         <span class="font-medium capitalize">{{ formatEnum(job().employmentType) }}</span>
       </span>
     </div>

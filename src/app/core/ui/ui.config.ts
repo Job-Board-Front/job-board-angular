@@ -33,7 +33,7 @@ export const UI_TOKENS = {
       'bg-blue-600 text-white',
       'hover:bg-blue-700',
       'active:bg-blue-800',
-      'shadow-sm hover:shadow-md',
+      'shadow-md hover:shadow-md',
       // Dark mode
       'dark:bg-blue-500',
       'dark:hover:bg-blue-600',
