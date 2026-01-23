@@ -11,4 +11,7 @@ import { JobSearch } from '../../components/Jobs/job-search/job-search';
 })
 export class Jobs {
   filteredJobCount = 0;
+  logtest(){
+    console.log('test')
+  }
 }

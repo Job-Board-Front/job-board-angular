@@ -15,7 +15,7 @@ import {
 import { ButtonComponent } from '@/app/components/shared/button/button.component';
 import { RouterLink } from '@angular/router';
 import { BadgeComponent } from '@/app/components/shared/badge/badge.component';
-import { JobCardComponent } from '@/app/components/shared/job-card/job-card.component';
+import { JobCardComponent } from '@/app/components/Jobs/job-card/job-card.component';
 
 @Component({
   selector: 'app-job-details',

@@ -66,14 +66,37 @@
     @apply bg-white text-slate-900;
     @apply border border-slate-300;
     @apply placeholder:text-slate-400;
-    @apply focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent;
+    @apply focus:outline-none focus:ring-2 focus:ring-primary-600 focus:border-primary-600;
     @apply transition-all duration-200;
 
     /* Dark mode */
     @apply dark:bg-slate-800 dark:text-slate-100;
     @apply dark:border-slate-600;
     @apply dark:placeholder:text-slate-500;
-    @apply dark:focus:ring-blue-400;
+    @apply dark:focus:ring-primary-600;
+  }
+
+  /* Select / Dropdown */
+  .select {
+    @apply w-full px-4 py-2 rounded-lg;
+    @apply bg-white text-slate-900;
+    @apply border border-slate-300;
+    @apply placeholder:text-slate-400;
+    @apply focus:outline-none focus:ring-2 focus:ring-primary-600 focus:border-primary-600;
+    @apply transition-all duration-200;
+
+    /* Dark mode */
+    @apply dark:bg-slate-800 dark:text-slate-100;
+    @apply dark:border-slate-600;
+    @apply dark:placeholder:text-slate-500;
+    @apply dark:focus:ring-primary-600;
+  }
+
+  .select-option {
+    @apply text-slate-900 dark:text-slate-100;
+    @apply transition-colors duration-150;
+    @apply bg-slate-100 dark:bg-slate-800/50;
+    @apply hover:bg-slate-200 dark:hover:bg-slate-700/50;
   }
 
     /* Navbar */

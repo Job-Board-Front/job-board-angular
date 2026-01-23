@@ -66,14 +66,6 @@ export class BadgeComponent {
         'dark:hover:bg-amber-500/30',
       ].join(' '),
     };
-    console.log(
-      [
-        styles[this.variant()],
-        `text-${this.size()}`,
-        UI_TOKENS.rounded[this.rounded()],
-        this.class(),
-      ].join(' '),
-    );
 
     return [
       styles[this.variant()],

@@ -9,17 +9,14 @@
     .page-title {
       font-size: 2.5rem;
       font-weight: 650;
-      color: #0f172a;
       margin: 0 0 0.5rem 0;
     }
 
     .page-description {
-      color: #64748b;
       font-size: 1.125rem;
       margin: 0;
     }
     .jobs-counter {
-      color: #64748b;
       font-size: 0.95rem;
       margin: 1.5rem 0;
     }

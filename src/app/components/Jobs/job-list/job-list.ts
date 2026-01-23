@@ -1,11 +1,9 @@
-import { Component, EventEmitter, HostListener, inject, input, Input, linkedSignal, output, Output, Signal, signal } from '@angular/core';
+import { Component, HostListener, inject, input, linkedSignal, output, signal } from '@angular/core';
 import { Job, JobSearchFilters, PaginatedResponse } from '../../../interfaces/api/job.models';
 import { CommonModule } from '@angular/common';
 import { JobsService } from '@/app/api/jobs.service';
-import { rxResource } from '@angular/core/rxjs-interop';
-import { concatMap, map, Observable, of, scan, startWith, Subject, switchMap, tap } from 'rxjs';
 import {effect} from '@angular/core';
-import { JobCardComponent } from '../../shared/job-card/job-card.component';
+import { JobCardComponent } from '../job-card/job-card.component';
 @Component({
   selector: 'app-job-list',
   standalone: true,
@@ -18,7 +16,7 @@ export class JobList {
   private lastCursor: string | undefined = undefined;
   private limit = 6;
   private loading = false;
-  infinite = input<boolean>();  
+  infinite = input<boolean>();
   jobCount = output<number>();
 
    filterSignal = signal<JobSearchFilters | undefined>({
@@ -33,7 +31,7 @@ export class JobList {
       console.log('JobsList Computation:', src, prev);
       if (!src) return prev?.value || [];
       else if (prev?.value){
-          this.lastCursor = src.nextCursor ?? undefined; 
+          this.lastCursor = src.nextCursor ?? undefined;
          return [...prev.value, ...src.data]}
       else return src.data;
     },
