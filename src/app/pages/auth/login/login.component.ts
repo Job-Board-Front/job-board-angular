@@ -1,28 +1,45 @@
 import { AuthService } from '@/app/services/auth/auth.service';
 import { Component, inject, signal } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { ButtonComponent } from '@/app/components/shared/button/button.component';
-import { IconComponent } from '@/app/components/shared/icon/icon.component';
+
+import { AuthLayoutComponent } from '@/app/components/layout/auth-layout/auth-layout.component';
 
 @Component({
   selector: 'app-login',
-  imports: [FormsModule, RouterLink, ButtonComponent, IconComponent],
+  imports: [ReactiveFormsModule, RouterLink, ButtonComponent, AuthLayoutComponent],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css',
 })
 export class LoginComponent {
   private auth = inject(AuthService);
+  private fb = inject(FormBuilder);
 
-  email = signal('');
-  password = signal('');
   errorMessage = signal('');
 
-  async handleLogin() {
+  form = this.fb.nonNullable.group({
+    email: ['', [Validators.required, Validators.email]],
+    password: ['', [Validators.required]],
+  });
+
+  async onSubmit() {
+    if (this.form.invalid) return;
+
+    const { email, password } = this.form.getRawValue();
+
     try {
-      await this.auth.login(this.email(), this.password());
+      await this.auth.login(email, password);
     } catch (err: any) {
       this.errorMessage.set(err.message);
     }
+  }
+
+  get email() {
+    return this.form.controls.email;
+  }
+
+  get password() {
+    return this.form.controls.password;
   }
 }
