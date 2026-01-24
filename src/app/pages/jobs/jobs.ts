@@ -3,6 +3,7 @@ import { JobList } from '../../components/Jobs/job-list/job-list';
 import { CategoryFilter } from '../../components/Jobs/category-filter/category-filter';
 import { JobSearch } from '../../components/Jobs/job-search/job-search';
 import { InfiniteScrollDirective } from '@/app/directives/infiniteScroll-directive';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-jobs',
@@ -11,9 +12,10 @@ import { InfiniteScrollDirective } from '@/app/directives/infiniteScroll-directi
   styleUrl: './jobs.css',
 })
 export class Jobs {
- loadMoreSignal = signal(false);
+  loadMore$ = new Subject<void>();
   isLoading = signal(false);
   jobCount = signal(0);
+
   onJobCountChange(count: number) {
     this.jobCount.set(count);
     console.log('Total jobs loaded:', count);
@@ -23,11 +25,8 @@ export class Jobs {
     scrollDir.setLoading(loading);
   }
   onScrollBottom() {
-    console.log('Scroll bottom detected in parent');
-
     if (!this.isLoading() ) {
-      this.loadMoreSignal.set(true);
-      setTimeout(() => this.loadMoreSignal.set(false), 100);
+      this.loadMore$.next();
     }
   }
 }

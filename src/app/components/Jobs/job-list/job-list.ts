@@ -1,9 +1,9 @@
-import { Component, EventEmitter, HostListener, inject, input, Input, linkedSignal, output, Output, Signal, signal } from '@angular/core';
+import { Component, DestroyRef, EventEmitter, HostListener, inject, input, Input, linkedSignal, output, Output, Signal, signal } from '@angular/core';
 import { Job, JobSearchFilters, PaginatedResponse } from '../../../interfaces/api/job.models';
 import { CommonModule } from '@angular/common';
 import { JobsService } from '@/app/api/jobs.service';
-import { rxResource } from '@angular/core/rxjs-interop';
-import { concatMap, map, Observable, of, scan, startWith, Subject, switchMap, tap } from 'rxjs';
+import { rxResource, takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { concatMap, map, Observable, of, scan, startWith, Subject, switchMap, takeUntil, tap } from 'rxjs';
 import {effect} from '@angular/core';
 import { JobCardComponent } from '../../shared/job-card/job-card.component';
 @Component({
@@ -17,10 +17,11 @@ export class JobList {
   private JobsService = inject(JobsService);
   private lastCursor: string | undefined = undefined;
   private limit = 6;
-  loadMore = input<boolean>(false);
+  loadMore$ = input<Subject<void>>();
   isLoading = output<boolean>();
   infinite = input<boolean>();  
   jobCount = output<number>();
+  private destroyRef = inject(DestroyRef);
 
    filterSignal = signal<JobSearchFilters | undefined>({
     limit: this.limit,
@@ -46,11 +47,14 @@ export class JobList {
         const jobs = this.jobsList();
         this.jobCount.emit(jobs.length);
       });
-    effect(() => {
-        if (this.loadMore() && this.lastCursor) {
-          this.loadMoreJobs();
-        }
-    });
+   effect(() => {
+    const subject = this.loadMore$?.(); 
+    if (!subject) return;
+
+    subject
+      .pipe(takeUntilDestroyed(this.destroyRef)) 
+      .subscribe(() => this.loadMoreJobs());
+  });
     }
     private loadMoreJobs() {
      if (!this.lastCursor || this.jobsResource.isLoading()|| !this.hasMoreJobs()) return;
