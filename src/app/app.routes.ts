@@ -5,7 +5,7 @@ import { authRoutes } from './pages/auth/routes/auth.routes';
 //import { TestPageComponent } from './components/test-page.component';
 
 import { JobDetailsComponent } from './pages/job-details/job-details.component';
-import { TestPageComponent } from './pages/test/test-page/test-page.component';
+import { TestPageComponent } from './components/test-page.component';
 
 export const routes: Routes = [
   { path: '', component: Home },
