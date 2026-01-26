@@ -26,16 +26,10 @@ export class JobsService {
     });
   }
 
-  getJobsPaginated(
-    paramsSignal: Signal<{ filters?: JobSearchFilters; cursor?: string; limit?: number } | undefined>
-  ) {
+  getJobsPaginated(paramsSignal: Signal<JobSearchFilters | undefined>) {
     return httpResource<PaginatedResponse<Job>>(() => {
-      const request = paramsSignal();
-      let params = this.buildHttpParams(request?.filters);
-      params = params.set('limit', String(request?.limit ?? 10));
-      if (request?.cursor) {
-        params = params.set('cursor', request.cursor);
-      }
+      const filters = paramsSignal();
+      const params = this.buildHttpParams(filters);
       return { url: `${this.baseUrl}/jobs`, params };
     });
   }

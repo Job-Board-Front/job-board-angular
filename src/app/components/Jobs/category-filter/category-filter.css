@@ -7,13 +7,29 @@
 .filter-main-title {
   font-size: 1.4rem;
   font-weight: 600;
-  margin-bottom: 12px;
-  color: var(--color-text-primary-alt);
-  transition: color 0.3s ease;
+  margin: 0;
+  color: #333;
 }
 
-:host-context(.dark) .filter-main-title {
-  color: var(--color-text-primary);
+.clear-filters-btn {
+  padding: 6px 12px;
+  font-size: 0.85rem;
+  color: #2563eb;
+  background: transparent;
+  border: 1px solid #2563eb;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.clear-filters-btn:hover {
+  background: #2563eb;
+  color: #fff;
+}
+
+.clear-filters-btn:focus {
+  outline: 2px solid #2563eb;
+  outline-offset: 2px;
 }
 
 .filters-row {
@@ -70,7 +86,6 @@
   border-color: var(--color-border-input-hover);
   background-color: var(--color-bg-input-hover);
 }
-
 .filter-item select:focus {
   outline: none;
   border-color: var(--color-border-input-focus);

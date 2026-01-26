@@ -1,33 +1,45 @@
 <div class="filter-container">
-  <h3 class="filter-main-title">Filter by</h3>
+  <div class="filter-header">
+    <h3 class="filter-main-title">Filter by</h3>
+    <button
+      type="button"
+      class="clear-filters-btn"
+      (click)="clearFilters()"
+      [attr.aria-label]="'Clear all filters'"
+    >
+      Clear all
+    </button>
+  </div>
 
   <div class="filters-row">
-    <!-- Salary -->
+    <!-- Employment Type -->
     <div class="filter-item">
-      <label for="salary-select">Salary</label>
+      <label for="employment-type-select">Employment Type</label>
       <select
-        id="salary-select"
-        (change)="selectOption('salary', $any($event.target).value)"
-        class="select"
+        id="employment-type-select"
+        [value]="selectedEmploymentType()"
+        (change)="onEmploymentTypeChange($any($event.target).value)"
+        [attr.aria-label]="'Filter by employment type'"
       >
-        <option value="All" class="select-option">All</option>
-        @for (option of salaryRanges; track option.id) {
-          <option [value]="option.id" class="select-option">{{ option.name }}</option>
+        <option value="">All</option>
+        @for (option of employmentTypes; track option.id) {
+          <option [value]="option.id">{{ option.name }}</option>
         }
       </select>
     </div>
 
-    <!-- Job Title -->
+    <!-- Experience Level -->
     <div class="filter-item">
-      <label for="title-select">Job Title</label>
+      <label for="experience-level-select">Experience Level</label>
       <select
-        id="title-select"
-        (change)="selectOption('title', $any($event.target).value)"
-        class="select"
+        id="experience-level-select"
+        [value]="selectedExperienceLevel()"
+        (change)="onExperienceLevelChange($any($event.target).value)"
+        [attr.aria-label]="'Filter by experience level'"
       >
-        <option value="All" class="select-option">All</option>
-        @for (option of jobTitles; track option.id) {
-          <option [value]="option.id" class="select-option">{{ option.name }}</option>
+        <option value="">All</option>
+        @for (option of experienceLevels; track option.id) {
+          <option [value]="option.id">{{ option.name }}</option>
         }
       </select>
     </div>
@@ -37,27 +49,45 @@
       <label for="location-select">Location</label>
       <select
         id="location-select"
-        (change)="selectOption('location', $any($event.target).value)"
-        class="select"
+        [value]="selectedLocation()"
+        (change)="onLocationChange($any($event.target).value)"
+        [attr.aria-label]="'Filter by location'"
       >
-        <option value="All" class="select-option">All</option>
+        <option value="">All</option>
         @for (option of locations; track option.id) {
           <option [value]="option.id" class="select-option">{{ option.name }}</option>
         }
       </select>
     </div>
 
-    <!-- Recent -->
+    <!-- Salary Range -->
     <div class="filter-item">
-      <label for="recent-select">Recent</label>
+      <label for="salary-range-select">Salary</label>
       <select
-        id="recent-select"
-        (change)="selectOption('recent', $any($event.target).value)"
-        class="select"
+        id="salary-range-select"
+        [value]="selectedSalaryRange()"
+        (change)="onSalaryRangeChange($any($event.target).value)"
+        [attr.aria-label]="'Filter by salary range'"
       >
-        <option value="All" class="select-option">All</option>
-        @for (option of recentOptions; track option.id) {
-          <option [value]="option.id" class="select-option">{{ option.name }}</option>
+        <option value="">All</option>
+        @for (option of salaryRanges; track option.id) {
+          <option [value]="option.id">{{ option.name }}</option>
+        }
+      </select>
+    </div>
+
+    <!-- Posted Within (Recent) -->
+    <div class="filter-item">
+      <label for="posted-within-select">Posted</label>
+      <select
+        id="posted-within-select"
+        [value]="selectedPostedWithin()"
+        (change)="onPostedWithinChange($any($event.target).value)"
+        [attr.aria-label]="'Filter by posting date'"
+      >
+        <option value="">Any time</option>
+        @for (option of postedWithinOptions; track option.id) {
+          <option [value]="option.id">{{ option.name }}</option>
         }
       </select>
     </div>
