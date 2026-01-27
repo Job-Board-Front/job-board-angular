@@ -31,7 +31,7 @@ export class TestPageComponent {
   jobs = signal<Job[]>([
     {
       id: '1',
-      // logo: undefined, // Will test the fallback
+      // logoUrl: undefined, // Will test the fallback
       title: 'Senior Frontend Engineer',
       company: 'TechFlow',
       keywords: ['Engineering', 'SaaS'],
@@ -43,13 +43,13 @@ export class TestPageComponent {
       salaryRange: '$60k - $90k',
       isActive: true,
       source: 'manual',
-      createdAt: '2023-02-01T00:00:00.000Z',
-      updatedAt: '2023-02-01T00:00:00.000Z',
-      expiresAt: '2023-02-01T00:00:00.000Z',
+      createdAt: '2023-01-01T00:00:00.000Z',
+      expiresAt: '2023-01-01T00:00:00.000Z',
+      updatedAt: '2023-01-01T00:00:00.000Z',
     },
     {
       id: '2',
-      logo: 'assets/logos/acme.png',
+      logoUrl: 'assets/logos/acme.png',
       title: 'Backend Developer',
       company: 'Acme Corp',
       keywords: ['Backend'],
@@ -60,9 +60,9 @@ export class TestPageComponent {
       experienceLevel: 'MID' as ExperienceLevel,
       isActive: false, // Will test the closed state
       source: 'manual',
-      createdAt: '2023-02-01T00:00:00.000Z',
-      updatedAt: '2023-02-01T00:00:00.000Z',
-      expiresAt: '2023-02-01T00:00:00.000Z',
+      createdAt: '2023-01-01T00:00:00.000Z',
+      expiresAt: '2023-01-01T00:00:00.000Z',
+      updatedAt: '2023-01-01T00:00:00.000Z',
     },
   ]);
 
