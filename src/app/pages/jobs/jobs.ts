@@ -1,4 +1,4 @@
-import { Component, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
 import { JobList } from '../../components/Jobs/job-list/job-list';
 import { CategoryFilter } from '../../components/Jobs/category-filter/category-filter';
 import { JobSearch } from '../../components/Jobs/job-search/job-search';
@@ -10,6 +10,8 @@ import { Subject } from 'rxjs';
   imports: [JobList, CategoryFilter, JobSearch, InfiniteScrollDirective],
   templateUrl: './jobs.html',
   styleUrl: './jobs.css',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+
 })
 export class Jobs {
   loadMore$ = new Subject<void>();
