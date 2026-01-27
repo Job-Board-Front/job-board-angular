@@ -9,7 +9,7 @@ import { IconComponent } from '../../shared/icon/icon.component';
 
 @Component({
   selector: 'app-job-card',
-  imports: [CommonModule, BadgeComponent, IconComponent],
+  imports: [CommonModule, BadgeComponent, IconComponent, AbsoluteUrlPipe, GetInitialsPipe, LucideAngularModule],
   templateUrl: './job-card.component.html',
   styleUrl: './job-card.component.css',
 })
