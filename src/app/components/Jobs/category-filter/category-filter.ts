@@ -1,11 +1,8 @@
 import { FilterOption } from '@/app/interfaces/jobs/filter-option.interface';
 import { Component, EventEmitter, Output } from '@angular/core';
-import { DropDownMenuComponent } from "../../shared/drop-down-menu/drop-down-menu.component";
-import { ButtonComponent } from "../../shared/button/button.component";
-
 @Component({
   selector: 'app-category-filter',
-  imports: [DropDownMenuComponent, ButtonComponent],
+  imports: [],
   templateUrl: './category-filter.html',
   styleUrl: './category-filter.css',
 })
