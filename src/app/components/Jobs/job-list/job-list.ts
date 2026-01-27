@@ -1,10 +1,10 @@
-import { Component, DestroyRef, HostListener, inject, input, linkedSignal, output, signal } from '@angular/core';
+import { Component, DestroyRef, inject, input, linkedSignal, output, signal } from '@angular/core';
 import { Job, JobSearchFilters, PaginatedResponse } from '../../../interfaces/api/job.models';
 import { CommonModule } from '@angular/common';
 import { JobsService } from '@/app/api/jobs.service';
-import { rxResource, takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { concatMap, map, Observable, of, scan, startWith, Subject, switchMap, takeUntil, tap } from 'rxjs';
-import {effect} from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { Subject } from 'rxjs';
+import { effect } from '@angular/core';
 import { JobCardComponent } from '../job-card/job-card.component';
 @Component({
   selector: 'app-job-list',
@@ -17,12 +17,13 @@ export class JobList {
   private JobsService = inject(JobsService);
   private lastCursor: string | undefined = undefined;
   private limit = 6;
-  private loading = false;
+  loadMore$ = input<Subject<void>>();
+  isLoading = output<boolean>();
   infinite = input<boolean>();
   jobCount = output<number>();
   private destroyRef = inject(DestroyRef);
 
-   filterSignal = signal<JobSearchFilters | undefined>({
+  filterSignal = signal<JobSearchFilters | undefined>({
     limit: this.limit,
     cursor: undefined,
   });
@@ -33,44 +34,38 @@ export class JobList {
     computation: (src, prev) => {
       console.log('JobsList Computation:', src, prev);
       if (!src) return prev?.value || [];
-      else if (prev?.value){
-          this.lastCursor = src.nextCursor ?? undefined;
-         return [...prev.value, ...src.data]}
-      else return src.data;
+      else if (prev?.value) {
+        this.lastCursor = src.nextCursor ?? undefined;
+        return [...prev.value, ...src.data];
+      } else return src.data;
     },
   });
 
-
-    constructor() {
+  constructor() {
     effect(() => {
-        const jobs = this.jobsList();
-        this.jobCount.emit(jobs.length);
-      });
-   effect(() => {
-    const subject = this.loadMore$?.();
-    if (!subject) return;
+      const jobs = this.jobsList();
+      this.jobCount.emit(jobs.length);
+    });
+    effect(() => {
+      const subject = this.loadMore$?.();
+      if (!subject) return;
 
-    subject
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe(() => this.loadMoreJobs());
-  });
-    }
-    private loadMoreJobs() {
-     if (!this.lastCursor || this.jobsResource.isLoading()|| !this.hasMoreJobs()) return;
+      subject.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(() => this.loadMoreJobs());
+    });
+  }
+  private loadMoreJobs() {
+    if (!this.lastCursor || this.jobsResource.isLoading() || !this.hasMoreJobs()) return;
 
-      this.filterSignal.update(current => ({
-        ...current,
-        cursor: this.lastCursor,
-        limit: this.limit,
-      }));
+    this.filterSignal.update((current) => ({
+      ...current,
+      cursor: this.lastCursor,
+      limit: this.limit,
+    }));
 
+    console.log('Loading more jobs with cursor:', this.lastCursor);
+  }
 
-      console.log('Loading more jobs with cursor:', this.lastCursor);
-    }
-
-    hasMoreJobs(): boolean {
-      return !!this.lastCursor;
-    }
-
-
+  hasMoreJobs(): boolean {
+    return !!this.lastCursor;
+  }
 }
