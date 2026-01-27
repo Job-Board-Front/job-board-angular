@@ -1,34 +1,38 @@
-import { Directive, output, input } from '@angular/core';
+import { Directive, Output, Input, EventEmitter, NgZone, AfterViewInit, output, input } from '@angular/core';
 
 @Directive({
-    selector: '[appInfiniteScroll]',
-    standalone: true,
-    exportAs: 'infiniteScroll',
-    host: {
-    '(window:scroll)': 'onScroll()',
-  },
-
+  selector: '[appInfiniteScroll]',
+  standalone: true,
+  exportAs: 'infiniteScroll',
 })
-export class InfiniteScrollDirective {
-    threshold = input<number>(100);
-    
+export class InfiniteScrollDirective implements AfterViewInit {
+   threshold = input<number>(100);
+
     scrolledToBottom = output<void>();
-    
-    private isLoading = false;
 
-    onScroll() {
-        if (this.isLoading) return;
+  private isLoading = false;
 
-        const scrollPosition = window.innerHeight + window.scrollY;
-        const pageHeight = document.documentElement.offsetHeight;
+  constructor(private ngZone: NgZone) {}
 
-        if (scrollPosition >= pageHeight - this.threshold()) {
-        console.log('Scrolled near bottom, emitting event');
-        this.scrolledToBottom.emit();
-        }
+  ngAfterViewInit() {
+    this.ngZone.runOutsideAngular(() => {
+      window.addEventListener('scroll', this.onScroll, { passive: true });
+    });
+  }
+
+  private onScroll = () => {
+    if (this.isLoading) return;
+
+    const scrollPosition = window.innerHeight + window.scrollY;
+    const pageHeight = document.documentElement.offsetHeight;
+
+    if (scrollPosition >= pageHeight - this.threshold()) {
+      console.log('Scrolled near bottom, emitting event');
+      this.ngZone.run(() => this.scrolledToBottom.emit());
     }
+  };
 
-    setLoading(loading: boolean) {
-        this.isLoading = loading;
-    }
+  setLoading(loading: boolean) {
+    this.isLoading = loading;
+  }
 }
