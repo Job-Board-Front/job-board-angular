@@ -31,7 +31,7 @@ export class TestPageComponent {
   jobs = signal<Job[]>([
     {
       id: '1',
-      // logo: undefined, // Will test the fallback
+      // logoUrl: undefined, // Will test the fallback
       title: 'Senior Frontend Engineer',
       company: 'TechFlow',
       keywords: ['Engineering', 'SaaS'],
@@ -49,7 +49,7 @@ export class TestPageComponent {
     },
     {
       id: '2',
-      logo: 'assets/logos/acme.png',
+      logoUrl: 'assets/logos/acme.png',
       title: 'Backend Developer',
       company: 'Acme Corp',
       keywords: ['Backend'],
