@@ -3,7 +3,11 @@ import {
   provideBrowserGlobalErrorListeners,
   provideZonelessChangeDetection,
 } from '@angular/core';
-import { provideRouter } from '@angular/router';
+import {
+  provideRouter,
+  withEnabledBlockingInitialNavigation,
+  withViewTransitions,
+} from '@angular/router';
 import { routes } from './app.routes';
 
 //firebase imports
@@ -18,7 +22,11 @@ export const appConfig: ApplicationConfig = {
   providers: [
     provideZonelessChangeDetection(),
     provideBrowserGlobalErrorListeners(),
-    provideRouter(routes),
+    provideRouter(
+      routes,
+      withEnabledBlockingInitialNavigation(), // Helps sync navigation with rendering
+      withViewTransitions(),
+    ),
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideAuth(() => getAuth()),
     provideHttpClient(withInterceptors([authInterceptor, logInterceptor])),
