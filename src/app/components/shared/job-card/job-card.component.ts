@@ -3,11 +3,12 @@ import { Component, computed, inject, input, output } from '@angular/core';
 import { BadgeComponent } from '../badge/badge.component';
 import { IconComponent } from '../icon/icon.component';
 import { CommonModule } from '@angular/common';
+import { AbsoluteUrlPipe } from '@/app/pipes/absolute-url.pipe';
 import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-job-card',
-  imports: [CommonModule, BadgeComponent, IconComponent],
+  imports: [CommonModule, BadgeComponent, IconComponent, AbsoluteUrlPipe],
   templateUrl: './job-card.component.html',
   styleUrl: './job-card.component.css',
 })

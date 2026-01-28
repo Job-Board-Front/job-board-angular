@@ -13,7 +13,7 @@ export enum ExperienceLevel {
 
 export interface Job {
   readonly id: string;
-  readonly logo?: string;
+  readonly logoUrl?: string;
   readonly title: string;
   readonly description: string;
   readonly company: string;
@@ -28,6 +28,7 @@ export interface Job {
   readonly expiresAt: string; 
   readonly createdAt: string; 
   readonly updatedAt: string; 
+  readonly submissionLink?: string;
 }
 
 export interface CreateJobDto {
