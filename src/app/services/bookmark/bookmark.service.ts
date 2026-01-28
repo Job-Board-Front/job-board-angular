@@ -1,68 +1,125 @@
-import { Injectable, PLATFORM_ID, computed, effect, inject, signal } from '@angular/core';
-import { isPlatformBrowser } from '@angular/common';
+import { Injectable, computed, inject, signal, effect } from '@angular/core';
+import { BookmarksService } from '@/app/api/bookmarks.service';
+import { Bookmark } from '@/app/interfaces/api/job.models';
 
 @Injectable({ providedIn: 'root' })
 export class BookmarkService {
-  private platformId = inject(PLATFORM_ID);
-  private readonly STORAGE_KEY = 'bookmarks';
+  private bookmarksService = inject(BookmarksService);
 
-  private _bookmarkIds = signal<Set<string>>(new Set());
+  private bookmarksResource = this.bookmarksService.getBookmarks();
 
-  readonly bookmarkIds = computed(() => Array.from(this._bookmarkIds()));
+  // Store the last known bookmarks to prevent flickering during refetch
+  private lastKnownBookmarks = signal<Bookmark[]>([]);
+
+  // Optimistic updates: track pending bookmark changes
+  // Map of jobId -> boolean (true = bookmarked, false = unbookmarked)
+  private optimisticBookmarks = signal<Map<string, boolean>>(new Map());
 
   constructor() {
-    if (isPlatformBrowser(this.platformId)) {
-      this.loadFromStorage();
+    effect(() => {
+      const resourceValue = this.bookmarksResource.value();
+      if (resourceValue !== undefined) {
+        this.lastKnownBookmarks.set(resourceValue);
 
-      // Sync with localStorage changes from other tabs
-      window.addEventListener('storage', (e) => {
-        if (e.key === this.STORAGE_KEY) {
-          this.loadFromStorage();
-        }
-      });
-
-      effect(() => {
-        const ids = this._bookmarkIds();
-        if (isPlatformBrowser(this.platformId)) {
-          localStorage.setItem(this.STORAGE_KEY, JSON.stringify(Array.from(ids)));
-        }
-      });
-    }
-  }
-
-  private loadFromStorage(): void {
-    if (!isPlatformBrowser(this.platformId)) {
-      return;
-    }
-
-    try {
-      const stored = localStorage.getItem(this.STORAGE_KEY);
-      const bookmarkArray = stored ? JSON.parse(stored) : [];
-      this._bookmarkIds.set(new Set(bookmarkArray));
-    } catch (error) {
-      console.error('Error loading bookmarks from storage:', error);
-      this._bookmarkIds.set(new Set());
-    }
-  }
-
-  toggleBookmark(jobId: string): boolean {
-    const wasBookmarked = this._bookmarkIds().has(jobId);
-    
-    this._bookmarkIds.update((ids) => {
-      const newIds = new Set(ids);
-      if (wasBookmarked) {
-        newIds.delete(jobId);
-      } else {
-        newIds.add(jobId);
+        this.optimisticBookmarks.update(map => {
+          const newMap = new Map(map);
+          map.forEach((isBookmarked, jobId) => {
+            const serverHasBookmark = resourceValue.some(b => b.id === jobId);
+            if (isBookmarked === serverHasBookmark) {
+              newMap.delete(jobId);
+            }
+          });
+          return newMap;
+        });
       }
-      return newIds;
     });
-    
-    return !wasBookmarked;
+  }
+
+  readonly bookmarks = computed(() => {
+    const resourceValue = this.bookmarksResource.value();
+    const optimistic = this.optimisticBookmarks();
+
+    let baseBookmarks = resourceValue ?? this.lastKnownBookmarks();
+
+    if (optimistic.size > 0) {
+      const bookmarksMap = new Map(baseBookmarks.map(b => [b.id, b]));
+
+      optimistic.forEach((isBookmarked, jobId) => {
+        if (isBookmarked) {
+          if (!bookmarksMap.has(jobId)) {
+            bookmarksMap.set(jobId, {
+              id: jobId,
+              createdAt: new Date().toISOString(),
+              expiresAt: new Date().toISOString(),
+            } as Bookmark);
+          }
+        } else {
+          bookmarksMap.delete(jobId);
+        }
+      });
+
+      baseBookmarks = Array.from(bookmarksMap.values());
+    }
+
+    return baseBookmarks;
+  });
+
+  readonly bookmarkIds = computed(() => {
+    return this.bookmarks().map(bookmark => bookmark.id);
+  });
+
+  toggleBookmark(jobId: string): void {
+    const currentState = this.hasBookmark(jobId);
+    const newState = !currentState;
+
+    // Optimistically update the state immediately
+    this.optimisticBookmarks.update(map => {
+      const newMap = new Map(map);
+      newMap.set(jobId, newState);
+      return newMap;
+    });
+
+    if (currentState) {
+      this.bookmarksService.unbookmarkJob(jobId).subscribe({
+        next: () => {
+          // Don't clear optimistic update here - let it persist until the refetch completes
+          // The effect will clear it when new data arrives
+        },
+        error: (error) => {
+          this.optimisticBookmarks.update(map => {
+            const newMap = new Map(map);
+            newMap.delete(jobId);
+            return newMap;
+          });
+          console.error('Error unbookmarking job:', error);
+        },
+      });
+    } else {
+      this.bookmarksService.bookmarkJob(jobId).subscribe({
+        next: () => {
+          // Don't clear optimistic update here - let it persist until the refetch completes
+          // The effect will clear it when new data arrives
+        },
+        error: (error) => {
+          // Revert optimistic update on error
+          this.optimisticBookmarks.update(map => {
+            const newMap = new Map(map);
+            newMap.delete(jobId);
+            return newMap;
+          });
+          console.error('Error bookmarking job:', error);
+        },
+      });
+    }
   }
 
   hasBookmark(jobId: string): boolean {
-    return this._bookmarkIds().has(jobId);
+    const optimistic = this.optimisticBookmarks();
+    if (optimistic.has(jobId)) {
+      return optimistic.get(jobId)!;
+    }
+
+    return this.bookmarksService.isJobBookmarked(this.bookmarks(), jobId);
   }
 }
 
