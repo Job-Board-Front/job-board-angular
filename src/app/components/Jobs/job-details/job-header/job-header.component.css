@@ -1,38 +1,38 @@
 :host-context(.dark) h1 {
-  color: #f1f5f9;
+  color: var(--color-text-primary);
 }
 
 :host-context(.dark) .text-gray-600 {
-  color: #94a3b8;
+  color: var(--color-text-secondary);
 }
 
 :host-context(.dark) .text-gray-500 {
-  color: #64748b;
+  color: var(--color-text-gray-muted);
 }
 
 :host-context(.dark) .text-gray-400 {
-  color: #64748b;
+  color: var(--color-text-gray-muted);
 }
 
 :host-context(.dark) .bg-gray-200 {
-  background-color: #334155;
+  background-color: var(--color-bg-surface-secondary);
 }
 
 :host-context(.dark) .bg-blue-100 {
-  background-color: rgba(59, 130, 246, 0.2);
+  background-color: var(--color-bg-accent-subtle);
 }
 
 :host-context(.dark) .text-blue-600 {
-  color: #60a5fa;
+  color: var(--color-accent-link);
 }
 
 :host-context(.dark) .text-gray-700 {
-  color: #94a3b8;
+  color: var(--color-text-secondary);
 }
 :host-context(.dark) p {
-  color: #cbd5e1;
+  color: var(--color-text-tertiary);
 }
 
 :host-context(.dark) span {
-  color: #cbd5e1;
+  color: var(--color-text-tertiary);
 }

@@ -9,33 +9,33 @@
 .page-title {
   font-size: 2.5rem;
   font-weight: 650;
-  color: #0f172a;
+  color: var(--color-text-primary);
   margin: 0 0 0.5rem 0;
   transition: color 0.3s ease;
 }
 
 :host-context(.dark) .page-title {
-  color: #f1f5f9;
+  color: var(--color-text-primary);
 }
 
 .page-description {
-  color: #64748b;
+  color: var(--color-text-secondary);
   font-size: 1.125rem;
   margin: 0;
   transition: color 0.3s ease;
 }
 
 :host-context(.dark) .page-description {
-  color: #94a3b8;
+  color: var(--color-text-secondary);
 }
 
 .jobs-counter {
-  color: #64748b;
+  color: var(--color-text-secondary);
   font-size: 0.95rem;
   margin: 1.5rem 0;
   transition: color 0.3s ease;
 }
 
 :host-context(.dark) .jobs-counter {
-  color: #94a3b8;
+  color: var(--color-text-secondary);
 }

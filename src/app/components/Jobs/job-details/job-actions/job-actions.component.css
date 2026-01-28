@@ -1,22 +1,22 @@
 :host-context(.dark) .bg-white {
-  background-color: #1e293b;
-  border-color: #334155;
+  background-color: var(--color-bg-surface);
+  border-color: var(--color-border-default);
 }
 
 :host-context(.dark) .bg-blue-900 {
-  background: linear-gradient(135deg, #2563eb 0%, #8b5cf6 100%);
+  background: linear-gradient(135deg, var(--gradient-accent-start) 0%, var(--gradient-accent-end) 100%);
 }
 
 :host-context(.dark) .bg-blue-900:hover {
-  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.4);
+  box-shadow: var(--shadow-accent-hover);
 }
 
 :host-context(.dark) button.border {
-  background-color: transparent;
-  border-color: #334155;
-  color: #f1f5f9;
+  background-color: var(--color-bg-transparent);
+  border-color: var(--color-border-default);
+  color: var(--color-text-primary);
 }
 
 :host-context(.dark) button.border:hover {
-  background-color: #334155;
+  background-color: var(--color-bg-surface-hover);
 }

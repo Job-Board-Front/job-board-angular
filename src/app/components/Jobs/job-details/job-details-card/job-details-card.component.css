@@ -1,23 +1,23 @@
 :host-context(.dark) .bg-white {
-  background-color: #1e293b;
-  border-color: #334155;
+  background-color: var(--color-bg-surface);
+  border-color: var(--color-border-default);
 }
 
 :host-context(.dark) h3 {
-  color: #f1f5f9;
+  color: var(--color-text-primary);
 }
 
 :host-context(.dark) .text-gray-400 {
-  color: #64748b;
+  color: var(--color-text-gray-muted);
 }
 
 :host-context(.dark) .font-medium {
-  color: #e2e8f0;
+  color: var(--color-text-emphasis);
 }
 
 :host-context(.dark) hr {
-  border-color: #334155;
+  border-color: var(--color-border-default);
 }
 :host-context(.dark) p {
-  color: #cbd5e1;
+  color: var(--color-text-tertiary);
 }

@@ -1,6 +1,6 @@
 .header {
-  background: linear-gradient(135deg, #e8edf5 0%, #f5f7fa 100%);
-  border-bottom: 1px solid #e0e6ed;
+  background: linear-gradient(135deg, var(--gradient-footer-start) 0%, var(--gradient-footer-end) 100%);
+  border-bottom: 1px solid var(--color-border-light);
   padding: 1rem 2rem;
   position: sticky;
   top: 0;
@@ -10,8 +10,8 @@
 }
 
 :host-context(.dark) .header {
-  background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
-  border-bottom: 1px solid #334155;
+  background: linear-gradient(135deg, var(--gradient-footer-start) 0%, var(--gradient-footer-end) 100%);
+  border-bottom: 1px solid var(--color-border-default);
 }
 
 .header-content {
@@ -44,23 +44,23 @@
 .logo-icon {
   width: 40px;
   height: 40px;
-  color: #2563eb;
-  background-color: white;
+  color: var(--color-accent-primary);
+  background-color: var(--color-bg-surface);
   padding: 0.5rem;
   border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--shadow-sm);
   transition: all 0.3s;
 }
 
 :host-context(.dark) .logo-icon {
-  background-color: #334155;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  background-color: var(--color-bg-surface-secondary);
+  box-shadow: var(--shadow-sm);
 }
 
 .logo-text {
   font-size: 1.5rem;
   font-weight: 700;
-  background: linear-gradient(135deg, #2563eb 0%, #8b5cf6 100%);
+  background: linear-gradient(135deg, var(--gradient-accent-start) 0%, var(--gradient-accent-end) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -78,7 +78,7 @@
 }
 
 .nav-link {
-  color: #475569;
+  color: var(--color-text-muted);
   text-decoration: none;
   font-weight: 500;
   font-size: 1rem;
@@ -87,23 +87,23 @@
 }
 
 :host-context(.dark) .nav-link {
-  color: #94a3b8;
+  color: var(--color-text-secondary);
 }
 
 .nav-link:hover {
-  color: #1e293b;
+  color: var(--color-text-on-surface);
 }
 
 :host-context(.dark) .nav-link:hover {
-  color: #f1f5f9;
+  color: var(--color-text-primary);
 }
 
 .nav-link.active {
-  color: #1e293b;
+  color: var(--color-text-on-surface);
 }
 
 :host-context(.dark) .nav-link.active {
-  color: #f1f5f9;
+  color: var(--color-text-primary);
 }
 
 .nav-link.active::after {
@@ -113,7 +113,7 @@
   left: 0;
   right: 0;
   height: 3px;
-  background: linear-gradient(90deg, #2563eb 0%, #8b5cf6 100%);
+  background: linear-gradient(90deg, var(--gradient-accent-start) 0%, var(--gradient-accent-end) 100%);
   border-radius: 2px;
 }
 
@@ -124,7 +124,7 @@
 }
 
 .theme-toggle {
-  background: white;
+  background: var(--color-bg-surface);
   border: none;
   width: 40px;
   height: 40px;
@@ -133,34 +133,34 @@
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--shadow-sm);
   transition: all 0.2s;
 }
 
 :host-context(.dark) .theme-toggle {
-  background: #334155;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  background: var(--color-bg-surface-secondary);
+  box-shadow: var(--shadow-sm);
 }
 
 .theme-toggle:hover {
   transform: scale(1.05);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  box-shadow: var(--shadow-md);
 }
 
 :host-context(.dark) .theme-toggle:hover {
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+  box-shadow: var(--shadow-md);
 }
 
 .theme-toggle svg {
   width: 20px;
   height: 20px;
-  color: #64748b;
+  color: var(--color-text-secondary);
   transition: all 0.2s;
   animation: iconFadeIn 0.3s ease-in;
 }
 
 :host-context(.dark) .theme-toggle svg {
-  color: #f59e0b;
+  color: var(--color-icon-sun);
 }
 
 @keyframes iconFadeIn {
@@ -188,34 +188,34 @@
 }
 
 .btn-secondary {
-  background: white;
-  color: #1e293b;
-  border: 1px solid #e0e6ed;
+  background: var(--color-bg-surface);
+  color: var(--color-text-on-surface);
+  border: 1px solid var(--color-border-light);
 }
 
 :host-context(.dark) .btn-secondary {
-  background: #334155;
-  color: #f1f5f9;
-  border: 1px solid #475569;
+  background: var(--color-bg-surface-secondary);
+  color: var(--color-text-primary);
+  border: 1px solid var(--color-border-input);
 }
 
 .btn-secondary:hover {
-  background: rgba(0, 0, 0, 0.05);
+  background: var(--color-bg-overlay);
   transform: translateY(-1px);
 }
 
 :host-context(.dark) .btn-secondary:hover {
-  background: #475569;
+  background: var(--color-bg-overlay);
 }
 
 .btn-primary {
-  background: linear-gradient(135deg, #2563eb 0%, #8b5cf6 100%);
-  color: white;
-  box-shadow: 0 2px 8px rgba(37, 99, 235, 0.3);
+  background: linear-gradient(135deg, var(--gradient-accent-start) 0%, var(--gradient-accent-end) 100%);
+  color: var(--color-text-on-accent);
+  box-shadow: var(--shadow-accent);
 }
 
 .btn-primary:hover {
-  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.4);
+  box-shadow: var(--shadow-accent-hover);
   transform: translateY(-1px);
 }
 
