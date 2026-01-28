@@ -11,25 +11,28 @@
       <nav class="nav">
         <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="nav-link">Home</a>
         <a routerLink="/jobs" routerLinkActive="active" class="nav-link">Jobs</a>
-        <a routerLink="/bookmarked" routerLinkActive="active" class="nav-link">Bookmarked</a>
+        <a [routerLink]="['/', APP_ROUTES.bookmarks]" routerLinkActive="active" class="nav-link">Bookmarks</a>
       </nav>
     </div>
     <div class="header-actions">
-      <button class="btn-secondary">
-        <a
-          class="nav-link"
-          [routerLink]="['login']"
-          routerLinkActive="active text-primary"
-          >Login</a
-        >
-        </button>
-      <button class="btn-primary">
-         <a
-          class="nav-link"
-          [routerLink]="['signup']"
-          routerLinkActive="active text-primary "
-          >Sign Up</a>
-      </button>
+      @if (isLoggedIn()) {
+        <a [routerLink]="['/', AUTH_ROUTES.logout]" routerLinkActive="active">
+          <button class="btn-secondary">
+            <span class="nav-link">Logout</span>
+          </button>
+        </a>
+      } @else {
+        <a [routerLink]="['/', AUTH_ROUTES.login]" routerLinkActive="active">
+          <button class="btn-secondary">
+            <span class="nav-link">Login</span>
+          </button>
+        </a>
+        <a [routerLink]="['/', AUTH_ROUTES.register]" routerLinkActive="active">
+          <button class="btn-primary">
+            <span class="nav-link">Sign Up</span>
+          </button>
+        </a>
+      }
     </div>
   </div>
 </header>
