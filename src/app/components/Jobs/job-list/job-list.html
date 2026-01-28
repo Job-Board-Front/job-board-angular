@@ -1,0 +1,18 @@
+<section class="job-list-section">
+  <div class="jobs-grid">
+   @if (jobsResource.isLoading()) {
+  <p>Loading jobs...</p>
+}
+
+@if (jobsResource.error()) {
+  <p>Failed to load jobs</p>
+}
+
+@if (jobsList(); as jobs) {
+  @for (job of jobs; track job.id) {
+      <app-job-card [job]="job" />
+  } 
+}
+
+  </div>
+</section>

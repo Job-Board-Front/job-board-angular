@@ -1,0 +1,38 @@
+.description-collapsed {
+  max-height: 13.5em; /* 3 lines × 1.5 line-height */
+  line-height: 1.5;
+  overflow: hidden;
+  position: relative;
+}
+
+.description-collapsed::after {
+  content: '...';
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  background: white;
+  padding-left: 0.5em;
+}
+
+.description-expanded {
+  max-height: none;
+}
+
+.description-expanded::after {
+  display: none;
+}
+.job-info {
+  position: relative;
+  height: 4.5em;
+  line-height: 1.5em;
+  overflow: hidden;
+}
+
+.job-info::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  background: white;
+  padding-left: 0.5em;
+}

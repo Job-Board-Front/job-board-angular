@@ -1,0 +1,49 @@
+<div class="filter-container">
+  <h3 class="filter-main-title">Filter by</h3>
+
+  <div class="filters-row">
+    <!-- Salary -->
+    <div class="filter-item">
+      <label for="salary-select">Salary</label>
+      <select id="salary-select" (change)="selectOption('salary', $any($event.target).value)">
+        <option value="">All</option>
+        @for (option of salaryRanges; track option.id) {
+          <option [value]="option.id">{{ option.name }}</option>
+        }
+      </select>
+    </div>
+
+    <!-- Job Title -->
+    <div class="filter-item">
+      <label for="title-select">Job Title</label>
+      <select id="title-select" (change)="selectOption('title', $any($event.target).value)">
+        <option value="">All</option>
+        @for (option of jobTitles; track option.id) {
+          <option [value]="option.id">{{ option.name }}</option>
+        }
+      </select>
+    </div>
+
+    <!-- Location -->
+    <div class="filter-item">
+      <label for="location-select">Location</label>
+      <select id="location-select" (change)="selectOption('location', $any($event.target).value)">
+        <option value="">All</option>
+        @for (option of locations; track option.id) {
+          <option [value]="option.id">{{ option.name }}</option>
+        }
+      </select>
+    </div>
+
+    <!-- Recent -->
+    <div class="filter-item">
+      <label for="recent-select">Recent</label>
+      <select id="recent-select" (change)="selectOption('recent', $any($event.target).value)">
+        <option value="">All</option>
+        @for (option of recentOptions; track option.id) {
+          <option [value]="option.id">{{ option.name }}</option>
+        }
+      </select>
+    </div>
+  </div>
+</div>

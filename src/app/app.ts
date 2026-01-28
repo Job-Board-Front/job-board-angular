@@ -1,12 +1,18 @@
-import { Component } from '@angular/core';
+import { Component, HostBinding, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { NavbarComponent } from './components/navbar/navbar.component';
+import { Navbar } from './components/navbar/navbar';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, NavbarComponent],
+  imports: [RouterOutlet,Navbar ],
   templateUrl: './app.html',
   styleUrl: './app.css',
 })
 export class App {
+  protected readonly title = signal('job-board-angular');
+  darkTheme = signal<boolean>(false);
+  @HostBinding('class.dark')
+  get isDarkMode() {
+    return this.darkTheme();
+  }
 }
