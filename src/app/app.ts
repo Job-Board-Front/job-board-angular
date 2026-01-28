@@ -1,6 +1,5 @@
-import { Component, HostBinding, inject, signal } from '@angular/core';
+import { Component, HostBinding, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { ThemeService } from './services/theme/theme.service';
 import { Navbar } from './components/navbar/navbar';
 
 @Component({

@@ -1,8 +1,9 @@
 import { Job } from '@/app/interfaces/api/job.models';
-import { Component, computed, input, output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, input, output } from '@angular/core';
 import { BadgeComponent } from '../badge/badge.component';
 import { IconComponent } from '../icon/icon.component';
 import { CommonModule } from '@angular/common';
+import { BookmarkService } from '@/app/services/bookmark/bookmark.service';
 import { AbsoluteUrlPipe } from '@/app/pipes/absolute-url.pipe';
 
 @Component({
@@ -10,12 +11,20 @@ import { AbsoluteUrlPipe } from '@/app/pipes/absolute-url.pipe';
   imports: [CommonModule, BadgeComponent, IconComponent, AbsoluteUrlPipe],
   templateUrl: './job-card.component.html',
   styleUrl: './job-card.component.css',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class JobCardComponent {
+  private bookmarkService = inject(BookmarkService);
+
   job = input.required<Job>();
 
   onBookmark = output<string>();
   onCardClick = output<string>();
+
+  isBookmarked = computed(() => {
+    const jobId = this.job().id;
+    return this.bookmarkService.hasBookmark(jobId);
+  });
 
   // Enhanced container classes with better light/dark mode support
   containerClasses = computed(() => {
@@ -65,5 +74,11 @@ export class JobCardComponent {
 
   formatEnum(value: string): string {
     return value.toLowerCase().replace(/_/g, ' ');
+  }
+
+  handleBookmark(event: Event) {
+    event.stopPropagation();
+    const jobId = this.job().id;
+    this.bookmarkService.toggleBookmark(jobId);
   }
 }

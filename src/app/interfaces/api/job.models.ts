@@ -25,9 +25,9 @@ export interface Job {
   readonly keywords: readonly string[];
   readonly source: 'seeded' | 'manual';
   readonly isActive: boolean;
-  readonly expiresAt: string; 
-  readonly createdAt: string; 
-  readonly updatedAt: string; 
+  readonly expiresAt: string;
+  readonly createdAt: string;
+  readonly updatedAt: string;
   readonly submissionLink?: string;
 }
 
@@ -44,10 +44,9 @@ export interface CreateJobDto {
 
 
 export interface Bookmark {
-  readonly id?: string;
-  readonly userId: string;
-  readonly jobId: string;
-  readonly createdAt: string; 
+  readonly id: string;
+  readonly createdAt: string;
+  readonly expiresAt: string;
 }
 
 
@@ -57,7 +56,7 @@ export interface JobSearchFilters {
   employmentType?: EmploymentType;
   experienceLevel?: ExperienceLevel;
   limit?: number;
-  cursor?: string; 
+  cursor?: string;
 }
 
 

@@ -65,7 +65,7 @@ import { JobsService } from '../api/jobs.service';
 
         <div class="results">
           <h3>My Bookmarks: {{ bookmarksList().length }}</h3>
-          <div class="bookmark-card" *ngFor="let b of bookmarksList()">Job ID: {{ b.jobId }}</div>
+          <div class="bookmark-card" *ngFor="let b of bookmarksList()">Job ID: {{ b.id }}</div>
         </div>
       </section>
     </div>

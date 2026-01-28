@@ -1,21 +1,116 @@
-<div class="register-container">
-  <h2>Welcome</h2>
-
-  <form [formGroup]="form">
-
-    <input formControlName="displayName" placeholder="Display Name" type="text" />
-
-    <input formControlName="email" placeholder="Email" type="email" />
-
-    <input
-      formControlName="password"
-      placeholder="Password"
-      type="password"
-    />
-
-
-    <button type="submit" class="btn" [disabled]="form.invalid" (click)="handleLogin()">Register</button>
-
-  </form>
-
-</div>
+<app-auth-layout>
+  <div class="w-full max-w-md rounded-lg border border-border bg-card text-card-foreground shadow-sm">
+    <div class="flex flex-col space-y-1.5 p-6 text-center">
+      <div class="flex justify-center mb-4">
+        <div class="flex h-12 w-12 items-center justify-center rounded-lg bg-primary">
+          <app-icon path="M16 20V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16m8 0h2a2 2 0 0 0 2-2v-7.5L14 4.5m2 15.5H8m8 0v-4m-8 4H6a2 2 0 0 1-2-2v-7.5L10 4.5M8 20v-4" class="h-6 w-6 text-primary-foreground" />
+        </div>
+      </div>
+      <h1 class="text-2xl font-bold">Create an account</h1>
+      <p class="text-sm text-muted-foreground">Enter your details to get started</p>
+    </div>
+    <div class="p-6 pt-0">
+      <form [formGroup]="form" (ngSubmit)="handleRegister()" class="space-y-4">
+        <div class="space-y-2">
+          <label for="displayName" class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+            Full Name
+          </label>
+          <input
+            id="displayName"
+            type="text"
+            placeholder="John Doe"
+            formControlName="displayName"
+            class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+            [class.border-destructive]="displayName.invalid && displayName.touched"
+          />
+          @if (displayName.invalid && displayName.touched) {
+            <p class="text-sm text-destructive">
+              Full name is required
+            </p>
+          }
+        </div>
+        <div class="space-y-2">
+          <label for="email" class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+            Email
+          </label>
+          <input
+            id="email"
+            type="email"
+            placeholder="name@example.com"
+            formControlName="email"
+            class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+            [class.border-destructive]="email.invalid && email.touched"
+          />
+          @if (email.invalid && email.touched) {
+            <p class="text-sm text-destructive">
+              @if (email.hasError('required')) {
+                Email is required
+              } @else if (email.hasError('email')) {
+                Please enter a valid email address
+              }
+            </p>
+          }
+        </div>
+        <div class="space-y-2">
+          <label for="password" class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+            Password
+          </label>
+          <input
+            id="password"
+            type="password"
+            formControlName="password"
+            class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+            [class.border-destructive]="password.invalid && password.touched"
+          />
+          @if (password.invalid && password.touched) {
+            <p class="text-sm text-destructive">
+              @if (password.hasError('required')) {
+                Password is required
+              } @else if (password.hasError('minlength')) {
+                Password must be at least 6 characters
+              }
+            </p>
+          }
+        </div>
+        <div class="space-y-2">
+          <label for="confirmPassword" class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+            Confirm Password
+          </label>
+          <input
+            id="confirmPassword"
+            type="password"
+            formControlName="confirmPassword"
+            class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+            [class.border-destructive]="(confirmPassword.invalid || form.hasError('passwordMismatch')) && confirmPassword.touched"
+          />
+          @if (confirmPassword.invalid && confirmPassword.touched) {
+            <p class="text-sm text-destructive">
+              Please confirm your password
+            </p>
+          }
+          @if (form.hasError('passwordMismatch') && confirmPassword.touched && !confirmPassword.hasError('required')) {
+            <p class="text-sm text-destructive">
+              Passwords do not match
+            </p>
+          }
+        </div>
+        @if (errorMessage()) {
+          <p class="text-sm text-destructive">{{ errorMessage() }}</p>
+        }
+        <app-button type="submit" variant="primary" [disabled]="form.invalid || isLoading()" class="w-full">
+          @if (isLoading()) {
+            Creating account...
+          } @else {
+            Create Account
+          }
+        </app-button>
+      </form>
+      <div class="mt-6 text-center text-sm">
+        <span class="text-muted-foreground">Already have an account? </span>
+        <a [routerLink]="['/login']" class="text-primary hover:underline font-medium">
+          Sign in
+        </a>
+      </div>
+    </div>
+  </div>
+</app-auth-layout>
