@@ -13,8 +13,8 @@ export const routes: Routes = [
     { path: "", component: Home },
     { path: "jobs", component: Jobs },
     {
-      path: APP_ROUTES.bookmarked,
-      loadComponent: () => import('./pages/bookmarked/bookmarked.component').then((m) => m.BookmarkedComponent),
+      path: APP_ROUTES.bookmarks,
+      loadComponent: () => import('./pages/bookmarks/bookmarks.component').then((m) => m.BookmarksComponent),
       canActivate: [authGuard],
       data: {
         authGuardPipe: redirectUnauthorized,

@@ -6,13 +6,13 @@ import { JobsService } from '@/app/api/jobs.service';
 import { CommonModule } from '@angular/common';
 
 @Component({
-  selector: 'app-bookmarked',
+  selector: 'app-bookmarks',
   imports: [JobCardComponent, IconComponent, CommonModule],
-  templateUrl: './bookmarked.component.html',
-  styleUrl: './bookmarked.component.css',
+  templateUrl: './bookmarks.component.html',
+  styleUrl: './bookmarks.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class BookmarkedComponent {
+export class BookmarksComponent {
   private bookmarksService = inject(BookmarksService);
   private jobsService = inject(JobsService);
 
@@ -23,13 +23,13 @@ export class BookmarkedComponent {
     return bookmarks?.map(bookmark => bookmark.id) ?? [];
   });
 
-  private bookmarkedJobsResource = this.jobsService.getJobsByIds(this.bookmarkJobIdsSignal);
+  private bookmarksJobsResource = this.jobsService.getJobsByIds(this.bookmarkJobIdsSignal);
 
-  bookmarkedJobs = computed(() => {
-    return this.bookmarkedJobsResource.value() ?? [];
+  bookmarksJobs = computed(() => {
+    return this.bookmarksJobsResource.value() ?? [];
   });
 
-  isLoading = computed(() => this.bookmarkedJobsResource.isLoading());
-  hasError = computed(() => !!this.bookmarkedJobsResource.error());
+  isLoading = computed(() => this.bookmarksJobsResource.isLoading());
+  hasError = computed(() => !!this.bookmarksJobsResource.error());
 }
 
