@@ -1,0 +1,12 @@
+@if (techStack().length) {
+      <section class="mt-8">
+        <h2 class="text-lg font-semibold mb-3">Key skills</h2>
+        <ul class="flex flex-wrap gap-2">
+          @for (tag of techStack(); track tag) {
+            <li class="px-3 py-1 bg-gray-100 rounded-full text-sm text-gray-600">
+              {{ tag }}
+            </li>
+          }
+        </ul>
+      </section>
+}

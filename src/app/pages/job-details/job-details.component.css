@@ -1,6 +1,6 @@
-/* Read More/Less Section */
+
 .description-collapsed {
-  max-height: 13.5em; /* 3 lines × 1.5 line-height */
+  max-height: 13.5em; 
   line-height: 1.5;
   overflow: hidden;
   position: relative;
@@ -16,9 +16,8 @@
   transition: background-color 0.3s;
 }
 
-/* Dark mode for description */
 :host-context(.dark) .description-collapsed::after {
-  background: #1e293b; /* Dark card background */
+  background: #1e293b; 
 }
 
 .description-expanded {
@@ -29,7 +28,6 @@
   display: none;
 }
 
-/* Job Info Section */
 .job-info {
   position: relative;
   height: 4.5em;
@@ -47,24 +45,18 @@
   transition: background-color 0.3s;
 }
 
-/* Dark mode for job info */
 :host-context(.dark) .job-info::after {
-  background: #1e293b; /* Dark card background */
+  background: #1e293b; 
 }
 
-/* Additional dark mode styles for the job details page */
-
-/* Body background */
 :host-context(.dark) body {
   background-color: #0f172a;
 }
 
-/* Container */
 :host-context(.dark) .max-w-7xl {
   background-color: transparent;
 }
 
-/* Back link */
 :host-context(.dark) .text-gray-600 {
   color: #94a3b8;
 }
@@ -73,13 +65,11 @@
   color: #f1f5f9;
 }
 
-/* White cards */
 :host-context(.dark) .bg-white {
   background-color: #1e293b;
   border-color: #334155;
 }
 
-/* Text colors */
 :host-context(.dark) h1,
 :host-context(.dark) h2,
 :host-context(.dark) h3 {
@@ -102,12 +92,10 @@
   color: #e2e8f0;
 }
 
-/* Logo background */
 :host-context(.dark) .bg-gray-200 {
   background-color: #334155;
 }
 
-/* Category badge */
 :host-context(.dark) .bg-blue-100 {
   background-color: rgba(59, 130, 246, 0.2);
 }
@@ -116,7 +104,6 @@
   color: #60a5fa;
 }
 
-/* Tech stack tags */
 :host-context(.dark) .bg-gray-100 {
   background-color: #334155;
 }
@@ -125,7 +112,6 @@
   color: #cbd5e1;
 }
 
-/* Buttons */
 :host-context(.dark) .bg-blue-900 {
   background: linear-gradient(135deg, #2563eb 0%, #8b5cf6 100%);
 }
@@ -141,23 +127,21 @@
 :host-context(.dark) .hover\:bg-gray-50:hover {
   background-color: #334155;
 }
-
-/* Horizontal rules */
+:host-context(.dark) .bg-gray-50 {
+  background-color: #0f172a;
+}
 :host-context(.dark) hr {
   border-color: #334155;
 }
 
-/* Loading and error states */
 :host-context(.dark) .text-red-500 {
   color: #ef4444;
 }
 
-/* Description content */
 :host-context(.dark) .description-wrapper {
   color: #cbd5e1;
 }
 
-/* Read more button */
 :host-context(.dark) .text-blue-600 {
   color: #60a5fa;
 }
@@ -166,12 +150,10 @@
   color: #3b82f6;
 }
 
-/* Similar jobs section */
 :host-context(.dark) .text-2xl {
   color: #f1f5f9;
 }
 
-/* View all button */
 :host-context(.dark) button.border {
   background-color: transparent;
   border-color: #334155;
@@ -182,7 +164,6 @@
   background-color: #334155;
 }
 
-/* Smooth transitions for theme changes */
 .bg-white,
 .text-gray-600,
 .text-gray-500,

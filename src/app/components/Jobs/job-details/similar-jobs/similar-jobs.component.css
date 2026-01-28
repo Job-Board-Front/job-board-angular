@@ -1,0 +1,11 @@
+:host-context(.dark) h2 {
+  color: #f1f5f9;
+}
+
+:host-context(.dark) .text-blue-600 {
+  color: #60a5fa;
+}
+
+:host-context(.dark) .text-blue-600:hover {
+  color: #3b82f6;
+}

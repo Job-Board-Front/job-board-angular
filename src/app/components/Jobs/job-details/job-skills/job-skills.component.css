@@ -1,0 +1,11 @@
+:host-context(.dark) h2 {
+  color: #f1f5f9;
+}
+
+:host-context(.dark) .bg-gray-100 {
+  background-color: #334155;
+}
+
+:host-context(.dark) .text-gray-600 {
+  color: #cbd5e1;
+}

@@ -1,184 +1,47 @@
-<body class="bg-gray-50">
-<div class="max-w-7xl mx-auto px-6 py-8">
-  
-  <a href="#" class="inline-flex items-center text-m text-gray-600 hover:text-gray-900 hover:font-bold mb-6">
-    ← Back to Jobs
-  </a>
-@if(isLoading()) {
-  <p>Loading job…</p>
-}
-
-@if(error()) {
-  <p class="text-red-500">Failed to load job</p>
-}
-
-@if(job()) {
-
-  <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+<div class="bg-gray-50">
+  <div class="max-w-7xl mx-auto px-6 py-8">
     
-    <div class="lg:col-span-2 bg-white rounded-xl border border-gray-400/40 p-8 shadow-xl">
-      
-      <div class="flex items-start gap-4">
-        <div class="w-12 h-12 bg-gray-200 rounded-lg flex items-center justify-center overflow-hidden">
-<!--
-          @if (job()!.logo && !logoError()) {
-            <img
-              [src]="job()!.logo"
-              [alt]="job()!.company"
-              class="w-full h-full object-contain"
-              (error)="logoErrorf()"
-            />
-          } @else {
-            <span class="font-bold text-gray-600">
-              {{ job()!.company | getInitials }}
-            </span>
-          }-->
-            <span class="font-bold text-gray-600">
-              {{ job()!.company | getInitials }}
-            </span>
-        </div>
+    <app-job-detail-header />
 
-
-        <div>
-          <h1 class="text-2xl font-bold">{{job()!.title}}</h1>
-          <p class="text-gray-600">{{job()!.company}}</p>
-
-          <div class="flex flex-wrap items-center gap-4 text-sm text-gray-500 mt-2">
-            <!--span class="px-3 py-1 bg-blue-100 text-blue-600 rounded-full">
-              {{job()!.category}}
-            </span-->
-            <span class="px-3 py-1 bg-blue-100 text-blue-600 rounded-full">
-              category?
-            </span>
-            <span class="flex items-center gap-1">
-              <lucide-icon [img]="MapPin" [size]="16" class="text-gray-700"></lucide-icon>
-              {{job()!.location}}
-            </span>
-            <span class="flex items-center gap-1">
-              <lucide-icon [img]="Briefcase" [size]="16" class="text-gray-700"></lucide-icon>
-              {{job()!.employmentType}}
-            </span>
-            <span class="flex items-center gap-1">
-              <lucide-icon [img]="DollarSign" [size]="16" class="text-gray-700"></lucide-icon>
-              {{job()!.salaryRange}}
-            </span>
-          </div>
-
-          <p class="text-sm text-gray-400 mt-2">
-            Posted {{ job()!.createdAt | formatDate }}
-          </p>
-        </div>
-      </div>
-
-      <hr class="my-8 border-gray-400/40">
-
-      
-<section>
-  <h2 class="text-lg font-semibold mb-2">About the Role</h2>
-
-  @if(job()) {
-    <div
-  [class]="'description-wrapper ' + (readMore() ? 'description-expanded' : 'description-collapsed')"
-  [innerHTML]="job()!.description">
-</div>
-
-    @if(job()!.description!.length > 100) {
-      <button
-        class="text-blue-600 mt-2 font-semibold"
-        (click)="toggleReadMore()">
-        @if(readMore()) { Read less } @else { Read more }
-      </button>
+    @if(isLoading()) {
+      <p>Loading job…</p>
     }
-  }
-</section>
 
-    @if (job()!.techStack.length) {
-            <section class="mt-8">
-              <h2 class="text-lg font-semibold mb-3">Key skills</h2>
-              <ul class="flex flex-wrap gap-2">
-                @for (tag of job()!.techStack; track tag) {
-                  <li class="px-3 py-1 bg-gray-100 rounded-full text-sm text-gray-600">
-                    {{ tag }}
-                  </li>
-                }
-              </ul>
-            </section>
-          }
-    </div>
+    @if(error()) {
+      <p class="text-red-500">Failed to load job</p>
+    }
 
-    
-    <div class="space-y-6">
-      
-      <div class="bg-white rounded-xl border border-gray-400/40 p-8 shadow-xl ">
-        <button
-          class="w-full bg-blue-900 hover:bg-blue-800 text-white py-3 rounded-lg font-medium mb-2 cursor-pointer flex items-center justify-center gap-2" (click)="openJobUrl()">
-          Apply Now
-          <lucide-icon [img]="ExternalLink" [size]="18"></lucide-icon>
-        </button>
+    @if(job()) {
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        
+        <!-- Main Content -->
+        <div class="lg:col-span-2 bg-white rounded-xl border border-gray-400/40 p-8 shadow-xl">
+          
+          <app-job-header [job]="job()!" />
 
-        <button
-          class="w-full border py-3 rounded-lg font-medium hover:bg-gray-50 border-gray-400/40  cursor-pointer flex items-center justify-center gap-2">
-          <lucide-icon [img]="Bookmark" [size]="18"></lucide-icon>
-          Bookmark
-        </button>
-      </div>
+          <hr class="my-8 border-gray-400/40">
 
-      
-      <div class="bg-white rounded-xl border border-gray-400/40 p-8 shadow-xl">
-        <h3 class="font-semibold mb-4 pt-4">job Details</h3>
+          <app-job-description [description]="job()!.description" />
 
-        <div class="space-y-3 text-sm">
-          <div>
-            <p class="text-gray-400 pt-1">Company</p>
-            <p class="font-medium">{{job()!.company}}</p>
-          </div>
-          <hr class="my-4 border-gray-400/40">
+          <app-job-skills [techStack]="job()!.techStack" />
+          
+        </div>
 
+        <!-- Sidebar -->
+        <div class="space-y-6">
+          <app-job-actions 
+            (applyClick)="onApplyClick()"
+            (bookmarkClick)="onBookmarkClick()" />
+        <h2></h2>
 
-          <div>
-            <p class="text-gray-400 pt-1">Location</p>
-            <p class="font-medium">{{job()!.location}}San Francisco, CA</p>
-          </div>
-          <hr class="my-4 border-gray-400/40">
-
-          <div>
-            <p class="text-gray-400 pt-1">Employment Type</p>
-            <p class="font-medium">{{job()!.employmentType}}</p>
-          </div>
-          <hr class="my-4 border-gray-400/40">
-          <div>
-            <p class="text-gray-400 pt-1">salaryRange Range</p>
-            <p class="font-medium">{{job()!.salaryRange}}</p>
-          </div>
-          <hr class="my-4 border-gray-400/40">
-          <div>
-            <p class="text-gray-400 pt-1">Posted Date</p>
-            <p class="font-medium">{{ (job()!).createdAt | formatDate}}</p>
-          </div>
+          <app-job-details-card [job]="job()!" />
         </div>
       </div>
-    </div>
+
+      <!-- Similar Jobs Section -->
+      <app-similar-jobs 
+        [similarJobs]="similarJobs()"
+        (viewAllClick)="onViewSimilarJobs()" />
+    }
   </div>
-}
-
-    <div class="mt-12">
-  <h2 class="text-2xl font-bold mb-6">Similar Jobs</h2>
-
-  @if(similarJobs().length) {
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-      @for(job of similarJobs(); track job.id) {
-        <app-job-card [job]="job"></app-job-card>
-      }
-    </div>
-  } @else {
-    <p class="text-gray-400">No similar jobs found.</p>
-  }
 </div>
-<div class="text-center mt-8">
-        <button class="mx-auto px-6 py-3 border border-gray-400/40 rounded-lg font-medium cursor-pointer hover:bg-gray-50 transition-colors flex items-center justify-center gap-2" (click)="viewSimilarJobs()">
-          View All Similar Jobs 
-          <lucide-icon [img]="ArrowRight" [size]="18"></lucide-icon>
-        </button>
-      </div>
-  </div>  
-</body>

@@ -1,0 +1,22 @@
+:host-context(.dark) .bg-white {
+  background-color: #1e293b;
+  border-color: #334155;
+}
+
+:host-context(.dark) .bg-blue-900 {
+  background: linear-gradient(135deg, #2563eb 0%, #8b5cf6 100%);
+}
+
+:host-context(.dark) .bg-blue-900:hover {
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.4);
+}
+
+:host-context(.dark) button.border {
+  background-color: transparent;
+  border-color: #334155;
+  color: #f1f5f9;
+}
+
+:host-context(.dark) button.border:hover {
+  background-color: #334155;
+}
