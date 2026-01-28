@@ -1,0 +1,17 @@
+
+<section>
+      <h2 class="text-lg font-semibold mb-2">About the Role</h2>
+
+      <div
+        [class]="'description-wrapper ' + (readMore() ? 'description-expanded' : 'description-collapsed')"
+        [innerHTML]="description()">
+      </div>
+
+      @if(description().length > 500) {
+        <button
+          class="text-blue-600 mt-2 font-semibold"
+          (click)="toggleReadMore()">
+          @if(readMore()) { Read less } @else { Read more }
+        </button>
+      }
+    </section>

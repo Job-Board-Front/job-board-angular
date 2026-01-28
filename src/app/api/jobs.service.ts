@@ -46,7 +46,7 @@ export class JobsService {
     if (!id) return undefined;
     
     return {
-      url: `${this.baseUrl}/${id}`
+      url: `${this.baseUrl}/jobs/${id}`
     };
    });
   }

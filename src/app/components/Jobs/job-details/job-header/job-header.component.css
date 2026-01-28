@@ -1,0 +1,38 @@
+:host-context(.dark) h1 {
+  color: var(--color-text-primary);
+}
+
+:host-context(.dark) .text-gray-600 {
+  color: var(--color-text-secondary);
+}
+
+:host-context(.dark) .text-gray-500 {
+  color: var(--color-text-gray-muted);
+}
+
+:host-context(.dark) .text-gray-400 {
+  color: var(--color-text-gray-muted);
+}
+
+:host-context(.dark) .bg-gray-200 {
+  background-color: var(--color-bg-surface-secondary);
+}
+
+:host-context(.dark) .bg-blue-100 {
+  background-color: var(--color-bg-accent-subtle);
+}
+
+:host-context(.dark) .text-blue-600 {
+  color: var(--color-accent-link);
+}
+
+:host-context(.dark) .text-gray-700 {
+  color: var(--color-text-secondary);
+}
+:host-context(.dark) p {
+  color: var(--color-text-tertiary);
+}
+
+:host-context(.dark) span {
+  color: var(--color-text-tertiary);
+}

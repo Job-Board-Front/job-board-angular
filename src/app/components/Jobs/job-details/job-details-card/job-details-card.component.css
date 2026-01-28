@@ -1,0 +1,23 @@
+:host-context(.dark) .bg-white {
+  background-color: var(--color-bg-surface);
+  border-color: var(--color-border-default);
+}
+
+:host-context(.dark) h3 {
+  color: var(--color-text-primary);
+}
+
+:host-context(.dark) .text-gray-400 {
+  color: var(--color-text-gray-muted);
+}
+
+:host-context(.dark) .font-medium {
+  color: var(--color-text-emphasis);
+}
+
+:host-context(.dark) hr {
+  border-color: var(--color-border-default);
+}
+:host-context(.dark) p {
+  color: var(--color-text-tertiary);
+}

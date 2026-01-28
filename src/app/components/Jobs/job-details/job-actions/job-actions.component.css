@@ -1,0 +1,22 @@
+:host-context(.dark) .bg-white {
+  background-color: var(--color-bg-surface);
+  border-color: var(--color-border-default);
+}
+
+:host-context(.dark) .bg-blue-900 {
+  background: linear-gradient(135deg, var(--gradient-accent-start) 0%, var(--gradient-accent-end) 100%);
+}
+
+:host-context(.dark) .bg-blue-900:hover {
+  box-shadow: var(--shadow-accent-hover);
+}
+
+:host-context(.dark) button.border {
+  background-color: var(--color-bg-transparent);
+  border-color: var(--color-border-default);
+  color: var(--color-text-primary);
+}
+
+:host-context(.dark) button.border:hover {
+  background-color: var(--color-bg-surface-hover);
+}

@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { ThemeService } from '@/app/services/theme/theme.service';
+import { Component, inject } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 
 @Component({
@@ -9,5 +10,5 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
   styleUrl: './navbar.css',
 })
 export class Navbar {
-
+themeService = inject(ThemeService);
 }

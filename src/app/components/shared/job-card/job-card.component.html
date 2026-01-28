@@ -1,7 +1,7 @@
 <div
   class="group relative flex flex-col justify-between rounded-2xl p-6 transition-all duration-300 cursor-pointer border h-full backdrop-blur-sm"
   [class]="containerClasses()"
-  (click)="handleCardClick()"
+  (click)="goToDetails()"
 >
   <!-- Gradient Overlay on Hover (Active Only) -->
   @if (job().isActive) {

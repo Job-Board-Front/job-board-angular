@@ -1,0 +1,7 @@
+:host-context(.dark) .text-gray-600 {
+  color: var(--color-text-secondary);
+}
+
+:host-context(.dark) .text-gray-600:hover {
+  color: var(--color-text-primary);
+}

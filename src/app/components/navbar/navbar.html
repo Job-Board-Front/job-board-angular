@@ -1,35 +1,55 @@
 <header class="header">
   <div class="header-content">
     <div class="logo-nav">
-      <div class="logo">
+      <a routerLink="/" class="logo">
         <svg class="logo-icon" viewBox="0 0 24 24" fill="currentColor">
           <path d="M3 3h18v18H3V3zm2 2v14h14V5H5z"/>
           <path d="M7 7h10v2H7V7zm0 4h10v2H7v-2zm0 4h6v2H7v-2z"/>
         </svg>
         <span class="logo-text">JobBoard</span>
-      </div>
+      </a>
       <nav class="nav">
         <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="nav-link">Home</a>
         <a routerLink="/jobs" routerLinkActive="active" class="nav-link">Jobs</a>
         <a routerLink="/bookmarked" routerLinkActive="active" class="nav-link">Bookmarked</a>
       </nav>
     </div>
+    
     <div class="header-actions">
-      <button class="btn-secondary">
-        <a
-          class="nav-link"
-          [routerLink]="['login']"
-          routerLinkActive="active text-primary"
-          >Login</a
-        >
-        </button>
-      <button class="btn-primary">
-         <a
-          class="nav-link"
-          [routerLink]="['signup']"
-          routerLinkActive="active text-primary "
-          >Sign Up</a>
+      <!-- Theme Toggle -->
+      <button
+        (click)="themeService.toggleTheme()"
+        class="theme-toggle"
+        aria-label="Toggle Dark Mode"
+      >
+        @if (themeService.darkMode()) {
+          <svg fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"
+            />
+          </svg>
+        } @else {
+          <svg fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"
+            />
+          </svg>
+        }
       </button>
+
+      <!-- Auth Buttons -->
+      <a routerLink="/login" class="btn-secondary">
+        Login
+      </a>
+      <a routerLink="/signup" class="btn-primary">
+        Sign Up
+      </a>
     </div>
   </div>
 </header>

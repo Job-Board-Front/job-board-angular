@@ -6,6 +6,7 @@ import { rxResource, takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { concatMap, map, Observable, of, scan, startWith, Subject, switchMap, takeUntil, tap } from 'rxjs';
 import {effect} from '@angular/core';
 import { JobCardComponent } from '../../shared/job-card/job-card.component';
+import { ActivatedRoute } from '@angular/router';
 @Component({
   selector: 'app-job-list',
   standalone: true,
@@ -22,10 +23,13 @@ export class JobList {
   infinite = input<boolean>();  
   jobCount = output<number>();
   private destroyRef = inject(DestroyRef);
-
-   filterSignal = signal<JobSearchFilters | undefined>({
+  private route = inject(ActivatedRoute);
+  filterSignal = signal<{ filters?: JobSearchFilters; cursor?: string; limit?: number } | undefined>({
     limit: this.limit,
     cursor: undefined,
+    filters: {
+      search: this.route.snapshot.queryParams['search'] || undefined,
+    }
   });
 
   jobsResource = this.JobsService.getJobsPaginated(this.filterSignal);
