@@ -10,6 +10,7 @@ import {
 } from '../interfaces/api/job.models';
 import { BookmarksService } from '../api/bookmarks.service';
 import { JobsService } from '../api/jobs.service';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-test-page',
@@ -128,6 +129,7 @@ import { JobsService } from '../api/jobs.service';
 export class TestPageComponent {
   private jobsService = inject(JobsService);
   private bookmarksService = inject(BookmarksService);
+  private messageService = inject(MessageService);
 
   filterSignal = signal<JobSearchFilters | undefined>({ limit: 5 });
   selectedJobId = signal<string | undefined>(undefined);
@@ -194,6 +196,8 @@ export class TestPageComponent {
       experienceLevel: ExperienceLevel.MID,
       salaryRange: '$50k',
       techStack: ['Angular'],
+      submissionLink: 'https://www.friv.com/',
+      logoUrl: null,
     };
 
     console.log('🔵 Creating Job...');
