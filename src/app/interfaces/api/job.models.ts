@@ -39,6 +39,8 @@ export interface CreateJobDto {
   experienceLevel: ExperienceLevel;
   salaryRange?: string;
   techStack: string[];
+  submissionLink: string;
+  logoUrl?: string | null;
 }
 
 
