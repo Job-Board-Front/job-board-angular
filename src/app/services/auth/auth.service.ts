@@ -14,11 +14,11 @@ export class AuthService {
   private _auth = inject(Auth);
   private _router = inject(Router);
 
-  private _currentUser;
+  private _currentUser = toSignal(user(this._auth), {
+    initialValue: null,
+  });
 
-  constructor() {
-    this._currentUser = toSignal(user(this._auth), { initialValue: null });
-  }
+  constructor() {}
 
   currentUser = computed<CurrentUser | null>(() => {
     const user = this._currentUser();
