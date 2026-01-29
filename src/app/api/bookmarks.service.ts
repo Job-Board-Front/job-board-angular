@@ -40,11 +40,9 @@ export class BookmarksService {
       );
   }
 
+  /** Unbookmark without invalidating cache so the bookmarks page can filter locally (no refetch). */
   unbookmarkJob(jobId: string): Observable<void> {
-    return this.http.delete<void>(`${this.baseUrl}/${jobId}`)
-      .pipe(
-        tap(() => this.invalidateCache())
-      );
+    return this.http.delete<void>(`${this.baseUrl}/${jobId}`);
   }
 
   isJobBookmarked(bookmarks: readonly Bookmark[] | undefined, jobId: string): boolean {
