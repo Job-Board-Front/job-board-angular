@@ -35,7 +35,7 @@ export const authGuard: CanActivateFn = (route, state) => {
       take(1),
       map((currentUser) => {
         return authPipe(currentUser, router);
-      })
+      }),
     );
   }
 

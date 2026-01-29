@@ -1,19 +1,22 @@
 import { Job } from '@/app/interfaces/api/job.models';
 import { Component, computed, input, output } from '@angular/core';
-import { BadgeComponent } from '../badge/badge.component';
-import { IconComponent } from '../icon/icon.component';
 import { CommonModule } from '@angular/common';
 import { AbsoluteUrlPipe } from '@/app/pipes/absolute-url.pipe';
+import { GetInitialsPipe } from '../../../pipes/job-details-pipes/get-initials.pipe';
+import { Briefcase, LucideAngularModule } from 'lucide-angular';
+import { BadgeComponent } from '../../shared/badge/badge.component';
+import { IconComponent } from '../../shared/icon/icon.component';
 
 @Component({
   selector: 'app-job-card',
-  imports: [CommonModule, BadgeComponent, IconComponent, AbsoluteUrlPipe],
+  imports: [CommonModule, BadgeComponent, IconComponent, AbsoluteUrlPipe, GetInitialsPipe, LucideAngularModule],
   templateUrl: './job-card.component.html',
   styleUrl: './job-card.component.css',
 })
 export class JobCardComponent {
-  job = input.required<Job>();
+  readonly Briefcase = Briefcase;
 
+  job = input.required<Job>();
   onBookmark = output<string>();
   onCardClick = output<string>();
 
