@@ -1,4 +1,4 @@
-import { Component, HostBinding, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostBinding, inject, signal } from '@angular/core';
 import {
   NavigationCancel,
   NavigationEnd,
@@ -17,6 +17,7 @@ import { FooterComponent } from './components/shared/footer/footer.component';
   imports: [RouterOutlet, Navbar, NgxUiLoaderModule,FooterComponent],
   templateUrl: './app.html',
   styleUrl: './app.css',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class App {
   protected readonly title = signal('job-board-angular');

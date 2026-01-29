@@ -1,34 +1,43 @@
-import { Directive, output, input } from '@angular/core';
+import { Directive, output, input, OnInit, DestroyRef, inject } from '@angular/core';
+import { fromEvent, throttleTime, filter } from 'rxjs';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Directive({
-    selector: '[appInfiniteScroll]',
-    standalone: true,
-    exportAs: 'infiniteScroll',
-    host: {
-    '(window:scroll)': 'onScroll()',
-  },
-
+  selector: '[appInfiniteScroll]',
+  standalone: true,
+  exportAs: 'infiniteScroll',
 })
 export class InfiniteScrollDirective {
-    threshold = input<number>(100);
-    
-    scrolledToBottom = output<void>();
-    
-    private isLoading = false;
+  private destroyRef = inject(DestroyRef);
+  
+  threshold = input<number>(100);
+  throttle = input<number>(100);
+  
+  scrolledToBottom = output<void>();
+  
+  private isLoading = false;
 
-    onScroll() {
-        if (this.isLoading) return;
-
-        const scrollPosition = window.innerHeight + window.scrollY;
-        const pageHeight = document.documentElement.offsetHeight;
-
-        if (scrollPosition >= pageHeight - this.threshold()) {
-        console.log('Scrolled near bottom, emitting event');
+  constructor() {
+    fromEvent(window, 'scroll')
+      .pipe(
+        throttleTime(this.throttle()),
+        filter(() => !this.isLoading),
+        filter(() => this.isNearBottom()),
+        takeUntilDestroyed(this.destroyRef)
+      )
+      .subscribe(() => {
+        console.log('Scrolled near bottom emitting event');
         this.scrolledToBottom.emit();
-        }
-    }
+      });
+  }
 
-    setLoading(loading: boolean) {
-        this.isLoading = loading;
-    }
+  private isNearBottom(): boolean {
+    const scrollPosition = window.innerHeight + window.scrollY;
+    const pageHeight = document.documentElement.offsetHeight;
+    return scrollPosition >= pageHeight - this.threshold();
+  }
+
+  setLoading(loading: boolean) {
+    this.isLoading = loading;
+  }
 }

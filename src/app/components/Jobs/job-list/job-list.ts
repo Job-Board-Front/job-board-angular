@@ -1,4 +1,4 @@
-import { Component, DestroyRef, inject, input, linkedSignal, output, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, DestroyRef, EventEmitter, HostListener, inject, input, Input, linkedSignal, output, Output, Signal, signal } from '@angular/core';
 import { Job, JobSearchFilters, PaginatedResponse } from '../../../interfaces/api/job.models';
 import { CommonModule } from '@angular/common';
 import { JobsService } from '@/app/api/jobs.service';
@@ -13,6 +13,8 @@ import { JobCardComponent } from '../job-card/job-card.component';
   imports: [JobCardComponent, CommonModule],
   templateUrl: './job-list.html',
   styleUrls: ['./job-list.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+
 })
 export class JobList {
   private JobsService = inject(JobsService);
