@@ -1,5 +1,6 @@
+
 .description-collapsed {
-  max-height: 13.5em; /* 3 lines × 1.5 line-height */
+  max-height: 13.5em; 
   line-height: 1.5;
   overflow: hidden;
   position: relative;
@@ -10,7 +11,13 @@
   position: absolute;
   bottom: 0;
   right: 0;
+  background: var(--color-bg-surface);
   padding-left: 0.5em;
+  transition: background-color 0.3s;
+}
+
+:host-context(.dark) .description-collapsed::after {
+  background: var(--color-bg-surface); 
 }
 
 .description-expanded {
@@ -20,6 +27,7 @@
 .description-expanded::after {
   display: none;
 }
+
 .job-info {
   position: relative;
   height: 4.5em;
@@ -32,5 +40,138 @@
   position: absolute;
   bottom: 0;
   right: 0;
+  background: var(--color-bg-surface);
   padding-left: 0.5em;
+  transition: background-color 0.3s;
+}
+
+:host-context(.dark) .job-info::after {
+  background: var(--color-bg-surface); 
+}
+
+:host-context(.dark) body {
+  background-color: var(--color-bg-page);
+}
+
+:host-context(.dark) .max-w-7xl {
+  background-color: var(--color-bg-transparent);
+}
+
+:host-context(.dark) .text-gray-600 {
+  color: var(--color-text-secondary);
+}
+
+:host-context(.dark) .text-gray-600:hover {
+  color: var(--color-text-primary);
+}
+
+:host-context(.dark) .bg-white {
+  background-color: var(--color-bg-surface);
+  border-color: var(--color-border-default);
+}
+
+:host-context(.dark) h1,
+:host-context(.dark) h2,
+:host-context(.dark) h3 {
+  color: var(--color-text-primary);
+}
+
+:host-context(.dark) .text-gray-600 {
+  color: var(--color-text-secondary);
+}
+
+:host-context(.dark) .text-gray-500 {
+  color: var(--color-text-gray-muted);
+}
+
+:host-context(.dark) .text-gray-400 {
+  color: var(--color-text-gray-muted);
+}
+
+:host-context(.dark) .font-medium {
+  color: var(--color-text-emphasis);
+}
+
+:host-context(.dark) .bg-gray-200 {
+  background-color: var(--color-bg-surface-secondary);
+}
+
+:host-context(.dark) .bg-blue-100 {
+  background-color: var(--color-bg-accent-subtle);
+}
+
+:host-context(.dark) .text-blue-600 {
+  color: var(--color-accent-link);
+}
+
+:host-context(.dark) .bg-gray-100 {
+  background-color: var(--color-bg-surface-secondary);
+}
+
+:host-context(.dark) .text-gray-600 {
+  color: var(--color-text-tertiary);
+}
+
+:host-context(.dark) .bg-blue-900 {
+  background: linear-gradient(135deg, var(--gradient-accent-start) 0%, var(--gradient-accent-end) 100%);
+}
+
+:host-context(.dark) .bg-blue-900:hover {
+  box-shadow: var(--shadow-accent-hover);
+}
+
+:host-context(.dark) .border {
+  border-color: var(--color-border-default);
+}
+
+:host-context(.dark) .hover\:bg-gray-50:hover {
+  background-color: var(--color-bg-surface-secondary);
+}
+:host-context(.dark) .bg-gray-50 {
+  background-color: var(--color-bg-page);
+}
+:host-context(.dark) hr {
+  border-color: var(--color-border-default);
+}
+
+:host-context(.dark) .text-red-500 {
+  color: var(--color-error);
+}
+
+:host-context(.dark) .description-wrapper {
+  color: var(--color-text-tertiary);
+}
+
+:host-context(.dark) .text-blue-600 {
+  color: var(--color-accent-link);
+}
+
+:host-context(.dark) .text-blue-600:hover {
+  color: var(--color-accent-link-hover);
+}
+
+:host-context(.dark) .text-2xl {
+  color: var(--color-text-primary);
+}
+
+:host-context(.dark) button.border {
+  background-color: var(--color-bg-transparent);
+  border-color: var(--color-border-default);
+  color: var(--color-text-primary);
+}
+
+:host-context(.dark) button.border:hover {
+  background-color: var(--color-bg-surface-secondary);
+}
+
+.bg-white,
+.text-gray-600,
+.text-gray-500,
+.text-gray-400,
+.bg-gray-100,
+.bg-gray-200,
+hr,
+.border,
+button {
+  transition: background-color 0.3s, color 0.3s, border-color 0.3s;
 }

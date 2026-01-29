@@ -19,7 +19,24 @@ export const routes: Routes = [
         authGuardPipe: redirectUnauthorized,
       },
     },
-    { path: 'details', component: JobDetailsComponent },
+    {
+      path: 'Details/:id',
+      loadComponent: () =>
+        import('./pages/job-details/job-details.component')
+          .then(m => m.JobDetailsComponent),
+    },
+    {
+      path: 'privacy',
+      loadComponent: () =>
+        import('./pages/static-pages/privacy.component')
+          .then(m => m.PrivacyComponent),
+    },
+    {
+      path: 'terms',
+      loadComponent: () =>
+        import('./pages/static-pages/terms.component')
+          .then(m => m.TermsComponent),
+    },
   //added route for testing the services
   { path: 'test', component: TestPageComponent },
   ...authRoutes,

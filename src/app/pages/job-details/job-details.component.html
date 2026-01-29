@@ -1,199 +1,47 @@
-<div>
-  <div class="mx-auto py-8">
-    <app-button variant="secondary" class="mb-5">
-      <span [routerLink]="['/jobs']"> ← Back to Jobs </span>
-    </app-button>
-    <!--
-@if(job.isLoading()) {
-  <p>Loading job…</p>
-}
+<div class="bg-gray-50">
+  <div class="max-w-7xl mx-auto px-6 py-8">
+    
+    <app-job-detail-header />
 
-@if(job.error()) {
-  <p class="text-red-500">Failed to load job</p>
-}-->
-
-    @if (job()) {
-      <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        <div class="lg:col-span-2 rounded-xl border border-slate-500 p-8 shadow-xl">
-          <div class="flex items-start gap-4">
-            <div
-              class="w-12 h-12 bg-gray-200 rounded-lg flex items-center justify-center overflow-hidden"
-            >
-              <!--
-          @if (job()!.logo && !logoError()) {
-            <img
-              [src]="job()!.logo"
-              [alt]="job()!.company"
-              class="w-full h-full object-contain"
-              (error)="logoErrorf()"
-            />
-          } @else {
-            <span class="font-bold text-gray-600">
-              {{ job()!.company | getInitials }}
-            </span>
-          }-->
-              <span class="font-bold text-slate-600">
-                {{ job()!.company | getInitials }}
-              </span>
-            </div>
-
-            <div>
-              <h1 class="text-2xl font-bold">{{ job()!.title }}</h1>
-              <p class="text-slate-500">{{ job()!.company }}</p>
-
-              <div class="flex flex-wrap items-center gap-4 text-pretty text-slate-500 mt-2">
-                <!--span class="px-3 py-1 bg-blue-100 text-blue-600 rounded-full">
-              {{job()!.category}}
-            </span-->
-                <span class="px-3 py-1 bg-primary-100 text-primary-600 rounded-full">
-                  category?
-                </span>
-                <span class="flex items-center gap-1">
-                  <lucide-icon [img]="MapPin" [size]="25"></lucide-icon>
-                  {{ job()!.location }}
-                </span>
-                <span class="flex items-center gap-1">
-                  <lucide-icon [img]="Briefcase" [size]="25"></lucide-icon>
-                  {{ job()!.employmentType }}
-                </span>
-                <span class="flex items-center gap-1">
-                  <lucide-icon [img]="DollarSign" [size]="25"></lucide-icon>
-                  {{ job()!.salaryRange }}
-                </span>
-              </div>
-
-              <p class="text-sm text-gray-400 mt-2">Posted {{ job()!.createdAt | formatDate }}</p>
-            </div>
-          </div>
-
-          <hr class="my-8 border-slate-500" />
-
-          <section>
-            <h2 class="text-lg font-semibold mb-2">About the Role</h2>
-
-            @if (job()) {
-              <div
-                [class]="
-                  'description-wrapper ' +
-                  (readMore() ? 'description-expanded' : 'description-collapsed')
-                "
-              >
-                <p>{{ job()!.description }}</p>
-              </div>
-
-              @if (job()!.description!.length > 100) {
-                <app-button
-                  variant="ghost"
-                  class="text-primary-600 mt-2 font-semibold"
-                  (click)="toggleReadMore()"
-                >
-                  @if (readMore()) {
-                    Read less
-                  } @else {
-                    Read more
-                  }
-                </app-button>
-              }
-            }
-          </section>
-
-          @if (job()!.techStack.length) {
-            <section class="mt-8">
-              <h2 class="text-lg font-semibold mb-3">Key skills</h2>
-              <ul class="flex flex-wrap gap-2">
-                @for (tag of job()!.techStack; track tag; let idx = $index) {
-                  <li>
-                    <app-badge
-                      [label]="tag"
-                      [variant]="idx === 0 ? 'blue' : 'gray'"
-                      size="md"
-                      rounded="lg"
-                    ></app-badge>
-                  </li>
-                }
-              </ul>
-            </section>
-          }
-        </div>
-
-        <div class="space-y-6">
-          <div class="rounded-xl border border-slate-500 p-8 shadow-xl">
-            <app-button variant="primary" class="w-full" (click)="openJobUrl()">
-              Apply Now
-              <lucide-icon [img]="ExternalLink" [size]="18"></lucide-icon>
-            </app-button>
-
-            <app-button variant="outline" class="glass w-full mt-5 font-medium">
-              <lucide-icon [img]="Bookmark" [size]="18"></lucide-icon>
-              Bookmark
-            </app-button>
-          </div>
-
-          <div class="rounded-xl border border-slate-500 p-8 shadow-xl">
-            <h3 class="font-semibold mb-4 pt-4">job Details</h3>
-
-            <div class="space-y-3 text-sm">
-              <div>
-                <p class="text-slate-400 pt-1">Company</p>
-                <p class="font-medium">{{ job()!.company }}</p>
-              </div>
-              <hr class="my-4 border-slate-500" />
-
-              <div>
-                <p class="text-slate-400 pt-1">Location</p>
-                <p class="font-medium">{{ job()!.location }}San Francisco, CA</p>
-              </div>
-              <hr class="my-4 border-slate-500" />
-
-              <div>
-                <p class="text-slate-400 pt-1">Employment Type</p>
-                <p class="font-medium">{{ job()!.employmentType }}</p>
-              </div>
-              <hr class="my-4 border-slate-500" />
-              <div>
-                <p class="text-slate-400 pt-1">salaryRange Range</p>
-                <p class="font-medium">{{ job()!.salaryRange }}</p>
-              </div>
-              <hr class="my-4 border-slate-500" />
-              <div>
-                <p class="text-slate-400 pt-1">Posted Date</p>
-                <p class="font-medium">{{ job()!.createdAt | formatDate }}</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+    @if(isLoading()) {
+      <p>Loading job…</p>
     }
 
-    <div class="mt-12">
-      <h2 class="text-2xl font-bold mb-6">Similar Jobs</h2>
+    @if(error()) {
+      <p class="text-red-500">Failed to load job</p>
+    }
 
-      @if (similarJobs().length) {
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          @for (job of similarJobs(); track job.id) {
-            <app-job-card [job]="job"></app-job-card>
-            <!--@if (job.logo) {
-          <img
-            [src]="job.logo"
-            [alt]="job.company"
-            class="w-full h-full object-contain"
-          />
-        } @else {
-          <span class="font-bold text-gray-600">
-            {{ job.company | getInitials }}
-          </span>
-        }-->
-          }
+    @if(job()) {
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        
+        <!-- Main Content -->
+        <div class="lg:col-span-2 bg-white rounded-xl border border-gray-400/40 p-8 shadow-xl">
+          
+          <app-job-header [job]="job()!" />
+
+          <hr class="my-8 border-gray-400/40">
+
+          <app-job-description [description]="job()!.description" />
+
+          <app-job-skills [techStack]="job()!.techStack" />
+          
         </div>
-      } @else {
-        <p class="text-gray-400">No similar jobs found.</p>
-      }
-    </div>
-    <div class="text-center mt-8">
-      <app-button variant="outline" class="mt-5 font-medium">
-        View All Similar Jobs
-        <lucide-icon [img]="ArrowRight" [size]="18"></lucide-icon>
-      </app-button>
-    </div>
+
+        <!-- Sidebar -->
+        <div class="space-y-6">
+          <app-job-actions 
+            (applyClick)="onApplyClick()"
+            (bookmarkClick)="onBookmarkClick()" />
+        <h2></h2>
+
+          <app-job-details-card [job]="job()!" />
+        </div>
+      </div>
+
+      <!-- Similar Jobs Section -->
+      <app-similar-jobs 
+        [similarJobs]="similarJobs()"
+        (viewAllClick)="onViewSimilarJobs()" />
+    }
   </div>
 </div>

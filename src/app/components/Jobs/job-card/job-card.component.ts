@@ -7,6 +7,7 @@ import { GetInitialsPipe } from '../../../pipes/job-details-pipes/get-initials.p
 import { Briefcase, LucideAngularModule } from 'lucide-angular';
 import { BadgeComponent } from '../../shared/badge/badge.component';
 import { IconComponent } from '../../shared/icon/icon.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-job-card',
@@ -21,7 +22,7 @@ export class JobCardComponent {
   readonly Briefcase = Briefcase;
 
   job = input.required<Job>();
-
+  private router = inject(Router);
   onBookmark = output<string>();
   onCardClick = output<string>();
 
@@ -79,6 +80,11 @@ export class JobCardComponent {
   formatEnum(value: string): string {
     return value.toLowerCase().replace(/_/g, ' ');
   }
+
+   goToDetails() {
+    this.router.navigate(['/Details', this.job().id]);
+   }
+  
 
   handleBookmark(event: Event) {
     event.stopPropagation();

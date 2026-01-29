@@ -7,12 +7,14 @@ import {
   Router,
   RouterOutlet,
 } from '@angular/router';
-import { Navbar } from './components/shared/navbar/navbar';
 import { NgxUiLoaderModule, NgxUiLoaderService, SPINNER } from 'ngx-ui-loader';
+import { ThemeService } from './services/theme/theme.service';
+import { Navbar } from './components/shared/navbar/navbar';
+import { FooterComponent } from './components/shared/footer/footer.component';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, Navbar, NgxUiLoaderModule],
+  imports: [RouterOutlet, Navbar, NgxUiLoaderModule,FooterComponent],
   templateUrl: './app.html',
   styleUrl: './app.css',
 })

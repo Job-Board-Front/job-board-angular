@@ -1,11 +1,19 @@
 .filter-container {
   margin: 20px 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  transition: all 0.3s ease;
 }
 
 .filter-main-title {
   font-size: 1.4rem;
   font-weight: 600;
   margin-bottom: 12px;
+  color: var(--color-text-primary-alt);
+  transition: color 0.3s ease;
+}
+
+:host-context(.dark) .filter-main-title {
+  color: var(--color-text-primary);
 }
 
 .filters-row {
@@ -22,22 +30,56 @@
 
 .filter-item label {
   margin-bottom: 4px;
+  color: var(--color-text-tertiary);
+  transition: color 0.3s ease;
+}
+
+:host-context(.dark) .filter-item label {
+  color: var(--color-text-tertiary);
 }
 
 .filter-item select {
   padding: 8px 12px;
   border-radius: 12px;
+  border: 1px solid var(--color-border-input);
+  background-color: var(--color-bg-input);
   min-width: 140px;
   font-size: 0.9rem;
   cursor: pointer;
   transition: all 0.2s ease;
+  color: var(--color-text-primary-alt);
+}
+
+:host-context(.dark) .filter-item select {
+  background-color: var(--color-bg-input);
+  border-color: var(--color-border-input);
+  color: var(--color-text-primary);
+}
+
+/* Dark mode for select options */
+:host-context(.dark) .filter-item select option {
+  background-color: var(--color-bg-input);
+  color: var(--color-text-primary);
 }
 
 .filter-item select:hover {
-  border-color: #bbb;
+  border-color: var(--color-border-input-hover);
+}
+
+:host-context(.dark) .filter-item select:hover {
+  border-color: var(--color-border-input-hover);
+  background-color: var(--color-bg-input-hover);
 }
 
 .filter-item select:focus {
   outline: none;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+  border-color: var(--color-border-input-focus);
+  box-shadow: var(--shadow-input);
+  background-color: var(--color-bg-input-hover);
+}
+
+:host-context(.dark) .filter-item select:focus {
+  border-color: var(--color-border-input-focus);
+  box-shadow: var(--shadow-input-focus);
+  background-color: var(--color-bg-input-focus);
 }

@@ -1,65 +1,80 @@
 import { JobsService } from '@/app/api/jobs.service';
-import { JobSearchFilters } from '@/app/interfaces/api/job.models';
-import { FormatDatePipe } from '@/app/pipes/job-details-pipes/format-date.pipe';
-import { GetInitialsPipe } from '@/app/pipes/job-details-pipes/get-initials.pipe';
-import { Component, signal, computed, inject } from '@angular/core';
-import {
-  LucideAngularModule,
-  MapPin,
-  Briefcase,
-  DollarSign,
-  ExternalLink,
-  Bookmark,
-  ArrowRight,
-} from 'lucide-angular';
-import { ButtonComponent } from '@/app/components/shared/button/button.component';
-import { RouterLink } from '@angular/router';
-import { BadgeComponent } from '@/app/components/shared/badge/badge.component';
-import { JobCardComponent } from '@/app/components/Jobs/job-card/job-card.component';
+import { JobActionsComponent } from '@/app/components/Jobs/job-details/job-actions/job-actions.component';
+import { JobDescriptionComponent } from '@/app/components/Jobs/job-details/job-description/job-description.component';
+import { JobDetailHeaderComponent } from '@/app/components/Jobs/job-details/job-detail-header/job-detail-header.component';
+import { JobDetailsCardComponent } from '@/app/components/Jobs/job-details/job-details-card/job-details-card.component';
+import { JobHeaderComponent } from '@/app/components/Jobs/job-details/job-header/job-header.component';
+import { JobSkillsComponent } from '@/app/components/Jobs/job-details/job-skills/job-skills.component';
+import { SimilarJobsComponent } from '@/app/components/Jobs/job-details/similar-jobs/similar-jobs.component';
+import { Job } from '@/app/interfaces/api/job.models';
+import { Component, computed, inject } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { ActivatedRoute, Router } from '@angular/router';
+import { map } from 'rxjs';
 
 @Component({
   selector: 'app-job-details',
+  standalone: true,
   imports: [
-    LucideAngularModule,
-    FormatDatePipe,
-    GetInitialsPipe,
-    ButtonComponent,
-    RouterLink,
-    BadgeComponent,
-    JobCardComponent,
+    JobDetailHeaderComponent,
+    JobHeaderComponent,
+    JobDescriptionComponent,
+    JobSkillsComponent,
+    JobActionsComponent,
+    JobDetailsCardComponent,
+    SimilarJobsComponent
   ],
   templateUrl: './job-details.component.html',
   styleUrls: ['./job-details.component.css'],
 })
 export class JobDetailsComponent {
-  readonly MapPin = MapPin;
-  readonly Briefcase = Briefcase;
-  readonly DollarSign = DollarSign;
-  readonly ExternalLink = ExternalLink;
-  readonly Bookmark = Bookmark;
-  readonly ArrowRight = ArrowRight;
-  logoError = signal(false);
-  readMore = signal(false);
+  private route = inject(ActivatedRoute);
   private jobService = inject(JobsService);
-  private jobParams = signal<{ filters?: JobSearchFilters; cursor?: string; limit?: number }>({
-    limit: 30,
+  private router = inject(Router);
+
+  private jobId = toSignal(
+    this.route.paramMap.pipe(map(params => params.get('id') ?? undefined))
+  );
+
+  private jobResource = this.jobService.getJobById(this.jobId);
+
+  job = computed(() => this.jobResource.value());
+  isLoading = computed(() => this.jobResource.isLoading?.() ?? false);
+  error = computed(() => this.jobResource.error?.() ?? undefined);
+
+  private similarJobsParams = computed(() => {
+    const currentJob = this.job();
+    if (!currentJob?.keywords || currentJob.keywords.length === 0) {
+      return undefined;
+    }
+
+
+    return {
+      filters: {
+        search: currentJob.keywords.join(' '),
+      },
+      limit: 4
+    };
   });
-  private jobsResource = this.jobService.getJobsPaginated(this.jobParams);
-  job = computed(() => this.jobsResource.value()?.data?.[3] ?? null);
 
-  constructor() {}
+  private similarJobsResource = this.jobService.getJobsPaginated(this.similarJobsParams);
 
-  logoErrorf() {
-    this.logoError.set(true);
-  }
+  similarJobs = computed(() => {
+    const currentJob = this.job();
+    const response = this.similarJobsResource.value();
 
-  toggleReadMore() {
-    this.readMore.update((v) => !v);
-  }
 
-  openJobUrl() {
-    //const url = this.job.value()?.url;
-    const url = 'https://www.youtube.com/watch?v=dQw4w9WgXcQ';
+    if (!response?.data || !currentJob) {
+      return [];
+    }
+
+    return response.data
+      .filter(j => j.id !== currentJob.id)
+      .slice(0, 3);
+  });
+
+  onApplyClick() {
+    const url = "https://www.youtube.com/watch?v=dQw4w9WgXcQ";
     if (url) {
       window.open(url, '_blank');
     } else {
@@ -67,32 +82,21 @@ export class JobDetailsComponent {
     }
   }
 
-  private similarJobsParams = computed(() => {
+  onBookmarkClick() {
+    console.log('Bookmark clicked for job:', this.job()?.id);
+    // Implement bookmark functionality
+  }
+
+  onViewSimilarJobs() {
     const currentJob = this.job();
-    if (!currentJob?.keywords?.[0]) {
-      return undefined;
+    if (!currentJob?.keywords || currentJob.keywords.length === 0) {
+      return;
     }
 
-    return {
-      filters: {
-        search: currentJob.keywords[0],
-      },
-      limit: 4,
-    };
-  });
-
-  private similarJobsResource = this.jobService.getJobsPaginated(this.similarJobsParams);
-
-  //limit to 3
-  similarJobs = computed(() => {
-    const currentJob = this.job();
-    const response = this.similarJobsResource.value();
-
-    if (!response?.data || !currentJob) {
-      return [];
-    }
-
-    // Exclude the current job and take first 3
-    return response.data.filter((j) => j.id !== currentJob.id).slice(0, 3);
-  });
+    this.router.navigate(['/jobs'], {
+      queryParams: {
+        search: currentJob.keywords.slice(0, 5).join(' ')
+      }
+    });
+  }
 }
