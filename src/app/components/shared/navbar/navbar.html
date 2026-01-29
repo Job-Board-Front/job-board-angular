@@ -1,0 +1,43 @@
+<header class="navbar-header">
+  <div class="navbar-header-content">
+    <div class="navbar-logo-nav">
+      <div class="navbar-logo">
+        <svg class="navbar-logo-icon" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M3 3h18v18H3V3zm2 2v14h14V5H5z" />
+          <path d="M7 7h10v2H7V7zm0 4h10v2H7v-2zm0 4h6v2H7v-2z" />
+        </svg>
+        <span class="navbar-logo-text">JobBoard</span>
+      </div>
+      <nav class="navbar-nav">
+        <a
+          routerLink="/"
+          routerLinkActive="active"
+          [routerLinkActiveOptions]="{ exact: true }"
+          class="navbar-nav-link"
+          >Home</a
+        >
+        <a routerLink="/jobs" routerLinkActive="active" class="navbar-nav-link">Jobs</a>
+        <a [routerLink]="['/', APP_ROUTES.bookmarks]" routerLinkActive="active" class="navbar-nav-link">Bookmarks</a>
+      </nav>
+    </div>
+    <div class="navbar-actions">
+      <app-theme-toggle></app-theme-toggle>
+
+      <div class="w-px h-6 bg-slate-750 dark:bg-slate-300 mx-2"></div>
+      @if (isLoggedIn()) {
+        <a [routerLink]="['/', AUTH_ROUTES.logout]" routerLinkActive="active">
+          <app-button variant="secondary">Logout</app-button>
+        </a>
+      } @else {
+        <a [routerLink]="['/', AUTH_ROUTES.login]" routerLinkActive="active">
+          <app-button variant="secondary">
+            <span class="text-primary">Login</span>
+          </app-button>
+        </a>
+        <a [routerLink]="['/', AUTH_ROUTES.register]" routerLinkActive="active">
+          <app-button variant="primary">Sign Up</app-button>
+        </a>
+      }
+    </div>
+  </div>
+</header>

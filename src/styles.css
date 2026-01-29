@@ -16,11 +16,13 @@
     @apply transition-colors duration-300 ease-in-out;
 
     /* Light mode: clean, crisp white with subtle warmth */
-    @apply bg-gradient-to-br from-slate-50 via-white to-slate-50/80;
+    /* @apply bg-linear-to-br from-slate-50 via-white to-slate-50/80; */
+    @apply bg-slate-50;
     @apply text-slate-900;
 
     /* Dark mode: deep, rich blacks */
-    @apply dark:from-slate-950 dark:via-slate-900 dark:to-slate-950;
+    /* @apply bg-linear-to-br dark:from-slate-950 dark:via-slate-900 dark:to-slate-950; */
+    @apply dark:bg-slate-900;
     @apply dark:text-slate-50;
   }
 
@@ -38,6 +40,8 @@
     @apply dark:text-blue-400 dark:hover:text-blue-300;
     @apply transition-colors duration-150;
   }
+
+
 }
 
 @layer components {
@@ -91,15 +95,95 @@
     @apply bg-white text-slate-900;
     @apply border border-slate-300;
     @apply placeholder:text-slate-400;
-    @apply focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent;
+    @apply focus:outline-none focus:ring-2 focus:ring-primary-600 focus:border-primary-600;
     @apply transition-all duration-200;
 
     /* Dark mode */
     @apply dark:bg-slate-800 dark:text-slate-100;
     @apply dark:border-slate-600;
     @apply dark:placeholder:text-slate-500;
-    @apply dark:focus:ring-blue-400;
+    @apply dark:focus:ring-primary-600;
   }
+
+  /* Select / Dropdown */
+  .select {
+    @apply w-full px-4 py-2 rounded-lg;
+    @apply bg-white text-slate-900;
+    @apply border border-slate-300;
+    @apply placeholder:text-slate-400;
+    @apply focus:outline-none focus:ring-2 focus:ring-primary-600 focus:border-primary-600;
+    @apply transition-all duration-200;
+
+    /* Dark mode */
+    @apply dark:bg-slate-800 dark:text-slate-100;
+    @apply dark:border-slate-600;
+    @apply dark:placeholder:text-slate-500;
+    @apply dark:focus:ring-primary-600;
+  }
+
+  .select-option {
+    @apply text-slate-900 dark:text-slate-100;
+    @apply transition-colors duration-150;
+    @apply bg-slate-100 dark:bg-slate-800/50;
+    @apply hover:bg-slate-200 dark:hover:bg-slate-700/50;
+  }
+
+    /* Navbar */
+    .navbar-header {
+      @apply sticky top-0 z-50 bg-linear-to-br from-primary-100 via-white to-primary-100/80 border-b border-slate-200 px-6 py-4;
+      @apply bg-linear-to-br dark:from-slate-850 dark:via-slate-750 dark:to-slate-850/80 dark:border-slate-800;
+      @apply transition-colors duration-300;
+      @apply shadow-sm;
+      @apply dark:shadow-lg;
+      @apply border-b border-slate-200/60;
+    }
+
+    .navbar-header-content {
+      @apply max-w-1400 mx-50 flex justify-between items-center;
+    }
+
+    .navbar-logo-nav {
+      @apply flex gap-10 items-center;
+    }
+
+    .navbar-logo {
+      @apply flex gap-3 cursor-pointer items-center;
+    }
+
+    .navbar-logo-icon {
+      @apply w-10 h-10 text-primary-600 bg-white rounded-lg p-1.5;
+    }
+
+    .navbar-logo-text {
+      @apply font-bold text-2xl text-primary-900 dark:text-white;
+    }
+
+    .navbar-nav {
+      @apply flex gap-7 items-center;
+    }
+
+    .navbar-nav-link {
+      @apply font-medium relative text-primary-900 dark:text-white;
+      @apply transition-colors duration-150;
+      @apply hover:text-primary-400;
+
+
+      &.active {
+        @apply text-primary-600 font-bold;
+
+
+        /* The Underline */
+        &::after {
+          content: '';
+          @apply absolute -bottom-7 left-0 right-0 h-1 bg-primary-600;
+          @apply transition-all duration-300;
+        }
+      }
+    }
+
+    .navbar-actions {
+      @apply flex gap-5 items-center;
+    }
 }
 
 @layer utilities {

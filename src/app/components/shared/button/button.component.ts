@@ -16,6 +16,7 @@ export class ButtonComponent {
   rounded = input<'sm' | 'md' | 'lg' | 'full'>('md');
   type = input<'button' | 'submit'>('button');
   href = input<string | null>(null);
+  class = input<string>('');
 
   // States
   disabled = input(false);
@@ -31,13 +32,14 @@ export class ButtonComponent {
       : this.size();
 
     return [
-      'relative inline-flex items-center justify-center font-medium select-none overflow-hidden',
+      'relative cursor-pointer inline-flex items-center justify-center font-medium select-none overflow-hidden',
       UI_TOKENS.rounded[this.rounded()],
       UI_TOKENS.transition,
       UI_TOKENS.focus,
       UI_TOKENS.sizes[sizeKey],
       UI_TOKENS.variants[this.variant()],
       this.disabled() || this.loading() ? UI_TOKENS.disabled : 'active:scale-95',
+      this.class(),
     ].join(' ');
   });
 }

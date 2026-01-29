@@ -1,13 +1,14 @@
 import { Component, computed, inject } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
+import { ThemeToggleComponent } from "./theme-toggle/theme-toggle.component";
 import { AuthService } from '@/app/services/auth/auth.service';
 import { APP_ROUTES, AUTH_ROUTES } from '@/app/route-names/route-names.constants';
 import { ButtonComponent } from '@/app/components/shared/button/button.component';
-import { IconComponent } from '@/app/components/shared/icon/icon.component';
 
 @Component({
   selector: 'app-navbar',
-  imports: [RouterLinkActive, RouterLink, ButtonComponent, IconComponent],
+  imports: [RouterLinkActive,
+    RouterLink, ThemeToggleComponent, ButtonComponent],
   templateUrl: './navbar.html',
   styleUrl: './navbar.css',
 })

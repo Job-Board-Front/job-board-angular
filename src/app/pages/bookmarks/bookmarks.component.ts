@@ -1,9 +1,9 @@
 import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
-import { JobCardComponent } from '@/app/components/shared/job-card/job-card.component';
 import { IconComponent } from '@/app/components/shared/icon/icon.component';
 import { BookmarksService } from '@/app/api/bookmarks.service';
 import { JobsService } from '@/app/api/jobs.service';
 import { CommonModule } from '@angular/common';
+import { JobCardComponent } from '@/app/components/Jobs/job-card/job-card.component';
 
 @Component({
   selector: 'app-bookmarks',
