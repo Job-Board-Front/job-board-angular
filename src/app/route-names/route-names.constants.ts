@@ -4,7 +4,7 @@ export const AUTH_ROUTES = {
   logout: 'logout',
 } as const;
 
-
 export const APP_ROUTES = {
-  home: '',
-};
+  home: '/',
+  bookmarks: 'bookmarks',
+} as const;

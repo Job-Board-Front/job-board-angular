@@ -19,7 +19,7 @@ export class InfiniteScrollDirective implements AfterViewInit {
       window.addEventListener('scroll', this.onScroll, { passive: true });
     });
   }
-
+  ngOnDestroy() { window.removeEventListener('scroll', this.onScroll); }
   private onScroll = () => {
     if (this.isLoading) return;
 

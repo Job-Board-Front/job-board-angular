@@ -1,0 +1,47 @@
+<div class="min-h-screen">
+  <main class="container py-12 mx-auto px-4">
+    <div class="mb-8">
+      <div class="flex items-center gap-3 mb-2">
+        <app-icon path="M19 21l-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z" class="h-8 w-8 text-primary" />
+        <h1 class="text-3xl font-bold">Bookmarks</h1>
+      </div>
+      <p class="text-muted-foreground">
+        {{ bookmarksJobs().length }} job{{ bookmarksJobs().length !== 1 ? 's' : '' }} saved for later
+      </p>
+    </div>
+
+    <!-- Loading State -->
+    @if (isLoading()) {
+      <div class="text-center py-12">
+        <p class="text-muted-foreground">Loading bookmarks...</p>
+      </div>
+    }
+
+    <!-- Error State -->
+    @else if (hasError()) {
+      <div class="text-center py-12">
+        <p class="text-red-600 dark:text-red-400">Failed to load bookmarks</p>
+      </div>
+    }
+
+    <!-- Jobs List (using same structure as JobList component) -->
+    @else {
+      <section class="job-list-section">
+        <div class="jobs-grid">
+          @if (bookmarksJobs().length > 0) {
+            @for (job of bookmarksJobs(); track job.id) {
+              <app-job-card [job]="job" />
+            }
+          } @else {
+            <div class="text-center py-12 col-span-full">
+              <app-icon path="M19 21l-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z" class="h-12 w-12 text-muted-foreground mx-auto mb-4" />
+              <h3 class="text-lg font-semibold mb-2">No bookmarks yet</h3>
+              <p class="text-muted-foreground">Start browsing and bookmark jobs you're interested in!</p>
+            </div>
+          }
+        </div>
+      </section>
+    }
+  </main>
+</div>
+
