@@ -17,19 +17,27 @@
           >Home</a
         >
         <a routerLink="/jobs" routerLinkActive="active" class="navbar-nav-link">Jobs</a>
-        <a routerLink="/bookmarked" routerLinkActive="active" class="navbar-nav-link">Bookmarked</a>
+        <a [routerLink]="['/', APP_ROUTES.bookmarks]" routerLinkActive="active" class="navbar-nav-link">Bookmarks</a>
       </nav>
     </div>
     <div class="navbar-actions">
       <app-theme-toggle></app-theme-toggle>
 
       <div class="w-px h-6 bg-slate-750 dark:bg-slate-300 mx-2"></div>
-      <app-button variant="secondary">
-        <span [routerLink]="['/login']" class="text-primary">Login</span>
-      </app-button>
-      <app-button variant="primary">
-        <span [routerLink]="['signup']">Sign Up</span>
-      </app-button>
+      @if (isLoggedIn()) {
+        <a [routerLink]="['/', AUTH_ROUTES.logout]" routerLinkActive="active">
+          <app-button variant="secondary">Logout</app-button>
+        </a>
+      } @else {
+        <a [routerLink]="['/', AUTH_ROUTES.login]" routerLinkActive="active">
+          <app-button variant="secondary">
+            <span class="text-primary">Login</span>
+          </app-button>
+        </a>
+        <a [routerLink]="['/', AUTH_ROUTES.register]" routerLinkActive="active">
+          <app-button variant="primary">Sign Up</app-button>
+        </a>
+      }
     </div>
   </div>
 </header>

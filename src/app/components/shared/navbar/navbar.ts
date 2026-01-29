@@ -1,7 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, computed, inject } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { ThemeToggleComponent } from "./theme-toggle/theme-toggle.component";
-import { ButtonComponent } from "../button/button.component";
+import { AuthService } from '@/app/services/auth/auth.service';
+import { APP_ROUTES, AUTH_ROUTES } from '@/app/route-names/route-names.constants';
+import { ButtonComponent } from '@/app/components/shared/button/button.component';
 
 @Component({
   selector: 'app-navbar',
@@ -11,5 +13,11 @@ import { ButtonComponent } from "../button/button.component";
   styleUrl: './navbar.css',
 })
 export class Navbar {
+  private authService = inject(AuthService);
 
+  readonly APP_ROUTES = APP_ROUTES;
+  readonly AUTH_ROUTES = AUTH_ROUTES;
+
+  currentUser = this.authService.currentUser;
+  isLoggedIn = computed(() => !!this.currentUser());
 }

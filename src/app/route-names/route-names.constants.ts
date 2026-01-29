@@ -6,4 +6,5 @@ export const AUTH_ROUTES = {
 
 export const APP_ROUTES = {
   home: '/',
-};
+  bookmarks: 'bookmarks',
+} as const;
