@@ -8,8 +8,6 @@
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  background: #eff6ff;
-  color: #2563eb;
   padding: 0.5rem 1rem;
   border-radius: 20px;
   font-size: 0.9rem;
@@ -31,7 +29,6 @@
 .hero-title {
   font-size: 3.5rem;
   font-weight: 650;
-  color: #0f172a;
   margin: 0 0 1.5rem 0;
   line-height: 1.1;
   transition: color 0.3s ease;
@@ -43,7 +40,6 @@
 
 .hero-description {
   font-size: 1.125rem;
-  color: #64748b;
   margin: 0 0 2rem 0;
   line-height: 1.6;
   transition: color 0.3s ease;
@@ -61,7 +57,6 @@
 
 .btn-primary-large,
 .btn-secondary-large {
-  padding: 0.875rem 2rem;
   border-radius: 8px;
   font-weight: 600;
   font-size: 1rem;

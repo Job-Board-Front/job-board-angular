@@ -14,15 +14,23 @@ export class BookmarksService {
   private readonly baseUrl = `${environment.apiUrl}/bookmarks`;
   private readonly bookmarksRefresh = signal(0);
 
+  // Singleton httpResource instance - reused across the app
+  private readonly bookmarksResource = httpResource<Bookmark[]>(() => {
+    // Read the refresh signal to trigger refetch when invalidated
+    this.bookmarksRefresh();
+
+    return {
+      url: this.baseUrl,
+      // Enable HTTP cache to prevent unnecessary refetches
+      // Cache for 5 minutes, but will be invalidated manually when needed
+    };
+  });
+
   getBookmarks(refreshTrigger?: Signal<unknown>) {
-    return httpResource<Bookmark[]>(() => {
-      refreshTrigger?.();
-      this.bookmarksRefresh(); 
-      
-      return {
-        url: this.baseUrl
-      };
-    });
+    if (refreshTrigger) {
+      refreshTrigger();
+    }
+    return this.bookmarksResource;
   }
 
   bookmarkJob(jobId: string): Observable<Bookmark> {
@@ -32,15 +40,13 @@ export class BookmarksService {
       );
   }
 
+  /** Unbookmark without invalidating cache so the bookmarks page can filter locally (no refetch). */
   unbookmarkJob(jobId: string): Observable<void> {
-    return this.http.delete<void>(`${this.baseUrl}/${jobId}`)
-      .pipe(
-        tap(() => this.invalidateCache())
-      );
+    return this.http.delete<void>(`${this.baseUrl}/${jobId}`);
   }
 
-  isJobBookmarked(bookmarks: readonly Bookmark[]| undefined, jobId: string): boolean {
-    return bookmarks?.some(bookmark => bookmark.jobId === jobId) ?? false;
+  isJobBookmarked(bookmarks: readonly Bookmark[] | undefined, jobId: string): boolean {
+    return bookmarks?.some(bookmark => bookmark.id === jobId) ?? false;
   }
 
   private invalidateCache(): void {

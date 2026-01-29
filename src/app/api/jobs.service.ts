@@ -41,14 +41,29 @@ export class JobsService {
   }
 
   getJobById(jobId: Signal<string | undefined>) { 
-  return httpResource<Job>(() => {
-    const id = jobId();
-    if (!id) return undefined;
-    
-    return {
-      url: `${this.baseUrl}/jobs/${id}`
-    };
-   });
+    return httpResource<Job>(() => {
+      const id = jobId();
+      if (!id) return undefined;
+      
+      return {
+        url: `${this.baseUrl}/jobs/${id}`
+      };
+    });
+  }
+
+  getJobsByIds(jobIds: Signal<string[]>) {
+    return httpResource<Job[]>(() => {
+      const ids = jobIds();
+      if (!ids || ids.length === 0) return undefined;
+
+      const idsString = ids.join(',');
+      const params = new HttpParams().set('ids', idsString);
+      
+      return {
+        url: `${this.baseUrl}/jobs/bulk`,
+        params: params
+      };
+    });
   }
 
   createJob(createJobDto: CreateJobDto): Observable<Job> {
@@ -56,7 +71,7 @@ export class JobsService {
   }
 
   deleteJob(id: string): Observable<void> {
-    return this.http.delete<void>(`${this.baseUrl}/${id}`);
+    return this.http.delete<void>(`${this.baseUrl}/jobs/${id}`);
   }
 
   private buildHttpParams(filters?: JobSearchFilters): HttpParams {

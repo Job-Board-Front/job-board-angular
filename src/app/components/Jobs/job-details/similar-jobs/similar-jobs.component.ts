@@ -1,7 +1,7 @@
 import { Component, input, output } from '@angular/core';
 import { Job } from '@/app/interfaces/api/job.models';
-import { JobCardComponent } from '@/app/components/shared/job-card/job-card.component';
 import { LucideAngularModule, ArrowRight } from 'lucide-angular';
+import { JobCardComponent } from '../../job-card/job-card.component';
 
 @Component({
   selector: 'app-similar-jobs',

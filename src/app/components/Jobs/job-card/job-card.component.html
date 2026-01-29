@@ -37,7 +37,7 @@
             />
           } @else {
             <span class="text-xl font-bold text-slate-600 dark:text-slate-400">
-              {{ job().company.charAt(0) | uppercase }}
+              {{ job().company | getInitials }}
             </span>
           }
         </div>
@@ -66,11 +66,25 @@
       @if (job().isActive) {
         <button
           type="button"
-          (click)="$event.stopPropagation(); onBookmark.emit(job().id)"
+          (click)="handleBookmark($event)"
+          [class.text-blue-600]="isBookmarked()"
+          [class.dark:text-blue-400]="isBookmarked()"
           class="flex-shrink-0 ml-2 p-2 rounded-lg text-slate-500 hover:text-blue-600 hover:bg-blue-50 dark:text-slate-500 dark:hover:text-blue-400 dark:hover:bg-blue-500/10 transition-all duration-200 hover:scale-110 active:scale-95"
           aria-label="Bookmark job"
         >
-          <app-icon path="m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z" class="w-5 h-5" />
+          <svg
+            [class.fill-current]="isBookmarked()"
+            class="w-5 h-5"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path d="m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z" />
+          </svg>
         </button>
       }
     </div>
@@ -111,10 +125,8 @@
 
       <!-- Employment Type -->
       <span class="flex items-center gap-1.5 text-slate-700 dark:text-slate-400">
-        <app-icon
-          path="M16 20V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16m8 0h2a2 2 0 0 0 2-2v-7.5L14 4.5m2 15.5H8m8 0v-4m-8 4H6a2 2 0 0 1-2-2v-7.5L10 4.5M8 20v-4"
-          class="w-4 h-4 text-slate-500 dark:text-slate-500"
-        />
+        <lucide-icon [img]="Briefcase" class="text-slate-500" [size]="15"></lucide-icon>
+
         <span class="font-medium capitalize">{{ formatEnum(job().employmentType) }}</span>
       </span>
     </div>

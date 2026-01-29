@@ -18,8 +18,8 @@
 
 .filters-row {
   display: flex;
-  gap: 16px;       
-  flex-wrap: wrap; 
+  gap: 16px;
+  flex-wrap: wrap;
 }
 
 .filter-item {

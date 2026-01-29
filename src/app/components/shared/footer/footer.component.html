@@ -19,8 +19,18 @@
         <a routerLink="/" class="footer-link">Home</a>
         <a routerLink="/jobs" class="footer-link">Jobs</a>
         <a routerLink="/bookmarked" class="footer-link">Bookmarked</a>
-        <a routerLink="/login" class="footer-link">Login</a>
-        <a routerLink="/signup" class="footer-link">Sign Up</a>
+        @if (isLoggedIn()) {
+        <a [routerLink]="['/', AUTH_ROUTES.logout]" class="footer-link">
+          Logout
+        </a>
+      } @else {
+        <a [routerLink]="['/', AUTH_ROUTES.login]" class="footer-link">
+          Login
+        </a>
+        <a [routerLink]="['/', AUTH_ROUTES.register]" class="footer-link">
+          Sign Up
+        </a>
+      }
         <a routerLink="/privacy" class="footer-link">Privacy</a>
         <a routerLink="/terms" class="footer-link">Terms</a>
       </nav>

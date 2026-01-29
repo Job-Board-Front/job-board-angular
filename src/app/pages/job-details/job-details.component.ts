@@ -48,6 +48,7 @@ export class JobDetailsComponent {
       return undefined;
     }
 
+
     return {
       filters: {
         search: currentJob.keywords.join(' '),
@@ -61,6 +62,7 @@ export class JobDetailsComponent {
   similarJobs = computed(() => {
     const currentJob = this.job();
     const response = this.similarJobsResource.value();
+
 
     if (!response?.data || !currentJob) {
       return [];

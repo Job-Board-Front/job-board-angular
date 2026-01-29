@@ -1,0 +1,15 @@
+.job-list-section {
+  width: 100%;
+}
+
+.jobs-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+  gap: 1.5rem;
+}
+
+@media (max-width: 768px) {
+  .jobs-grid {
+    grid-template-columns: 1fr;
+  }
+}

@@ -1,12 +1,12 @@
-/*import { ButtonComponent } from '@/app/components/shared/button/button.component';
-import { JobCardComponent } from '@/app/components/shared/job-card/job-card.component';
+import { ButtonComponent } from '@/app/components/shared/button/button.component';
 import { EmploymentType, ExperienceLevel, Job } from '@/app/interfaces/api/job.models';
 import { Component, HostBinding, inject, signal } from '@angular/core';
-import { ThemeToggleComponent } from '@/app/components/navbar/theme-toggle/theme-toggle.component';
+import { ThemeToggleComponent } from '@/app/components/shared/navbar/theme-toggle/theme-toggle.component';
 import { ThemeService } from '@/app/services/theme/theme.service';
 import { DropDownMenuComponent } from '@/app/components/shared/drop-down-menu/drop-down-menu.component';
 import { MenuItemComponent } from '@/app/components/shared/drop-down-menu/menu-item/menu-item.component';
 import { IconComponent } from '@/app/components/shared/icon/icon.component';
+import { JobCardComponent } from '@/app/components/Jobs/job-card/job-card.component';
 
 @Component({
   selector: 'app-test-page',
@@ -73,4 +73,3 @@ export class TestPageComponent {
     console.log('Open', id);
   }
 }
-*/
