@@ -1,95 +1,102 @@
 <div class="filter-container">
   <div class="filter-header">
     <h3 class="filter-main-title">Filter by</h3>
-    <button
-      type="button"
-      class="clear-filters-btn"
-      (click)="clearFilters()"
-      [attr.aria-label]="'Clear all filters'"
-    >
-      Clear all
-    </button>
   </div>
 
-  <div class="filters-row">
-    <!-- Employment Type -->
-    <div class="filter-item">
-      <label for="employment-type-select">Employment Type</label>
-      <select
-        id="employment-type-select"
-        [value]="selectedEmploymentType()"
-        (change)="onEmploymentTypeChange($any($event.target).value)"
-        [attr.aria-label]="'Filter by employment type'"
-      >
-        <option value="">All</option>
-        @for (option of employmentTypes; track option.id) {
-          <option [value]="option.id">{{ option.name }}</option>
-        }
-      </select>
+  <!-- wrapper that holds filters and the clear button to the right -->
+  <div class="filters-actions">
+    <div class="filters-row" role="group" aria-label="Job filters">
+      <!-- Employment Type -->
+      <div class="filter-item">
+        <label for="employment-type-select">Employment Type</label>
+        <select
+          id="employment-type-select"
+          [value]="selectedEmploymentType()"
+          (change)="onEmploymentTypeChange($any($event.target).value)"
+          [attr.aria-label]="'Filter by employment type'"
+        >
+          <option value="">All</option>
+          @for (option of employmentTypes; track option.id) {
+            <option [value]="option.id">{{ option.name }}</option>
+          }
+        </select>
+      </div>
+
+      <!-- Experience Level -->
+      <div class="filter-item">
+        <label for="experience-level-select">Experience Level</label>
+        <select
+          id="experience-level-select"
+          [value]="selectedExperienceLevel()"
+          (change)="onExperienceLevelChange($any($event.target).value)"
+          [attr.aria-label]="'Filter by experience level'"
+        >
+          <option value="">All</option>
+          @for (option of experienceLevels; track option.id) {
+            <option [value]="option.id">{{ option.name }}</option>
+          }
+        </select>
+      </div>
+
+      <!-- Location -->
+      <div class="filter-item">
+        <label for="location-select">Location</label>
+        <select
+          id="location-select"
+          [value]="selectedLocation()"
+          (change)="onLocationChange($any($event.target).value)"
+          [attr.aria-label]="'Filter by location'"
+        >
+          <option value="">All</option>
+          @for (option of locations; track option.id) {
+            <option [value]="option.id" class="select-option">{{ option.name }}</option>
+          }
+        </select>
+      </div>
+
+      <!-- Salary Range -->
+      <div class="filter-item">
+        <label for="salary-range-select">Salary</label>
+        <select
+          id="salary-range-select"
+          [value]="selectedSalaryRange()"
+          (change)="onSalaryRangeChange($any($event.target).value)"
+          [attr.aria-label]="'Filter by salary range'"
+        >
+          <option value="">All</option>
+          @for (option of salaryRanges; track option.id) {
+            <option [value]="option.id">{{ option.name }}</option>
+          }
+        </select>
+      </div>
+
+      <!-- Posted Within (Recent) -->
+      <div class="filter-item">
+        <label for="posted-within-select">Posted</label>
+        <select
+          id="posted-within-select"
+          [value]="selectedPostedWithin()"
+          (change)="onPostedWithinChange($any($event.target).value)"
+          [attr.aria-label]="'Filter by posting date'"
+        >
+          <option value="">Any time</option>
+          @for (option of postedWithinOptions; track option.id) {
+            <option [value]="option.id">{{ option.name }}</option>
+          }
+        </select>
+      </div>
     </div>
 
-    <!-- Experience Level -->
-    <div class="filter-item">
-      <label for="experience-level-select">Experience Level</label>
-      <select
-        id="experience-level-select"
-        [value]="selectedExperienceLevel()"
-        (change)="onExperienceLevelChange($any($event.target).value)"
-        [attr.aria-label]="'Filter by experience level'"
+    <!-- Blue filled button aligned to the right of filters -->
+    <div class="clear-button-wrap">
+      <button
+        type="button"
+        class="clear-filters-btn"
+        (click)="clearFilters()"
+        [attr.aria-label]="'Clear all filters'"
       >
-        <option value="">All</option>
-        @for (option of experienceLevels; track option.id) {
-          <option [value]="option.id">{{ option.name }}</option>
-        }
-      </select>
-    </div>
-
-    <!-- Location -->
-    <div class="filter-item">
-      <label for="location-select">Location</label>
-      <select
-        id="location-select"
-        [value]="selectedLocation()"
-        (change)="onLocationChange($any($event.target).value)"
-        [attr.aria-label]="'Filter by location'"
-      >
-        <option value="">All</option>
-        @for (option of locations; track option.id) {
-          <option [value]="option.id" class="select-option">{{ option.name }}</option>
-        }
-      </select>
-    </div>
-
-    <!-- Salary Range -->
-    <div class="filter-item">
-      <label for="salary-range-select">Salary</label>
-      <select
-        id="salary-range-select"
-        [value]="selectedSalaryRange()"
-        (change)="onSalaryRangeChange($any($event.target).value)"
-        [attr.aria-label]="'Filter by salary range'"
-      >
-        <option value="">All</option>
-        @for (option of salaryRanges; track option.id) {
-          <option [value]="option.id">{{ option.name }}</option>
-        }
-      </select>
-    </div>
-
-    <!-- Posted Within (Recent) -->
-    <div class="filter-item">
-      <label for="posted-within-select">Posted</label>
-      <select
-        id="posted-within-select"
-        [value]="selectedPostedWithin()"
-        (change)="onPostedWithinChange($any($event.target).value)"
-        [attr.aria-label]="'Filter by posting date'"
-      >
-        <option value="">Any time</option>
-        @for (option of postedWithinOptions; track option.id) {
-          <option [value]="option.id">{{ option.name }}</option>
-        }
-      </select>
+        Clear all
+      </button>
     </div>
   </div>
 </div>

@@ -10,26 +10,38 @@
   margin: 0;
   color: #333;
 }
-
+.filters-actions {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-top: 12px;
+}
 .clear-filters-btn {
-  padding: 6px 12px;
-  font-size: 0.85rem;
-  color: #2563eb;
-  background: transparent;
+  padding: 8px 14px;
+  font-size: 0.95rem;
+  color: #ffffff;
+  background-color: #2563eb; /* primary blue */
   border: 1px solid #2563eb;
-  border-radius: 6px;
+  border-radius: 10px;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition:
+    background-color 0.15s ease,
+    transform 0.08s ease,
+    box-shadow 0.15s ease;
+  box-shadow: 0 2px 6px rgba(37, 99, 235, 0.15);
 }
 
 .clear-filters-btn:hover {
-  background: #2563eb;
-  color: #fff;
+  background-color: #1e40af; /* darker blue on hover */
+  border-color: #1e40af;
+  transform: translateY(-1px);
 }
 
 .clear-filters-btn:focus {
-  outline: 2px solid #2563eb;
-  outline-offset: 2px;
+  outline: none;
+  box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.15);
+  border-color: #1e40af;
 }
 
 .filters-row {
