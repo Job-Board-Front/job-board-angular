@@ -7,6 +7,7 @@ import { JobHeaderComponent } from '@/app/components/Jobs/job-details/job-header
 import { JobSkillsComponent } from '@/app/components/Jobs/job-details/job-skills/job-skills.component';
 import { SimilarJobsComponent } from '@/app/components/Jobs/job-details/similar-jobs/similar-jobs.component';
 import { Job } from '@/app/interfaces/api/job.models';
+import { BookmarkService } from '@/app/services/bookmark/bookmark.service';
 import { Component, computed, inject } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -31,6 +32,7 @@ export class JobDetailsComponent {
   private route = inject(ActivatedRoute);
   private jobService = inject(JobsService);
   private router = inject(Router);
+  private bookmarkService = inject(BookmarkService);
 
   private jobId = toSignal(
     this.route.paramMap.pipe(map(params => params.get('id') ?? undefined))
@@ -41,6 +43,11 @@ export class JobDetailsComponent {
   job = computed(() => this.jobResource.value());
   isLoading = computed(() => this.jobResource.isLoading?.() ?? false);
   error = computed(() => this.jobResource.error?.() ?? undefined);
+    isBookmarked = computed(() => {
+    const currentJob = this.job();
+    return currentJob ? this.bookmarkService.hasBookmark(currentJob.id) : false;
+  });
+  
 
   private similarJobsParams = computed(() => {
     const currentJob = this.job();
@@ -50,11 +57,10 @@ export class JobDetailsComponent {
 
 
     return {
-      filters: {
-        search: currentJob.keywords.join(' '),
-      },
-      limit: 4
+      search: currentJob.keywords.join(' '),
+      limit: 7
     };
+
   });
 
   private similarJobsResource = this.jobService.getJobsPaginated(this.similarJobsParams);
@@ -70,24 +76,29 @@ export class JobDetailsComponent {
 
     return response.data
       .filter(j => j.id !== currentJob.id)
-      .slice(0, 3);
+      .slice(0, 6);
   });
 
   onApplyClick() {
-    const url = "https://www.youtube.com/watch?v=dQw4w9WgXcQ";
+    const currentJob = this.job();
+    const url = currentJob?.submissionLink;
+    
     if (url) {
       window.open(url, '_blank');
     } else {
-      console.warn('Job URL is not defined');
+      console.warn('Job submission link is not defined');
     }
   }
 
   onBookmarkClick() {
-    console.log('Bookmark clicked for job:', this.job()?.id);
-    // Implement bookmark functionality
-  }
+      const currentJob = this.job();
+      if (currentJob) {
+        this.bookmarkService.toggleBookmark(currentJob.id);
+      }
+    }
 
-  onViewSimilarJobs() {
+
+  /*onViewSimilarJobs() {
     const currentJob = this.job();
     if (!currentJob?.keywords || currentJob.keywords.length === 0) {
       return;
@@ -98,5 +109,5 @@ export class JobDetailsComponent {
         search: currentJob.keywords.slice(0, 5).join(' ')
       }
     });
-  }
+  }*/
 }

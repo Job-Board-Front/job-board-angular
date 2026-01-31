@@ -20,3 +20,6 @@
 :host-context(.dark) button.border:hover {
   background-color: var(--color-bg-surface-hover);
 }
+:host ::ng-deep lucide-icon.fill-current svg {
+  fill: currentColor;
+}

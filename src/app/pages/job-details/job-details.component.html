@@ -30,6 +30,7 @@
         <!-- Sidebar -->
         <div class="space-y-6">
           <app-job-actions 
+            [isBookmarked]="isBookmarked()"
             (applyClick)="onApplyClick()"
             (bookmarkClick)="onBookmarkClick()" />
         <h2></h2>
@@ -40,8 +41,9 @@
 
       <!-- Similar Jobs Section -->
       <app-similar-jobs 
-        [similarJobs]="similarJobs()"
-        (viewAllClick)="onViewSimilarJobs()" />
+        [similarJobs]="similarJobs()"  
+        />
+        <!--(viewAllClick)="onViewSimilarJobs()"-->
     }
   </div>
 </div>
