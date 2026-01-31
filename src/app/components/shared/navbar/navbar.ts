@@ -13,7 +13,7 @@ import { ThemeToggleComponent } from './theme-toggle/theme-toggle.component';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Navbar {
-  private authService = inject(AuthService);
+  authService = inject(AuthService);
   themeService = inject(ThemeService);
   readonly APP_ROUTES = APP_ROUTES;
   readonly AUTH_ROUTES = AUTH_ROUTES;

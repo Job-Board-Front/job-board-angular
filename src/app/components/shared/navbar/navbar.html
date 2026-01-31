@@ -16,10 +16,12 @@
           class="nav-link"
           >Home</a
         >
-        <a routerLink="/jobs" routerLinkActive="active" class="nav-link">Jobs</a>
-        <a [routerLink]="['/', APP_ROUTES.bookmarks]" routerLinkActive="active" class="nav-link"
-          >Bookmarks</a
-        >
+        @if (authService.currentUser()) {
+          <a routerLink="/jobs" routerLinkActive="active" class="nav-link">Jobs</a>
+          <a [routerLink]="['/', APP_ROUTES.bookmarks]" routerLinkActive="active" class="nav-link"
+            >Bookmarks</a
+          >
+        }
       </nav>
     </div>
 
