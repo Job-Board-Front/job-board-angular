@@ -1,18 +1,25 @@
 <section class="job-list-section">
   <div class="jobs-grid">
-   @if (jobsResource.isLoading()) {
-  <p>Loading jobs...</p>
-}
+    @if (jobsResource.error()) {
+      <p>Failed to load jobs</p>
+    }
 
-@if (jobsResource.error()) {
-  <p>Failed to load jobs</p>
-}
-
-@if (jobsList(); as jobs) {
-  @for (job of jobs; track job.id) {
-      <app-job-card [job]="job" />
-  } 
-}
-
+    @if (jobsList(); as jobs) {
+      @for (job of jobs; track job.id) {
+        <app-job-card [job]="job" />
+      }
+    }
+  </div>
+  <div class="bottom-loader-wrapper">
+    <ngx-ui-loader
+      [loaderId]="'pagination-loader'"
+      [fgsSize]="45"
+      [fgsType]="SPINNER.threeBounce"
+      [fgsPosition]="'bottom-center'"
+      [overlayColor]="'rgba(255,255,255,0)'"
+      [hasProgressBar]="false"
+      [fgsColor]="'#007bff'"
+    >
+    </ngx-ui-loader>
   </div>
 </section>

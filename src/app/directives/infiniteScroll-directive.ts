@@ -1,4 +1,4 @@
-import { Directive, output, input, OnInit, DestroyRef, inject } from '@angular/core';
+import { Directive, output, input, DestroyRef, inject } from '@angular/core';
 import { fromEvent, throttleTime, filter } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
@@ -9,12 +9,12 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 })
 export class InfiniteScrollDirective {
   private destroyRef = inject(DestroyRef);
-  
-  threshold = input<number>(100);
-  throttle = input<number>(100);
-  
+
+  threshold = input<number>(50);
+  throttle = input<number>(200);
+
   scrolledToBottom = output<void>();
-  
+
   private isLoading = false;
 
   constructor() {
@@ -23,7 +23,7 @@ export class InfiniteScrollDirective {
         throttleTime(this.throttle()),
         filter(() => !this.isLoading),
         filter(() => this.isNearBottom()),
-        takeUntilDestroyed(this.destroyRef)
+        takeUntilDestroyed(this.destroyRef),
       )
       .subscribe(() => {
         console.log('Scrolled near bottom emitting event');

@@ -9,15 +9,19 @@
     <p class="hero-description text-slate-500">Explore top career opportunities from leading companies</p>
   </div>
 
-  <app-job-search></app-job-search>
+  <app-job-search [value]="searchQuery()" (search)="onSearchChange($event)"> </app-job-search>
 
-  <app-category-filter> </app-category-filter>
+  <app-category-filter (filterChange)="onFilterChange($event)" (clearAll)="onClearAll()">
+  </app-category-filter>
 
   <p class="jobs-counter">Showing {{ jobCount() }} jobs</p>
+
   <app-job-list
     [infinite]="true"
     [loadMore$]="loadMore$"
+    [filters]="filters()"
     (isLoading)="onLoadingChange($event, scrollDir)"
     (jobCount)="onJobCountChange($event)"
-  ></app-job-list>
+  >
+  </app-job-list>
 </div>

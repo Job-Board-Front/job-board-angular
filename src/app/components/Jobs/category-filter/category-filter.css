@@ -7,13 +7,34 @@
 .filter-main-title {
   font-size: 1.4rem;
   font-weight: 600;
-  margin-bottom: 12px;
-  color: var(--color-text-primary-alt);
-  transition: color 0.3s ease;
+  margin: 0;
+}
+.filters-actions {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-top: 12px;
+}
+.clear-filters-btn {
+  padding: 8px 14px;
+  font-size: 0.95rem;
+  border-radius: 10px;
+  cursor: pointer;
+  transition:
+    background-color 0.15s ease,
+    transform 0.08s ease,
+    box-shadow 0.15s ease;
+  box-shadow: 0 2px 6px rgba(37, 99, 235, 0.15);
 }
 
-:host-context(.dark) .filter-main-title {
-  color: var(--color-text-primary);
+.clear-filters-btn:hover {
+  transform: translateY(-1px);
+}
+
+.clear-filters-btn:focus {
+  outline: none;
+  box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.15);
 }
 
 .filters-row {
@@ -70,7 +91,6 @@
   border-color: var(--color-border-input-hover);
   background-color: var(--color-bg-input-hover);
 }
-
 .filter-item select:focus {
   outline: none;
   border-color: var(--color-border-input-focus);
