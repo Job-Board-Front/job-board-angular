@@ -2,7 +2,10 @@
   <lucide-icon [img]="searchIcon" class="search-icon"></lucide-icon>
   <input
     type="text"
-    class="input search-input"
+    class="search-input"
     placeholder="Search by job title, company, or location..."
+    aria-label="Search jobs"
+    [value]="searchValue()"
+    (input)="onInput($any($event.target).value)"
   />
 </div>
