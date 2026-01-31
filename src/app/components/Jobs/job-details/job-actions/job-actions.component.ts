@@ -1,4 +1,4 @@
-import { Component, output } from '@angular/core';
+import { Component, input, output } from '@angular/core';
 import { LucideAngularModule, ExternalLink, Bookmark } from 'lucide-angular';
 
 @Component({
@@ -11,6 +11,7 @@ import { LucideAngularModule, ExternalLink, Bookmark } from 'lucide-angular';
 export class JobActionsComponent {
   readonly ExternalLink = ExternalLink;
   readonly Bookmark = Bookmark;
+  isBookmarked = input<boolean>(false);
   
   applyClick = output<void>();
   bookmarkClick = output<void>();
