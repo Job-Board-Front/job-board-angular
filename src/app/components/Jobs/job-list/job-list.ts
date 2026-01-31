@@ -13,14 +13,15 @@ import { Job, JobSearchFilters, PaginatedResponse } from '../../../interfaces/ap
 import { JobsService } from '@/app/api/jobs.service';
 import { CommonModule } from '@angular/common';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { Subject } from 'rxjs';
+import { debounceTime, Subject } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 
 import { JobCardComponent } from '../job-card/job-card.component';
+import { NgxUiLoaderModule, NgxUiLoaderService, SPINNER } from 'ngx-ui-loader';
 
 @Component({
   selector: 'app-job-list',
-  imports: [JobCardComponent, CommonModule],
+  imports: [JobCardComponent, CommonModule, NgxUiLoaderModule],
   templateUrl: './job-list.html',
   styleUrls: ['./job-list.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -39,6 +40,11 @@ export class JobList {
 
   readonly isLoading = output<boolean>();
   readonly jobCount = output<number>();
+
+  // Loader
+  loader = inject(NgxUiLoaderService);
+  SPINNER = SPINNER;
+
   private route = inject(ActivatedRoute);
   readonly filterSignal = signal<JobSearchFilters | undefined>({
     limit: this.limit,
@@ -84,6 +90,11 @@ export class JobList {
     // Emit loading state when resource loading changes
     effect(() => {
       this.isLoading.emit(this.jobsResource.isLoading());
+      if (this.jobsResource.isLoading()) {
+        this.loader.startLoader('pagination-loader');
+      } else {
+        this.loader.stopLoader('pagination-loader');
+      }
     });
 
     // Handle load more subscription
@@ -91,7 +102,9 @@ export class JobList {
       const subject = this.loadMore$?.();
       if (!subject) return;
 
-      subject.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(() => this.loadMoreJobs());
+      subject
+        .pipe(debounceTime(300), takeUntilDestroyed(this.destroyRef))
+        .subscribe(() => this.loadMoreJobs());
     });
 
     // React to filter input changes
@@ -102,7 +115,7 @@ export class JobList {
       }
     });
   }
-  
+
   private normalizeLocation(value?: string): string | undefined {
     if (!value) return undefined;
     const v = value.toLowerCase();
