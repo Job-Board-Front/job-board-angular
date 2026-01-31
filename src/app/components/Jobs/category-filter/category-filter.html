@@ -7,96 +7,64 @@
   <div class="filters-actions">
     <div class="filters-row" role="group" aria-label="Job filters">
       <!-- Employment Type -->
-      <div class="filter-item">
-        <label for="employment-type-select">Employment Type</label>
-        <select
-          id="employment-type-select"
-          [value]="selectedEmploymentType()"
-          (change)="onEmploymentTypeChange($any($event.target).value)"
-          [attr.aria-label]="'Filter by employment type'"
-        >
-          <option value="">All</option>
-          @for (option of employmentTypes; track option.id) {
-            <option [value]="option.id">{{ option.name }}</option>
-          }
-        </select>
-      </div>
+      <app-drop-down-menu
+        [value]="selectedEmploymentType()"
+        [options]="employmentTypes"
+        (selectedOption)="onEmploymentTypeChange($any($event))"
+        label="Employment Type"
+        id="employment-type-select"
+        ariaLabel="Filter by employment type"
+      ></app-drop-down-menu>
 
       <!-- Experience Level -->
-      <div class="filter-item">
-        <label for="experience-level-select">Experience Level</label>
-        <select
-          id="experience-level-select"
-          [value]="selectedExperienceLevel()"
-          (change)="onExperienceLevelChange($any($event.target).value)"
-          [attr.aria-label]="'Filter by experience level'"
-        >
-          <option value="">All</option>
-          @for (option of experienceLevels; track option.id) {
-            <option [value]="option.id">{{ option.name }}</option>
-          }
-        </select>
-      </div>
+      <app-drop-down-menu
+        [value]="selectedExperienceLevel()"
+        [options]="experienceLevels()"
+        (selectedOption)="onExperienceLevelChange($any($event))"
+        label="Experience Level"
+        id="experience-level-select"
+        ariaLabel="Filter by experience level"
+      ></app-drop-down-menu>
 
       <!-- Location -->
-      <div class="filter-item">
-        <label for="location-select">Location</label>
-        <select
-          id="location-select"
-          [value]="selectedLocation()"
-          (change)="onLocationChange($any($event.target).value)"
-          [attr.aria-label]="'Filter by location'"
-        >
-          <option value="">All</option>
-          @for (option of locations; track option.id) {
-            <option [value]="option.id" class="select-option">{{ option.name }}</option>
-          }
-        </select>
-      </div>
+      <app-drop-down-menu
+        [value]="selectedLocation()"
+        [options]="locations()"
+        (selectedOption)="onLocationChange($any($event))"
+        label="Location"
+        id="location-select"
+        ariaLabel="Filter by location"
+      ></app-drop-down-menu>
 
       <!-- Salary Range -->
-      <div class="filter-item">
-        <label for="salary-range-select">Salary</label>
-        <select
-          id="salary-range-select"
-          [value]="selectedSalaryRange()"
-          (change)="onSalaryRangeChange($any($event.target).value)"
-          [attr.aria-label]="'Filter by salary range'"
-        >
-          <option value="">All</option>
-          @for (option of salaryRanges; track option.id) {
-            <option [value]="option.id">{{ option.name }}</option>
-          }
-        </select>
-      </div>
+      <app-drop-down-menu
+        [value]="selectedSalaryRange()"
+        [options]="salaryRanges"
+        (selectedOption)="onSalaryRangeChange($any($event))"
+        label="Salary Range"
+        id="salary-range-select"
+        ariaLabel="Filter by salary range"
+      ></app-drop-down-menu>
 
       <!-- Posted Within (Recent) -->
-      <div class="filter-item">
-        <label for="posted-within-select">Posted</label>
-        <select
-          id="posted-within-select"
-          [value]="selectedPostedWithin()"
-          (change)="onPostedWithinChange($any($event.target).value)"
-          [attr.aria-label]="'Filter by posting date'"
-        >
-          <option value="">Any time</option>
-          @for (option of postedWithinOptions; track option.id) {
-            <option [value]="option.id">{{ option.name }}</option>
-          }
-        </select>
-      </div>
+      <app-drop-down-menu
+        [value]="selectedPostedWithin()"
+        [options]="postedWithinOptions"
+        (selectedOption)="onPostedWithinChange($any($event))"
+        label="Posted Within"
+        id="posted-within-select"
+        ariaLabel="Filter by posted within"
+      ></app-drop-down-menu>
     </div>
 
     <!-- Blue filled button aligned to the right of filters -->
-    <div class="clear-button-wrap">
-      <button
-        type="button"
-        class="clear-filters-btn"
-        (click)="clearFilters()"
-        [attr.aria-label]="'Clear all filters'"
-      >
-        Clear all
-      </button>
-    </div>
+    <app-button
+      variant="primary"
+      class="hover:-translate-y-0.5"
+      (click)="clearFilters()"
+      [attr.aria-label]="'Clear all filters'"
+    >
+      Clear all
+    </app-button>
   </div>
 </div>

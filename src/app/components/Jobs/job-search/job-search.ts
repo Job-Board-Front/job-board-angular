@@ -4,17 +4,17 @@ import {
   inject,
   DestroyRef,
   output,
-  signal,
   input,
-  effect,
+  linkedSignal,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
+import { LucideAngularModule, SearchIcon } from 'lucide-angular';
 
 @Component({
   selector: 'app-job-search',
-  imports: [],
+  imports: [LucideAngularModule],
   templateUrl: './job-search.html',
   styleUrls: ['./job-search.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -22,23 +22,27 @@ import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 export class JobSearch {
   private readonly destroyRef = inject(DestroyRef);
   private readonly input$ = new Subject<string>();
+  readonly searchIcon = SearchIcon;
 
   readonly value = input<string>('');
-  readonly searchValue = signal('');
+  readonly searchValue = linkedSignal<string, string>({
+    source: this.value,
+    computation: (src) => {
+      if (src === '') {
+        this.input$.next('');
+      }
+
+      return src;
+    },
+  });
   readonly search = output<string>();
 
   constructor() {
     this.input$
-      .pipe(debounceTime(300), distinctUntilChanged(), takeUntilDestroyed(this.destroyRef))
-      .subscribe((value) => this.search.emit(value));
-
-    effect(() => {
-      const externalValue = this.value();
-      this.searchValue.set(externalValue);
-      if (externalValue === '') {
-        this.input$.next('');
-      }
-    });
+      .pipe(debounceTime(500), distinctUntilChanged(), takeUntilDestroyed(this.destroyRef))
+      .subscribe((value) => {
+        return this.search.emit(value);
+      });
   }
 
   onInput(value: string) {

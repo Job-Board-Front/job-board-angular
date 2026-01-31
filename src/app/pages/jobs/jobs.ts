@@ -23,6 +23,7 @@ export class Jobs {
 
   readonly filters = computed<Partial<JobSearchFilters>>(() => {
     const search = this.searchQuery();
+
     const categories = this.categoryFilters();
 
     return {

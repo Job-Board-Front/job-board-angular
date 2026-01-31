@@ -8,7 +8,6 @@
   font-size: 1.4rem;
   font-weight: 600;
   margin: 0;
-  color: #333;
 }
 .filters-actions {
   display: flex;
@@ -20,9 +19,6 @@
 .clear-filters-btn {
   padding: 8px 14px;
   font-size: 0.95rem;
-  color: #ffffff;
-  background-color: #2563eb; /* primary blue */
-  border: 1px solid #2563eb;
   border-radius: 10px;
   cursor: pointer;
   transition:
@@ -33,15 +29,12 @@
 }
 
 .clear-filters-btn:hover {
-  background-color: #1e40af; /* darker blue on hover */
-  border-color: #1e40af;
   transform: translateY(-1px);
 }
 
 .clear-filters-btn:focus {
   outline: none;
   box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.15);
-  border-color: #1e40af;
 }
 
 .filters-row {

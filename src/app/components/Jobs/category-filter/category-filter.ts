@@ -1,10 +1,20 @@
-import { ChangeDetectionStrategy, Component, output, signal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  inject,
+  output,
+  signal,
+} from '@angular/core';
 import {
   EmploymentType,
   ExperienceLevel,
   SalaryRange,
   PostedWithin,
 } from '@/app/interfaces/api/job.models';
+import { ButtonComponent } from '../../shared/button/button.component';
+import { JobsService } from '@/app/api/jobs.service';
+import { DropDownMenuComponent } from '../../shared/drop-down-menu/drop-down-menu.component';
 
 export interface FilterOption {
   id: string;
@@ -21,7 +31,7 @@ export interface FilterState {
 
 @Component({
   selector: 'app-category-filter',
-  imports: [],
+  imports: [ButtonComponent, DropDownMenuComponent],
   templateUrl: './category-filter.html',
   styleUrl: './category-filter.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -30,54 +40,35 @@ export class CategoryFilter {
   readonly filterChange = output<FilterState>();
   readonly clearAll = output<void>();
 
+  jobsService = inject(JobsService);
+
+  filtersData = this.jobsService.getFiltersData();
   readonly currentFilters = signal<FilterState>({});
 
-  readonly selectedEmploymentType = signal('');
-  readonly selectedExperienceLevel = signal('');
-  readonly selectedLocation = signal('');
-  readonly selectedSalaryRange = signal('');
-  readonly selectedPostedWithin = signal('');
+  readonly selectedEmploymentType = signal<EmploymentType>(EmploymentType.ALL);
+  readonly selectedExperienceLevel = signal<ExperienceLevel>(ExperienceLevel.ALL);
+  readonly selectedLocation = signal<string>('');
+  readonly selectedSalaryRange = signal<SalaryRange>(SalaryRange.ALL);
+  readonly selectedPostedWithin = signal<PostedWithin>(PostedWithin.ALL);
 
-  readonly employmentTypes: FilterOption[] = [
-    { id: EmploymentType.FULL_TIME, name: 'Full Time' },
-    { id: EmploymentType.PART_TIME, name: 'Part Time' },
-    { id: EmploymentType.CONTRACT, name: 'Contract' },
-    { id: EmploymentType.INTERNSHIP, name: 'Internship' },
-  ];
+  readonly employmentTypes = this.filtersData.value()?.employmentTypes;
 
-  readonly experienceLevels: FilterOption[] = [
-    { id: ExperienceLevel.JUNIOR, name: 'Junior' },
-    { id: ExperienceLevel.MID, name: 'Mid-Level' },
-    { id: ExperienceLevel.SENIOR, name: 'Senior' },
-  ];
+  experienceLevels = computed(() => this.filtersData.value()?.experienceLevels);
 
-  readonly locations: FilterOption[] = [
-    { id: 'remote', name: 'Remote' },
-    { id: 'hybrid', name: 'Hybrid' },
-    { id: 'on-site', name: 'On-site' },
-  ];
+  locations = computed(() => this.filtersData.value()?.locations);
 
-  readonly salaryRanges: FilterOption[] = [
-    { id: SalaryRange.UNDER_50K, name: 'Under $50k' },
-    { id: SalaryRange.FROM_50K_TO_100K, name: '$50k - $100k' },
-    { id: SalaryRange.FROM_100K_TO_150K, name: '$100k - $150k' },
-    { id: SalaryRange.OVER_150K, name: 'Over $150k' },
-  ];
+  readonly salaryRanges: string[] = ['Under $50k', '$50k - $100k', '$100k - $150k', 'Over $150k'];
 
-  readonly postedWithinOptions: FilterOption[] = [
-    { id: PostedWithin.LAST_24H, name: 'Last 24 hours' },
-    { id: PostedWithin.LAST_7D, name: 'Last 7 days' },
-    { id: PostedWithin.LAST_30D, name: 'Last 30 days' },
-  ];
+  readonly postedWithinOptions: string[] = ['Last 24 hours', 'Last 7 days', 'Last 30 days'];
 
-  onEmploymentTypeChange(value: string) {
+  onEmploymentTypeChange(value: EmploymentType) {
     this.selectedEmploymentType.set(value);
-    this.updateFilter('employmentType', value as EmploymentType);
+    this.updateFilter('employmentType', value);
   }
 
-  onExperienceLevelChange(value: string) {
+  onExperienceLevelChange(value: ExperienceLevel) {
     this.selectedExperienceLevel.set(value);
-    this.updateFilter('experienceLevel', value as ExperienceLevel);
+    this.updateFilter('experienceLevel', value);
   }
 
   onLocationChange(value: string) {
@@ -85,14 +76,14 @@ export class CategoryFilter {
     this.updateFilter('location', value);
   }
 
-  onSalaryRangeChange(value: string) {
+  onSalaryRangeChange(value: SalaryRange) {
     this.selectedSalaryRange.set(value);
-    this.updateFilter('salaryRange', value as SalaryRange);
+    this.updateFilter('salaryRange', value);
   }
 
-  onPostedWithinChange(value: string) {
+  onPostedWithinChange(value: PostedWithin) {
     this.selectedPostedWithin.set(value);
-    this.updateFilter('postedWithin', value as PostedWithin);
+    this.updateFilter('postedWithin', value);
   }
 
   private updateFilter<K extends keyof FilterState>(key: K, value: FilterState[K] | string) {
@@ -105,11 +96,11 @@ export class CategoryFilter {
   }
 
   clearFilters() {
-    this.selectedEmploymentType.set('');
-    this.selectedExperienceLevel.set('');
+    this.selectedEmploymentType.set(EmploymentType.ALL);
+    this.selectedExperienceLevel.set(ExperienceLevel.ALL);
     this.selectedLocation.set('');
-    this.selectedSalaryRange.set('');
-    this.selectedPostedWithin.set('');
+    this.selectedSalaryRange.set(SalaryRange.ALL);
+    this.selectedPostedWithin.set(PostedWithin.ALL);
     this.currentFilters.set({});
     this.filterChange.emit({});
     this.clearAll.emit();

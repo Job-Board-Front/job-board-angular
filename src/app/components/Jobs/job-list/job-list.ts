@@ -12,7 +12,7 @@ import {
 import { Job, JobSearchFilters, PaginatedResponse } from '../../../interfaces/api/job.models';
 import { JobsService } from '@/app/api/jobs.service';
 import { CommonModule } from '@angular/common';
-import { rxResource, takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Subject } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 
@@ -102,6 +102,7 @@ export class JobList {
       }
     });
   }
+  
   private normalizeLocation(value?: string): string | undefined {
     if (!value) return undefined;
     const v = value.toLowerCase();
@@ -111,6 +112,7 @@ export class JobList {
     // Title-case fallback
     return value.charAt(0).toUpperCase() + value.slice(1);
   }
+
   applyFilters(
     newFilters: Partial<JobSearchFilters & { salaryRange?: string; postedWithin?: string }>,
   ) {
@@ -137,6 +139,7 @@ export class JobList {
       cursor: undefined,
     } as JobSearchFilters);
   }
+
   private loadMoreJobs() {
     if (!this.lastCursor || this.jobsResource.isLoading() || !this.hasMoreJobs()) return;
 
