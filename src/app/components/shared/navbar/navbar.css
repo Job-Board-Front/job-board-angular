@@ -91,6 +91,7 @@
 }
 
 .nav-link {
+  color: var(--color-text-muted);
   text-decoration: none;
   font-weight: 500;
   font-size: 1rem;
@@ -190,6 +191,7 @@
     var(--gradient-accent-start) 0%,
     var(--gradient-accent-end) 100%
   );
+  color: var(--color-text-on-accent);
   box-shadow: var(--shadow-accent);
 }
 
