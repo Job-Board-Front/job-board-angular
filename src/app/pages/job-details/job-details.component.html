@@ -21,12 +21,18 @@
           <app-job-description [description]="job()!.description" />
 
           <app-job-skills [techStack]="job()!.techStack" />
-          <app-job-keywords [keywords]="job()!.keywords" [techStack]="job()!.techStack" />
+          <div class="mt-7">
+            <app-job-keywords [keywords]="job()!.keywords" [techStack]="job()!.techStack" />
+          </div>
         </div>
 
         <!-- Sidebar -->
         <div class="space-y-6">
-          <app-job-actions (applyClick)="onApplyClick()" (bookmarkClick)="onBookmarkClick()" [isBookmarked]="isBookmarked()" />
+          <app-job-actions
+            (applyClick)="onApplyClick()"
+            (bookmarkClick)="onBookmarkClick()"
+            [isBookmarked]="isBookmarked()"
+          />
           <h2></h2>
 
           <app-job-details-card [job]="job()!" />
