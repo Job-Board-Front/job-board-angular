@@ -19,8 +19,13 @@
         <path d="M5 12h14M12 5l7 7-7 7" />
       </svg>
     </app-button>
-    <app-button class="btn-secondary-large" variant="secondary" href="/register"
-      >Create Account</app-button
-    >
+    @if (!authService.currentUser()) {
+      <app-button
+        class="btn-secondary-large"
+        variant="secondary"
+        [routerLink]="auth_routes.register"
+        >Create Account</app-button
+      >
+    }
   </div>
 </section>

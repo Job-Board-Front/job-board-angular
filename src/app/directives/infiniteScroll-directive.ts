@@ -10,7 +10,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 export class InfiniteScrollDirective {
   private destroyRef = inject(DestroyRef);
 
-  threshold = input<number>(50);
+  threshold = input<number>(500);
   throttle = input<number>(200);
 
   scrolledToBottom = output<void>();
