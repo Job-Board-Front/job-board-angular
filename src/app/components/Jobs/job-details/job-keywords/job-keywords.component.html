@@ -1,0 +1,13 @@
+<h2 class="text-lg font-semibold mb-3">Associated Keywords</h2>
+<div class="flex flex-wrap gap-2 mb-6">
+  @for (tag of displayTags(); track tag; let idx = $index) {
+    <app-badge [label]="tag" [variant]="idx === 0 ? 'blue' : 'gray'"></app-badge>
+  }
+  @if (remainingTagsCount() > 0) {
+    <span
+      class="inline-flex items-center rounded-md px-2.5 py-1 text-xs font-medium text-slate-600 bg-slate-100 dark:text-slate-400 dark:bg-slate-800/50"
+    >
+      +{{ remainingTagsCount() }}
+    </span>
+  }
+</div>

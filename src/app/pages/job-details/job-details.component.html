@@ -1,47 +1,40 @@
 <div class="bg-gray-50">
   <div class="max-w-7xl mx-auto px-6 py-8">
-    
     <app-job-detail-header />
 
-    @if(isLoading()) {
+    @if (isLoading()) {
       <p>Loading job…</p>
     }
 
-    @if(error()) {
+    @if (error()) {
       <p class="text-red-500">Failed to load job</p>
     }
 
-    @if(job()) {
+    @if (job()) {
       <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        
         <!-- Main Content -->
         <div class="lg:col-span-2 bg-white rounded-xl border border-gray-400/40 p-8 shadow-xl">
-          
           <app-job-header [job]="job()!" />
 
-          <hr class="my-8 border-gray-400/40">
+          <hr class="my-8 border-gray-400/40" />
 
           <app-job-description [description]="job()!.description" />
 
           <app-job-skills [techStack]="job()!.techStack" />
-          
+          <app-job-keywords [keywords]="job()!.keywords" [techStack]="job()!.techStack" />
         </div>
 
         <!-- Sidebar -->
         <div class="space-y-6">
-          <app-job-actions 
-            (applyClick)="onApplyClick()"
-            (bookmarkClick)="onBookmarkClick()" />
-        <h2></h2>
+          <app-job-actions (applyClick)="onApplyClick()" (bookmarkClick)="onBookmarkClick()" />
+          <h2></h2>
 
           <app-job-details-card [job]="job()!" />
         </div>
       </div>
 
       <!-- Similar Jobs Section -->
-      <app-similar-jobs 
-        [similarJobs]="similarJobs()"
-        (viewAllClick)="onViewSimilarJobs()" />
+      <app-similar-jobs [similarJobs]="similarJobs()" (viewAllClick)="onViewSimilarJobs()" />
     }
   </div>
 </div>
