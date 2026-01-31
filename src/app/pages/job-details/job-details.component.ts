@@ -11,7 +11,8 @@ import { Component, computed, inject } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router } from '@angular/router';
 import { map } from 'rxjs';
-import { JobKeywordsComponent } from "@/app/components/Jobs/job-details/job-keywords/job-keywords.component";
+import { JobKeywordsComponent } from '@/app/components/Jobs/job-details/job-keywords/job-keywords.component';
+import { BookmarkService } from '@/app/services/bookmark/bookmark.service';
 
 @Component({
   selector: 'app-job-details',
@@ -24,8 +25,8 @@ import { JobKeywordsComponent } from "@/app/components/Jobs/job-details/job-keyw
     JobActionsComponent,
     JobDetailsCardComponent,
     SimilarJobsComponent,
-    JobKeywordsComponent
-],
+    JobKeywordsComponent,
+  ],
   templateUrl: './job-details.component.html',
   styleUrls: ['./job-details.component.css'],
 })
@@ -33,6 +34,7 @@ export class JobDetailsComponent {
   private route = inject(ActivatedRoute);
   private jobService = inject(JobsService);
   private router = inject(Router);
+  private bookmarkService = inject(BookmarkService);
 
   private jobId = toSignal(
     this.route.paramMap.pipe(map((params) => params.get('id') ?? undefined)),
@@ -43,6 +45,7 @@ export class JobDetailsComponent {
   job = computed(() => this.jobResource.value());
   isLoading = computed(() => this.jobResource.isLoading?.() ?? false);
   error = computed(() => this.jobResource.error?.() ?? undefined);
+  isBookmarked = computed(() => this.bookmarkService.hasBookmark(this.jobId()!));
 
   private similarJobsParams = computed<JobSearchFilters | undefined>(() => {
     const currentJob = this.job();
@@ -51,7 +54,7 @@ export class JobDetailsComponent {
     }
 
     return {
-      search: currentJob.keywords.join(' '),
+      search: currentJob.techStack.join(''),
       limit: 4,
     };
   });
@@ -79,8 +82,11 @@ export class JobDetailsComponent {
   }
 
   onBookmarkClick() {
-    console.log('Bookmark clicked for job:', this.job()?.id);
-    // Implement bookmark functionality
+    const jobId = this.job()?.id;
+    console.log('Bookmark clicked for job:', jobId);
+    if (jobId) {
+      this.bookmarkService.toggleBookmark(jobId);
+    }
   }
 
   onViewSimilarJobs() {

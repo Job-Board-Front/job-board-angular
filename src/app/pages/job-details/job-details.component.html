@@ -26,7 +26,7 @@
 
         <!-- Sidebar -->
         <div class="space-y-6">
-          <app-job-actions (applyClick)="onApplyClick()" (bookmarkClick)="onBookmarkClick()" />
+          <app-job-actions (applyClick)="onApplyClick()" (bookmarkClick)="onBookmarkClick()" [isBookmarked]="isBookmarked()" />
           <h2></h2>
 
           <app-job-details-card [job]="job()!" />
