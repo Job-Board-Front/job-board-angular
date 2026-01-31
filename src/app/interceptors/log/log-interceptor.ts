@@ -1,7 +1,8 @@
+import { environment } from '@/environments/environment';
 import { HttpInterceptorFn } from '@angular/common/http';
 
 export const logInterceptor: HttpInterceptorFn = (req, next) => {
-  if (process.env['NG_ENV'] === 'dev') {
+  if (environment.environmentType === 'dev') {
     // Log the request details
     console.log('HTTP Request:', {
       url: req.url,
