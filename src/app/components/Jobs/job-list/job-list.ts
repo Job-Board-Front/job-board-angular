@@ -102,18 +102,41 @@ export class JobList {
       }
     });
   }
+  private normalizeLocation(value?: string): string | undefined {
+    if (!value) return undefined;
+    const v = value.toLowerCase();
+    if (v === 'remote') return 'Remote';
+    if (v === 'hybrid') return 'Hybrid';
+    if (v === 'on-site' || v === 'onsite' || v === 'on site') return 'On-site';
+    // Title-case fallback
+    return value.charAt(0).toUpperCase() + value.slice(1);
+  }
+  applyFilters(
+    newFilters: Partial<JobSearchFilters & { salaryRange?: string; postedWithin?: string }>,
+  ) {
+    // Build server filters only - match backend API fields
+    const serverFilters: Partial<JobSearchFilters> = {
+      limit: this.limit,
+      cursor: undefined,
+    };
 
-  applyFilters(newFilters: Partial<JobSearchFilters>) {
-    this.currentSearchFilters = newFilters;
+    if (newFilters.search !== undefined) serverFilters.search = newFilters.search;
+    if (newFilters.employmentType !== undefined)
+      serverFilters.employmentType = newFilters.employmentType;
+    if (newFilters.experienceLevel !== undefined)
+      serverFilters.experienceLevel = newFilters.experienceLevel;
+    const normalizedLocation = this.normalizeLocation(newFilters.location as string | undefined);
+    if (normalizedLocation) serverFilters.location = normalizedLocation;
+
+    this.currentSearchFilters = serverFilters;
     this.lastCursor = undefined;
     this.isNewFilter = true;
     this.filterSignal.set({
-      ...newFilters,
+      ...serverFilters,
       limit: this.limit,
       cursor: undefined,
-    });
+    } as JobSearchFilters);
   }
-
   private loadMoreJobs() {
     if (!this.lastCursor || this.jobsResource.isLoading() || !this.hasMoreJobs()) return;
 
