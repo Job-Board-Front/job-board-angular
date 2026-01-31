@@ -1,0 +1,39 @@
+.theme-toggle {
+  background: var(--color-bg-surface);
+  border: none;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: var(--shadow-sm);
+  transition: all 0.2s;
+}
+
+.theme-toggle:hover {
+  transform: scale(1.05);
+  box-shadow: var(--shadow-md);
+}
+
+.theme-toggle svg {
+  width: 20px;
+  height: 20px;
+  color: var(--color-text-secondary);
+  transition: all 0.2s;
+  animation: iconFadeIn 0.3s ease-in;
+}
+
+:host-context(.dark) .theme-toggle {
+  background: var(--color-bg-surface-secondary);
+  box-shadow: var(--shadow-sm);
+}
+
+:host-context(.dark) .theme-toggle:hover {
+  box-shadow: var(--shadow-md);
+}
+
+:host-context(.dark) .theme-toggle svg {
+  color: var(--color-icon-sun);
+}
