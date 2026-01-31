@@ -112,7 +112,7 @@
 }
 
 .nav-link.active {
-  color: var(--color-text-on-surface);
+  color: var(--color-text-secondary);
 }
 
 :host-context(.dark) .nav-link.active {
