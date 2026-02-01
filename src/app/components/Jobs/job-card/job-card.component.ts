@@ -11,7 +11,14 @@ import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-job-card',
-  imports: [CommonModule, BadgeComponent, IconComponent, AbsoluteUrlPipe, GetInitialsPipe, LucideAngularModule],
+  imports: [
+    CommonModule,
+    BadgeComponent,
+    IconComponent,
+    AbsoluteUrlPipe,
+    GetInitialsPipe,
+    LucideAngularModule,
+  ],
   templateUrl: './job-card.component.html',
   styleUrl: './job-card.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -81,10 +88,9 @@ export class JobCardComponent {
     return value.toLowerCase().replace(/_/g, ' ');
   }
 
-   goToDetails() {
-    this.router.navigate(['/Details', this.job().id]);
-   }
-  
+  goToDetails() {
+    this.router.navigate(['/details', this.job().id]);
+  }
 
   handleBookmark(event: Event) {
     event.stopPropagation();
