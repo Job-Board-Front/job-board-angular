@@ -6,12 +6,14 @@ import { JobDetailsCardComponent } from '@/app/components/Jobs/job-details/job-d
 import { JobHeaderComponent } from '@/app/components/Jobs/job-details/job-header/job-header.component';
 import { JobSkillsComponent } from '@/app/components/Jobs/job-details/job-skills/job-skills.component';
 import { SimilarJobsComponent } from '@/app/components/Jobs/job-details/similar-jobs/similar-jobs.component';
+import { JobSearchFilters } from '@/app/interfaces/api/job.models';
 import { Job } from '@/app/interfaces/api/job.models';
-import { BookmarkService } from '@/app/services/bookmark/bookmark.service';
 import { Component, computed, inject } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router } from '@angular/router';
 import { map } from 'rxjs';
+import { JobKeywordsComponent } from '@/app/components/Jobs/job-details/job-keywords/job-keywords.component';
+import { BookmarkService } from '@/app/services/bookmark/bookmark.service';
 
 @Component({
   selector: 'app-job-details',
@@ -23,7 +25,8 @@ import { map } from 'rxjs';
     JobSkillsComponent,
     JobActionsComponent,
     JobDetailsCardComponent,
-    SimilarJobsComponent
+    SimilarJobsComponent,
+    JobKeywordsComponent,
   ],
   templateUrl: './job-details.component.html',
   styleUrls: ['./job-details.component.css'],
@@ -35,7 +38,7 @@ export class JobDetailsComponent {
   private bookmarkService = inject(BookmarkService);
 
   private jobId = toSignal(
-    this.route.paramMap.pipe(map(params => params.get('id') ?? undefined))
+    this.route.paramMap.pipe(map((params) => params.get('id') ?? undefined)),
   );
 
   private jobResource = this.jobService.getJobById(this.jobId);
@@ -43,18 +46,13 @@ export class JobDetailsComponent {
   job = computed(() => this.jobResource.value());
   isLoading = computed(() => this.jobResource.isLoading?.() ?? false);
   error = computed(() => this.jobResource.error?.() ?? undefined);
-    isBookmarked = computed(() => {
-    const currentJob = this.job();
-    return currentJob ? this.bookmarkService.hasBookmark(currentJob.id) : false;
-  });
-  
+  isBookmarked = computed(() => this.bookmarkService.hasBookmark(this.jobId()!));
 
-  private similarJobsParams = computed(() => {
+  private similarJobsParams = computed<JobSearchFilters | undefined>(() => {
     const currentJob = this.job();
     if (!currentJob?.keywords || currentJob.keywords.length === 0) {
       return undefined;
     }
-
 
     return {
       search: currentJob.keywords.join(' '),
@@ -68,7 +66,6 @@ export class JobDetailsComponent {
   similarJobs = computed(() => {
     const currentJob = this.job();
     const response = this.similarJobsResource.value();
-
 
     if (!response?.data || !currentJob) {
       return [];
@@ -91,14 +88,14 @@ export class JobDetailsComponent {
   }
 
   onBookmarkClick() {
-      const currentJob = this.job();
-      if (currentJob) {
-        this.bookmarkService.toggleBookmark(currentJob.id);
-      }
+    const jobId = this.job()?.id;
+    console.log('Bookmark clicked for job:', jobId);
+    if (jobId) {
+      this.bookmarkService.toggleBookmark(jobId);
     }
-
-
-  /*onViewSimilarJobs() {
+  }
+/*
+  onViewSimilarJobs() {
     const currentJob = this.job();
     if (!currentJob?.keywords || currentJob.keywords.length === 0) {
       return;
@@ -106,8 +103,8 @@ export class JobDetailsComponent {
 
     this.router.navigate(['/jobs'], {
       queryParams: {
-        search: currentJob.keywords.slice(0, 5).join(' ')
-      }
+        search: currentJob.keywords.slice(0, 5).join(' '),
+      },
     });
   }*/
 }

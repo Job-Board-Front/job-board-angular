@@ -7,7 +7,7 @@ import { environment } from '../../environments/environment';
 import { Bookmark } from '../interfaces/api/job.models';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class BookmarksService {
   private readonly http = inject(HttpClient);
@@ -16,6 +16,7 @@ export class BookmarksService {
 
   // Singleton httpResource instance - reused across the app
   private readonly bookmarksResource = httpResource<Bookmark[]>(() => {
+
     // Read the refresh signal to trigger refetch when invalidated
     this.bookmarksRefresh();
 
@@ -34,10 +35,9 @@ export class BookmarksService {
   }
 
   bookmarkJob(jobId: string): Observable<Bookmark> {
-    return this.http.post<Bookmark>(`${this.baseUrl}/${jobId}`, {})
-      .pipe(
-        tap(() => this.invalidateCache())
-      );
+    return this.http
+      .post<Bookmark>(`${this.baseUrl}/${jobId}`, {})
+      .pipe(tap(() => this.invalidateCache()));
   }
 
   /** Unbookmark without invalidating cache so the bookmarks page can filter locally (no refetch). */
@@ -46,10 +46,10 @@ export class BookmarksService {
   }
 
   isJobBookmarked(bookmarks: readonly Bookmark[] | undefined, jobId: string): boolean {
-    return bookmarks?.some(bookmark => bookmark.id === jobId) ?? false;
+    return bookmarks?.some((bookmark) => bookmark.id === jobId) ?? false;
   }
 
   private invalidateCache(): void {
-  this.bookmarksRefresh.update(count => count + 1);
-}
+    this.bookmarksRefresh.update((count) => count + 1);
+  }
 }
