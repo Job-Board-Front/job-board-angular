@@ -1,49 +1,70 @@
 <div class="filter-container">
-  <h3 class="filter-main-title">Filter by</h3>
+  <div class="filter-header">
+    <h3 class="filter-main-title">Filter by</h3>
+  </div>
 
-  <div class="filters-row">
-    <!-- Salary -->
-    <div class="filter-item">
-      <label for="salary-select">Salary</label>
-      <select id="salary-select" (change)="selectOption('salary', $any($event.target).value)">
-        <option value="">All</option>
-        @for (option of salaryRanges; track option.id) {
-          <option [value]="option.id">{{ option.name }}</option>
-        }
-      </select>
+  <!-- wrapper that holds filters and the clear button to the right -->
+  <div class="filters-actions">
+    <div class="filters-row" role="group" aria-label="Job filters">
+      <!-- Employment Type -->
+      <app-drop-down-menu
+        [value]="selectedEmploymentType()"
+        [options]="employmentTypes"
+        (selectedOption)="onEmploymentTypeChange($any($event))"
+        label="Employment Type"
+        id="employment-type-select"
+        ariaLabel="Filter by employment type"
+      ></app-drop-down-menu>
+
+      <!-- Experience Level -->
+      <app-drop-down-menu
+        [value]="selectedExperienceLevel()"
+        [options]="experienceLevels()"
+        (selectedOption)="onExperienceLevelChange($any($event))"
+        label="Experience Level"
+        id="experience-level-select"
+        ariaLabel="Filter by experience level"
+      ></app-drop-down-menu>
+
+      <!-- Location -->
+      <app-drop-down-menu
+        [value]="selectedLocation()"
+        [options]="locations()"
+        (selectedOption)="onLocationChange($any($event))"
+        label="Location"
+        id="location-select"
+        ariaLabel="Filter by location"
+      ></app-drop-down-menu>
+
+      <!-- Salary Range -->
+      <app-drop-down-menu
+        [value]="selectedSalaryRange()"
+        [options]="salaryRanges"
+        (selectedOption)="onSalaryRangeChange($any($event))"
+        label="Salary Range"
+        id="salary-range-select"
+        ariaLabel="Filter by salary range"
+      ></app-drop-down-menu>
+
+      <!-- Posted Within (Recent) -->
+      <app-drop-down-menu
+        [value]="selectedPostedWithin()"
+        [options]="postedWithinOptions"
+        (selectedOption)="onPostedWithinChange($any($event))"
+        label="Posted Within"
+        id="posted-within-select"
+        ariaLabel="Filter by posted within"
+      ></app-drop-down-menu>
     </div>
 
-    <!-- Job Title -->
-    <div class="filter-item">
-      <label for="title-select">Job Title</label>
-      <select id="title-select" (change)="selectOption('title', $any($event.target).value)">
-        <option value="">All</option>
-        @for (option of jobTitles; track option.id) {
-          <option [value]="option.id">{{ option.name }}</option>
-        }
-      </select>
-    </div>
-
-    <!-- Location -->
-    <div class="filter-item">
-      <label for="location-select">Location</label>
-      <select id="location-select" (change)="selectOption('location', $any($event.target).value)">
-        <option value="">All</option>
-        @for (option of locations; track option.id) {
-          <option [value]="option.id">{{ option.name }}</option>
-        }
-      </select>
-    </div>
-
-    <!-- Recent -->
-    <div class="filter-item">
-      <label for="recent-select">Recent</label>
-      <select id="recent-select" (change)="selectOption('recent', $any($event.target).value)">
-        <option value="">All</option>
-        @for (option of recentOptions; track option.id) {
-          <option [value]="option.id">{{ option.name }}</option>
-        }
-      </select>
-    </div>
+    <!-- Blue filled button aligned to the right of filters -->
+    <app-button
+      variant="primary"
+      class="hover:-translate-y-0.5"
+      (click)="clearFilters()"
+      [attr.aria-label]="'Clear all filters'"
+    >
+      Clear all
+    </app-button>
   </div>
 </div>

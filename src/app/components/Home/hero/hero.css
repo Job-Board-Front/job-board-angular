@@ -8,13 +8,17 @@
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  background: #eff6ff;
-  color: #2563eb;
   padding: 0.5rem 1rem;
   border-radius: 20px;
   font-size: 0.9rem;
   font-weight: 500;
   margin-bottom: 1.5rem;
+  transition: all 0.3s ease;
+}
+
+:host-context(.dark) .hero-badge {
+  background: rgba(37, 99, 235, 0.15);
+  color: #60a5fa;
 }
 
 .hero-badge svg {
@@ -25,26 +29,34 @@
 .hero-title {
   font-size: 3.5rem;
   font-weight: 650;
-  color: #0f172a;
   margin: 0 0 1.5rem 0;
   line-height: 1.1;
+  transition: color 0.3s ease;
+}
+
+:host-context(.dark) .hero-title {
+  color: #f1f5f9;
 }
 
 .hero-description {
   font-size: 1.125rem;
-  color: #64748b;
   margin: 0 0 2rem 0;
   line-height: 1.6;
+  transition: color 0.3s ease;
+}
+
+:host-context(.dark) .hero-description {
+  color: #94a3b8;
 }
 
 .hero-actions {
   display: flex;
   gap: 1rem;
+  flex-wrap: wrap;
 }
 
 .btn-primary-large,
 .btn-secondary-large {
-  padding: 0.875rem 2rem;
   border-radius: 8px;
   font-weight: 600;
   font-size: 1rem;
@@ -57,14 +69,22 @@
 }
 
 .btn-primary-large {
-  background: #2563eb;
+  background: linear-gradient(135deg, #2563eb 0%, #8b5cf6 100%);
   color: white;
+  box-shadow: 0 2px 8px rgba(37, 99, 235, 0.3);
 }
 
 .btn-primary-large:hover {
-  background: #1d4ed8;
-  transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(37, 99, 235, 0.4);
+}
+
+:host-context(.dark) .btn-primary-large {
+  box-shadow: 0 2px 8px rgba(37, 99, 235, 0.5);
+}
+
+:host-context(.dark) .btn-primary-large:hover {
+  box-shadow: 0 6px 16px rgba(37, 99, 235, 0.6);
 }
 
 .btn-primary-large svg {
@@ -78,7 +98,45 @@
   border: 2px solid #e2e8f0;
 }
 
+:host-context(.dark) .btn-secondary-large {
+  background: #1e293b;
+  color: #f1f5f9;
+  border-color: #334155;
+}
+
 .btn-secondary-large:hover {
   border-color: #cbd5e1;
   background: #f8fafc;
+  transform: translateY(-1px);
+}
+
+:host-context(.dark) .btn-secondary-large:hover {
+  border-color: #475569;
+  background: #334155;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .hero {
+    padding: 2rem 0 1.5rem;
+  }
+
+  .hero-title {
+    font-size: 2.5rem;
+  }
+
+  .hero-description {
+    font-size: 1rem;
+  }
+
+  .hero-actions {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .btn-primary-large,
+  .btn-secondary-large {
+    width: 100%;
+    justify-content: center;
+  }
 }

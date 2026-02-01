@@ -2,18 +2,20 @@ export enum EmploymentType {
   FULL_TIME = 'full-time',
   PART_TIME = 'part-time',
   CONTRACT = 'contract',
-  INTERNSHIP = 'internship'
+  INTERNSHIP = 'internship',
+  ALL=''
 }
 
 export enum ExperienceLevel {
   JUNIOR = 'junior',
   MID = 'mid',
-  SENIOR = 'senior'
+  SENIOR = 'senior',
+  ALL=''
 }
 
 export interface Job {
   readonly id: string;
-  readonly logo?: string;
+  readonly logoUrl?: string;
   readonly title: string;
   readonly description: string;
   readonly company: string;
@@ -25,9 +27,10 @@ export interface Job {
   readonly keywords: readonly string[];
   readonly source: 'seeded' | 'manual';
   readonly isActive: boolean;
-  readonly expiresAt: string; 
-  readonly createdAt: string; 
-  readonly updatedAt: string; 
+  readonly expiresAt: string;
+  readonly createdAt: string;
+  readonly updatedAt: string;
+  readonly submissionLink?: string;
 }
 
 export interface CreateJobDto {
@@ -45,24 +48,41 @@ export interface CreateJobDto {
 
 
 export interface Bookmark {
-  readonly id?: string;
-  readonly userId: string;
-  readonly jobId: string;
-  readonly createdAt: string; 
+  readonly id: string;
+  readonly createdAt: string;
+  readonly expiresAt: string;
 }
 
+
+export enum SalaryRange {
+  UNDER_50K = 'under-50k',
+  FROM_50K_TO_100K = '50k-100k',
+  FROM_100K_TO_150K = '100k-150k',
+  OVER_150K = 'over-150k',
+  ALL=''
+}
+
+export enum PostedWithin {
+  LAST_24H = '24h',
+  LAST_7D = '7d',
+  LAST_30D = '30d',
+  ALL=''
+}
 
 export interface JobSearchFilters {
   search?: string; // Keyword search
   location?: string;
   employmentType?: EmploymentType;
   experienceLevel?: ExperienceLevel;
+  salaryRange?: SalaryRange;
+  postedWithin?: PostedWithin;
   limit?: number;
-  cursor?: string; 
+  cursor?: string;
 }
 
 
 export interface PaginatedResponse<T> {
   data: T[];
   nextCursor: string | null;
+  totalCount?: number;
 }

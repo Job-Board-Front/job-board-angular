@@ -1,7 +1,11 @@
+<ngx-ui-loader [fgsSize]="75" [fgsType]="SPINNER.wanderingCubes"></ngx-ui-loader>
 <div class="app-container">
     <app-navbar></app-navbar>
-    <main>
+    @if (!isLoading()) {
+    <div class="px-50 mx-auto">
         <p-toast position="top-right" />
-        <router-outlet></router-outlet>
-    </main>
+          <router-outlet></router-outlet>
+      </div>
+  }
+  <app-footer></app-footer>
 </div>

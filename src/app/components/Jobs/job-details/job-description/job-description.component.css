@@ -1,0 +1,28 @@
+:host-context(.dark) h2 {
+  color: var(--color-text-primary);
+}
+
+:host-context(.dark) .description-wrapper {
+  color: var(--color-text-tertiary);
+}
+
+:host-context(.dark) .text-blue-600 {
+  color: var(--color-accent-link);
+}
+
+:host-context(.dark) .text-blue-600:hover {
+  color: var(--color-accent-link-hover);
+}
+
+:host-context(.dark) .description-collapsed::after {
+  background: var(--color-bg-surface);
+}
+
+
+:host-context(.dark) section {
+  color: var(--color-text-tertiary);
+}
+
+:host-context(.dark) .description-wrapper * {
+  color: inherit;
+}

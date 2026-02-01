@@ -1,0 +1,225 @@
+.header {
+  background: linear-gradient(
+    135deg,
+    var(--gradient-footer-start) 0%,
+    var(--gradient-footer-end) 100%
+  );
+  border-bottom: 1px solid var(--color-border-light);
+  padding: 1rem 2rem;
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  transition:
+    background 0.3s,
+    border-color 0.3s;
+}
+
+:host-context(.dark) .header {
+  background: linear-gradient(
+    135deg,
+    var(--gradient-footer-start) 0%,
+    var(--gradient-footer-end) 100%
+  );
+  border-bottom: 1px solid var(--color-border-default);
+}
+
+.header-content {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo-nav {
+  display: flex;
+  align-items: center;
+  gap: 3rem;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  text-decoration: none;
+  transition: opacity 0.2s;
+}
+
+.logo:hover {
+  opacity: 0.8;
+}
+
+.logo-icon {
+  width: 40px;
+  height: 40px;
+  color: var(--color-accent-primary);
+  background-color: var(--color-bg-surface);
+  padding: 0.5rem;
+  border-radius: 8px;
+  box-shadow: var(--shadow-sm);
+  transition: all 0.3s;
+}
+
+:host-context(.dark) .logo-icon {
+  background-color: var(--color-bg-surface-secondary);
+  box-shadow: var(--shadow-sm);
+}
+
+.logo-text {
+  font-size: 1.5rem;
+  font-weight: 700;
+  background: linear-gradient(
+    135deg,
+    var(--gradient-accent-start) 0%,
+    var(--gradient-accent-end) 100%
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.nav {
+  display: flex;
+  gap: 2rem;
+}
+
+@media (max-width: 768px) {
+  .nav {
+    display: none;
+  }
+}
+
+.nav-link {
+  color: var(--color-text-muted);
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 1rem;
+  transition: color 0.2s;
+  position: relative;
+}
+
+:host-context(.dark) .nav-link {
+  color: var(--color-text-secondary);
+}
+
+.nav-link:hover {
+  color: var(--color-text-on-surface);
+}
+
+:host-context(.dark) .nav-link:hover {
+  color: var(--color-text-primary);
+}
+
+.nav-link.active {
+  color: var(--color-text-secondary);
+}
+
+:host-context(.dark) .nav-link.active {
+  color: var(--color-text-primary);
+}
+
+.nav-link.active::after {
+  content: '';
+  position: absolute;
+  bottom: -1.5rem;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(
+    90deg,
+    var(--gradient-accent-start) 0%,
+    var(--gradient-accent-end) 100%
+  );
+  border-radius: 2px;
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+@keyframes iconFadeIn {
+  from {
+    opacity: 0;
+    transform: rotate(-90deg) scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: rotate(0) scale(1);
+  }
+}
+
+.btn-secondary,
+.btn-primary {
+  padding: 0.625rem 1.5rem;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  border: none;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.btn-secondary {
+  background: var(--color-bg-surface);
+  color: var(--color-text-on-surface);
+  border: 1px solid var(--color-border-light);
+}
+
+:host-context(.dark) .btn-secondary {
+  background: var(--color-bg-surface-secondary);
+  color: var(--color-text-primary);
+  border: 1px solid var(--color-border-input);
+}
+
+.btn-secondary:hover {
+  background: var(--color-bg-overlay);
+  transform: translateY(-1px);
+}
+
+:host-context(.dark) .btn-secondary:hover {
+  background: var(--color-bg-overlay);
+}
+
+.btn-primary {
+  background: linear-gradient(
+    135deg,
+    var(--gradient-accent-start) 0%,
+    var(--gradient-accent-end) 100%
+  );
+  color: var(--color-text-on-accent);
+  box-shadow: var(--shadow-accent);
+}
+
+.btn-primary:hover {
+  box-shadow: var(--shadow-accent-hover);
+  transform: translateY(-1px);
+}
+
+@media (max-width: 640px) {
+  .header {
+    padding: 1rem;
+  }
+
+  .logo-nav {
+    gap: 1.5rem;
+  }
+
+  .logo-text {
+    font-size: 1.25rem;
+  }
+
+  .header-actions {
+    gap: 0.5rem;
+  }
+
+  .btn-secondary,
+  .btn-primary {
+    padding: 0.5rem 1rem;
+    font-size: 0.875rem;
+  }
+}

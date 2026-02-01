@@ -1,0 +1,58 @@
+<footer class="footer">
+  <div class="footer-content">
+    <div class="footer-left">
+      <div class="footer-logo">
+        <svg class="logo-icon" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M3 3h18v18H3V3zm2 2v14h14V5H5z"/>
+          <path d="M7 7h10v2H7V7zm0 4h10v2H7v-2zm0 4h6v2H7v-2z"/>
+        </svg>
+        <span class="logo-text">JobBoard</span>
+      </div>
+      <p class="footer-description">
+        Find your dream job with ease.
+      </p>
+      <p class="copyright">&copy; {{ currentYear }} JobBoard. All rights reserved.</p>
+    </div>
+
+    <div class="footer-right">
+      <nav class="footer-links-inline">
+        <a routerLink="/" class="footer-link">Home</a>
+        <a routerLink="/jobs" class="footer-link">Jobs</a>
+        <a routerLink="/bookmarked" class="footer-link">Bookmarked</a>
+        @if (isLoggedIn()) {
+        <a [routerLink]="['/', AUTH_ROUTES.logout]" class="footer-link">
+          Logout
+        </a>
+      } @else {
+        <a [routerLink]="['/', AUTH_ROUTES.login]" class="footer-link">
+          Login
+        </a>
+        <a [routerLink]="['/', AUTH_ROUTES.register]" class="footer-link">
+          Sign Up
+        </a>
+      }
+        <a routerLink="/privacy" class="footer-link">Privacy</a>
+        <a routerLink="/terms" class="footer-link">Terms</a>
+      </nav>
+      
+      <div class="social-links">
+        <a href="#" class="social-link" aria-label="Twitter">
+          <svg viewBox="0 0 24 24" fill="currentColor">
+            <path d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5a4.5 4.5 0 00-.08-.83A7.72 7.72 0 0023 3z"/>
+          </svg>
+        </a>
+        <a href="#" class="social-link" aria-label="LinkedIn">
+          <svg viewBox="0 0 24 24" fill="currentColor">
+            <path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"/>
+            <circle cx="4" cy="4" r="2"/>
+          </svg>
+        </a>
+        <a href="#" class="social-link" aria-label="GitHub">
+          <svg viewBox="0 0 24 24" fill="currentColor">
+            <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/>
+          </svg>
+        </a>
+      </div>
+    </div>
+  </div>
+</footer>

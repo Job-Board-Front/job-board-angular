@@ -1,10 +1,11 @@
 import {
   ApplicationConfig,
   ErrorHandler,
+  importProvidersFrom,
   provideBrowserGlobalErrorListeners,
   provideZonelessChangeDetection,
 } from '@angular/core';
-import { provideRouter } from '@angular/router';
+import { provideRouter, withEnabledBlockingInitialNavigation, withViewTransitions } from '@angular/router';
 import { routes } from './app.routes';
 import { MessageService } from 'primeng/api';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async'; 
@@ -20,6 +21,7 @@ import { authInterceptor } from './interceptors/auth/auth-interceptor';
 import { logInterceptor } from './interceptors/log/log-interceptor';
 import { errorInterceptor } from './interceptors/error/error.interceptor';
 import { GlobalErrorHandler } from './interceptors/error/global-error-handler';
+import { NgxUiLoaderModule } from 'ngx-ui-loader';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -27,7 +29,7 @@ export const appConfig: ApplicationConfig = {
     provideAnimationsAsync(),
     provideZonelessChangeDetection(),
     provideBrowserGlobalErrorListeners(),
-    provideRouter(routes),
+    provideRouter(routes,withEnabledBlockingInitialNavigation(),withViewTransitions()),
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideAuth(() => getAuth()),
     provideHttpClient(withInterceptors([authInterceptor, logInterceptor, errorInterceptor])),
@@ -41,5 +43,6 @@ export const appConfig: ApplicationConfig = {
     }),
     { provide: ErrorHandler, useClass: GlobalErrorHandler },
     MessageService
+    importProvidersFrom(NgxUiLoaderModule),
   ],
 };
