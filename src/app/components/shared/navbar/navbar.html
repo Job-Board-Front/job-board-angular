@@ -17,10 +17,21 @@
           >Home</a
         >
         @if (authService.currentUser()) {
-          <a routerLink="/jobs" routerLinkActive="active" class="nav-link">Jobs</a>
+          <a
+            routerLink="/jobs"
+            routerLinkActive="active"
+            [routerLinkActiveOptions]="{ exact: true }"
+            class="nav-link"
+            >Jobs</a
+          >
           <a [routerLink]="['/', APP_ROUTES.bookmarks]" routerLinkActive="active" class="nav-link"
             >Bookmarks</a
           >
+          @if (authService.isAdmin()) {
+            <a routerLink="/jobs/create" routerLinkActive="active" class="nav-link"
+              >Create Job</a
+            >
+          }
         }
       </nav>
     </div>

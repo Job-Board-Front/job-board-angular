@@ -10,6 +10,8 @@ export const APP_ROUTES = {
   home: '/',
   bookmarks: 'bookmarks',
   jobs: 'jobs',
+  jobCreate: 'jobs/create',
+  jobEdit: 'jobs/edit/:id',
   privacy: 'privacy',
   terms: 'terms',
   jobDetails: 'details/:id',

@@ -7,12 +7,14 @@ import { JobHeaderComponent } from '@/app/components/Jobs/job-details/job-header
 import { JobSkillsComponent } from '@/app/components/Jobs/job-details/job-skills/job-skills.component';
 import { SimilarJobsComponent } from '@/app/components/Jobs/job-details/similar-jobs/similar-jobs.component';
 import { JobSearchFilters } from '@/app/interfaces/api/job.models';
-import { Component, computed, inject } from '@angular/core';
-import { toSignal } from '@angular/core/rxjs-interop';
+import { ChangeDetectionStrategy, DestroyRef, Component, computed, inject } from '@angular/core';
+import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router } from '@angular/router';
 import { map } from 'rxjs';
 import { JobKeywordsComponent } from '@/app/components/Jobs/job-details/job-keywords/job-keywords.component';
 import { BookmarkService } from '@/app/services/bookmark/bookmark.service';
+import { AuthService } from '@/app/services/auth/auth.service';
+import { APP_ROUTES } from '@/app/route-names/route-names.constants';
 
 @Component({
   selector: 'app-job-details',
@@ -28,13 +30,16 @@ import { BookmarkService } from '@/app/services/bookmark/bookmark.service';
     JobKeywordsComponent,
   ],
   templateUrl: './job-details.component.html',
-  styleUrls: ['./job-details.component.css'],
+  styleUrl: './job-details.component.css',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class JobDetailsComponent {
-  private route = inject(ActivatedRoute);
-  private jobService = inject(JobsService);
-  private router = inject(Router);
-  private bookmarkService = inject(BookmarkService);
+  private readonly route = inject(ActivatedRoute);
+  private readonly jobService = inject(JobsService);
+  private readonly router = inject(Router);
+  private readonly bookmarkService = inject(BookmarkService);
+  private readonly destroyRef = inject(DestroyRef);
+  protected authService = inject(AuthService);
 
   private jobId = toSignal(
     this.route.paramMap.pipe(map((params) => params.get('id') ?? undefined)),
@@ -100,5 +105,30 @@ export class JobDetailsComponent {
         search: currentJob.keywords.slice(0, 5).join(' '),
       },
     });
+  }
+
+  onEditClick() {
+    const id = this.jobId();
+    if (id) {
+      this.router.navigate(['jobs', 'edit', id]);
+    }
+  }
+
+  onDeleteClick() {
+    const job = this.job();
+    const id = this.jobId();
+    if (!id || !job) return;
+    if (!confirm(`Are you sure you want to delete "${job.title}"?`)) return;
+
+    this.jobService
+      .deleteJob(id)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: () => this.router.navigate(['/jobs']),
+        error: (err) => {
+          console.error('Delete failed:', err);
+          alert(err.error?.message ?? err.message ?? 'Failed to delete job');
+        },
+      });
   }
 }

@@ -3,10 +3,29 @@ import { Home } from './pages/home/home';
 import { authRoutes } from './pages/auth/routes/auth.routes';
 import { TestPageComponent } from './components/test-page.component';
 import { authGuard, redirectUnauthorized } from './guards/auth/auth.guard';
+import { adminGuard } from './guards/role/role.guard';
 import { APP_ROUTES } from './route-names/route-names.constants';
 
 export const routes: Routes = [
   { path: '', component: Home },
+  {
+    path: APP_ROUTES.jobCreate,
+    loadComponent: () =>
+      import('./pages/job-create/job-create.component').then((m) => m.JobCreateComponent),
+    canActivate: [authGuard, adminGuard],
+    data: {
+      authGuardPipe: redirectUnauthorized,
+    },
+  },
+  {
+    path: APP_ROUTES.jobEdit,
+    loadComponent: () =>
+      import('./pages/job-edit/job-edit.component').then((m) => m.JobEditComponent),
+    canActivate: [authGuard, adminGuard],
+    data: {
+      authGuardPipe: redirectUnauthorized,
+    },
+  },
   {
     path: APP_ROUTES.jobs,
     loadComponent: () => import('./pages/jobs/jobs').then((m) => m.Jobs),
@@ -14,6 +33,7 @@ export const routes: Routes = [
     data: {
       authGuardPipe: redirectUnauthorized,
     },
+    pathMatch: 'full',
   },
   {
     path: APP_ROUTES.bookmarks,

@@ -198,9 +198,8 @@ export class TestPageComponent {
 
     console.log('🔵 Creating Job...');
     this.jobsService.createJob(newJob).subscribe({
-      next: (job) => {
-        this.showStatus(`Created: ${job.title}`, 'success');
-
+      next: (res) => {
+        this.showStatus(`Created job: ${res.id}`, 'success');
         this.jobsResource.reload();
       },
       error: (err) => this.showStatus(err.message, 'error'),
