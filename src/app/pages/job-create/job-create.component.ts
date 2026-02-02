@@ -1,10 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  DestroyRef,
-  inject,
-  signal,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, DestroyRef, inject, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Router } from '@angular/router';
 import { JobFormComponent } from '@/app/components/Jobs/job-form/job-form.component';
@@ -30,6 +24,10 @@ export class JobCreateComponent {
   readonly isSubmitting = signal(false);
   readonly errorMessage = signal('');
 
+  log() {
+    console.log('test cd');
+  }
+
   onFormSubmit(event: { payload: CreateJobDto; logoFile: File | null }) {
     this.isSubmitting.set(true);
     this.errorMessage.set('');
@@ -46,7 +44,9 @@ export class JobCreateComponent {
               .subscribe({
                 next: () => this.router.navigate(['/details', res.id]),
                 error: (err) => {
-                  this.errorMessage.set(err.error?.message ?? err.message ?? 'Job created but logo upload failed');
+                  this.errorMessage.set(
+                    err.error?.message ?? err.message ?? 'Job created but logo upload failed',
+                  );
                   this.isSubmitting.set(false);
                 },
               });

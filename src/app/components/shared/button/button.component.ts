@@ -1,6 +1,6 @@
 import { UiVariant, UiSize, UI_TOKENS } from '@/app/core/ui/ui.config';
 import { CommonModule } from '@angular/common';
-import { Component, computed, input, output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, input, output } from '@angular/core';
 import { RouterLink } from '@angular/router';
 
 @Component({
@@ -8,6 +8,7 @@ import { RouterLink } from '@angular/router';
   imports: [RouterLink, CommonModule],
   templateUrl: './button.component.html',
   styleUrl: './button.component.css',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ButtonComponent {
   // Inputs

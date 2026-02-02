@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
 @Component({
@@ -6,6 +6,7 @@ import { RouterModule } from '@angular/router';
   standalone: true,
   imports: [RouterModule],
   templateUrl: './job-detail-header.component.html',
-  styleUrl: './job-detail-header.component.css'
+  styleUrl: './job-detail-header.component.css',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class JobDetailHeaderComponent {}

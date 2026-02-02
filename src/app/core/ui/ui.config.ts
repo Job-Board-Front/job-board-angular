@@ -28,7 +28,7 @@ export const UI_TOKENS = {
 
   // Form input base styles
   input:
-    'flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm text-slate-900 dark:text-slate-100 ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-slate-400 dark:placeholder:text-slate-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50',
+    'w-full px-4 py-2 rounded-lg bg-white text-slate-900 border border-slate-300 placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-primary-600 focus:border-primary-600 transition-all duration-200 dark:bg-slate-800 dark:text-slate-100 dark:border-slate-600 dark:focus:ring-primary-600',
 
   // Color Variants (Light & Dark support built-in)
   variants: {

@@ -4,15 +4,13 @@
   }
 
   <div class="space-y-2">
-    <label for="title" class="text-sm font-medium leading-none">
-      Job Title
-    </label>
+    <label for="title" class="text-sm font-medium leading-none"> Job Title </label>
     <input
       id="title"
       type="text"
       formControlName="title"
       placeholder="e.g. Senior Angular Developer"
-      [class]="inputClass"
+      class="input"
       [class.border-destructive]="form.get('title')?.invalid && form.get('title')?.touched"
       aria-describedby="title-error"
     />
@@ -47,7 +45,7 @@
         </button>
       } @else if (jobInput()?.logoUrl; as logoUrl) {
         <img
-          [src]="(logoUrl ?? '') | absoluteUrl"
+          [src]="logoUrl ?? '' | absoluteUrl"
           alt="Current logo"
           class="h-16 w-16 rounded-lg object-cover border border-input"
         />
@@ -60,7 +58,7 @@
       type="file"
       accept="image/*"
       (change)="onLogoChange($event)"
-      class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm file:mr-4 file:rounded file:border-0 file:bg-primary file:px-4 file:py-2 file:text-sm file:font-medium file:text-primary-foreground hover:file:bg-primary/90"
+      class="input file:mr-4 file:rounded file:border-0 file:bg-primary file:px-4 file:py-2 file:text-sm file:font-medium file:text-primary-foreground hover:file:bg-primary/90"
       [class.border-destructive]="form.get('logo')?.invalid && form.get('logo')?.touched"
       aria-describedby="logo-hint logo-error"
     />
@@ -79,15 +77,13 @@
   </div>
 
   <div class="space-y-2">
-    <label for="company" class="text-sm font-medium leading-none">
-      Company
-    </label>
+    <label for="company" class="text-sm font-medium leading-none"> Company </label>
     <input
       id="company"
       type="text"
       formControlName="company"
       placeholder="e.g. Acme Inc."
-      [class]="inputClass"
+      class="input"
       [class.border-destructive]="form.get('company')?.invalid && form.get('company')?.touched"
       aria-describedby="company-error"
     />
@@ -103,54 +99,46 @@
   </div>
 
   <div class="space-y-2">
-    <label for="description" class="text-sm font-medium leading-none">
-      Description
-    </label>
+    <label for="description" class="text-sm font-medium leading-none"> Description </label>
     <textarea
       id="description"
       formControlName="description"
       rows="6"
       placeholder="Describe the role, responsibilities, and requirements..."
-      [class]="inputClass"
-      [class.border-destructive]="form.get('description')?.invalid && form.get('description')?.touched"
+      class="input"
+      [class.border-destructive]="
+        form.get('description')?.invalid && form.get('description')?.touched
+      "
       aria-describedby="description-error"
     ></textarea>
     @if (form.get('description')?.invalid && form.get('description')?.touched) {
-      <p id="description-error" class="text-sm text-destructive">
-        Description is required
-      </p>
+      <p id="description-error" class="text-sm text-destructive">Description is required</p>
     }
   </div>
 
   <div class="space-y-2">
-    <label for="location" class="text-sm font-medium leading-none">
-      Location
-    </label>
+    <label for="location" class="text-sm font-medium leading-none"> Location </label>
     <input
       id="location"
       type="text"
       formControlName="location"
       placeholder="e.g. Remote, New York, NY"
-      [class]="inputClass"
+      class="input"
       [class.border-destructive]="form.get('location')?.invalid && form.get('location')?.touched"
       aria-describedby="location-error"
     />
     @if (form.get('location')?.invalid && form.get('location')?.touched) {
-      <p id="location-error" class="text-sm text-destructive">
-        Location is required
-      </p>
+      <p id="location-error" class="text-sm text-destructive">Location is required</p>
     }
   </div>
 
   <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
     <div class="space-y-2">
-      <label for="employmentType" class="text-sm font-medium leading-none">
-        Employment Type
-      </label>
+      <label for="employmentType" class="text-sm font-medium leading-none"> Employment Type </label>
       <select
         id="employmentType"
         formControlName="employmentType"
-        [class]="inputClass"
+        class="input"
         aria-describedby="employmentType-error"
       >
         @for (opt of employmentTypes; track opt.value) {
@@ -166,7 +154,7 @@
       <select
         id="experienceLevel"
         formControlName="experienceLevel"
-        [class]="inputClass"
+        class="input"
         aria-describedby="experienceLevel-error"
       >
         @for (opt of experienceLevels; track opt.value) {
@@ -180,11 +168,7 @@
     <label for="salaryRange" class="text-sm font-medium leading-none">
       Salary Range <span class="text-muted-foreground">(optional)</span>
     </label>
-    <select
-      id="salaryRange"
-      formControlName="salaryRange"
-      [class]="inputClass"
-    >
+    <select id="salaryRange" formControlName="salaryRange" class="input">
       <option value="">Not specified</option>
       @for (opt of salaryRanges; track opt.value) {
         <option [value]="opt.value">{{ opt.label }}</option>
@@ -201,7 +185,7 @@
       type="url"
       formControlName="submissionLink"
       placeholder="https://company.com/careers/apply"
-      [class]="inputClass"
+      class="input"
       aria-describedby="submissionLink-hint"
     />
     <p id="submissionLink-hint" class="text-xs text-muted-foreground">
@@ -210,15 +194,13 @@
   </div>
 
   <div class="space-y-2">
-    <label for="techStack" class="text-sm font-medium leading-none">
-      Tech Stack
-    </label>
+    <label for="techStack" class="text-sm font-medium leading-none"> Tech Stack </label>
     <input
       id="techStack"
       type="text"
       formControlName="techStack"
       placeholder="e.g. Angular, TypeScript, Node.js"
-      [class]="inputClass"
+      class="input"
       aria-describedby="techStack-hint"
     />
     <p id="techStack-hint" class="text-xs text-muted-foreground">
@@ -230,7 +212,10 @@
     <app-button type="submit" variant="primary" [disabled]="form.invalid || isSubmitting()">
       {{ submitLabel() }}
     </app-button>
-    <a [routerLink]="cancelRoute()" class="inline-flex items-center justify-center rounded-md text-sm font-medium border border-input bg-background px-4 py-2 hover:bg-accent hover:text-accent-foreground">
+    <a
+      [routerLink]="cancelRoute()"
+      class="inline-flex items-center justify-center rounded-md text-sm font-medium border border-input bg-background px-4 py-2 hover:bg-accent hover:text-accent-foreground"
+    >
       Cancel
     </a>
   </div>
