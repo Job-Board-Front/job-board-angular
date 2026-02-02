@@ -3,11 +3,13 @@
   @for (tag of displayTags(); track tag; let idx = $index) {
     <app-badge [label]="tag" [variant]="idx === 0 ? 'blue' : 'gray'"></app-badge>
   }
-  @if (remainingTagsCount() > 0) {
-    <span
-      class="inline-flex items-center rounded-md px-2.5 py-1 text-xs font-medium text-slate-600 bg-slate-100 dark:text-slate-400 dark:bg-slate-800/50"
+  @if (remainingTagsCount() > 0 && !isExpanded()) {
+    <button
+      (click)="toggleExpanded()"
+      class="inline-flex items-center justify-center rounded-md px-2.5 py-1 text-xs font-medium text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/20 hover:bg-blue-100 dark:hover:bg-blue-900/30 transition-colors cursor-pointer"
+      [attr.aria-label]="'Show ' + remainingTagsCount() + ' more keywords'"
     >
       +{{ remainingTagsCount() }}
-    </span>
+    </button>
   }
 </div>

@@ -4,6 +4,7 @@ import { FormatDatePipe } from '@/app/pipes/job-details-pipes/format-date.pipe';
 import { GetInitialsPipe } from '@/app/pipes/job-details-pipes/get-initials.pipe';
 import { AbsoluteUrlPipe } from '@/app/pipes/absolute-url.pipe';
 import { LucideAngularModule, MapPin, Briefcase, DollarSign } from 'lucide-angular';
+import { AbsoluteUrlPipe } from '@/app/pipes/absolute-url.pipe';
 
 @Component({
   selector: 'app-job-header',

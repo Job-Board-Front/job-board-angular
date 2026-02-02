@@ -55,18 +55,23 @@ export class AuthService {
     const creds = await createUserWithEmailAndPassword(this._auth, email, password);
     await updateProfile(creds.user, { displayName, photoURL: null });
     await creds.user.reload();
-    this._router.navigate([AUTH_ROUTES.login]);
+    this._router.navigate([APP_ROUTES.home]);
+    window.location.reload();
   }
 
   async login(email: string, password: string) {
-    await signInWithEmailAndPassword(this._auth, email, password);
-    await firstValueFrom(authState(this._auth).pipe(filter((u) => !!u)));
-    this._router.navigate([APP_ROUTES.home]);
+    const userCredentials = await signInWithEmailAndPassword(this._auth, email, password);
+    await firstValueFrom(authState(this._auth).pipe(filter((user) => !!user)));
+    if (userCredentials) {
+      this._router.navigate([APP_ROUTES.home]);
+      window.location.reload();
+    }
   }
 
   async logout() {
     return await signOut(this._auth).then((value) => {
       this._router.navigate([APP_ROUTES.home]);
+      window.location.reload();
     });
   }
 }

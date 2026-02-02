@@ -14,7 +14,6 @@ import { map } from 'rxjs';
 import { JobKeywordsComponent } from '@/app/components/Jobs/job-details/job-keywords/job-keywords.component';
 import { BookmarkService } from '@/app/services/bookmark/bookmark.service';
 import { AuthService } from '@/app/services/auth/auth.service';
-import { APP_ROUTES } from '@/app/route-names/route-names.constants';
 
 @Component({
   selector: 'app-job-details',
@@ -59,9 +58,10 @@ export class JobDetailsComponent {
     }
 
     return {
-      search: currentJob.techStack.join(''),
-      limit: 4,
+      search: currentJob.keywords.join(' '),
+      limit: 7
     };
+
   });
 
   private similarJobsResource = this.jobService.getJobsPaginated(this.similarJobsParams);
@@ -74,15 +74,19 @@ export class JobDetailsComponent {
       return [];
     }
 
-    return response.data.filter((j) => j.id !== currentJob.id).slice(0, 3);
+    return response.data
+      .filter(j => j.id !== currentJob.id)
+      .slice(0, 6);
   });
 
   onApplyClick() {
-    const url = 'https://www.youtube.com/watch?v=dQw4w9WgXcQ';
+    const currentJob = this.job();
+    const url = currentJob?.submissionLink;
+
     if (url) {
       window.open(url, '_blank');
     } else {
-      console.warn('Job URL is not defined');
+      console.warn('Job submission link is not defined');
     }
   }
 
@@ -93,7 +97,6 @@ export class JobDetailsComponent {
       this.bookmarkService.toggleBookmark(jobId);
     }
   }
-
   onViewSimilarJobs() {
     const currentJob = this.job();
     if (!currentJob?.keywords || currentJob.keywords.length === 0) {

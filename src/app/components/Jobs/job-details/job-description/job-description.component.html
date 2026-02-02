@@ -9,7 +9,7 @@
 
       @if(description().length > 500) {
         <button
-          class="text-blue-600 mt-2 font-semibold"
+          class="text-blue-600 mt-2 font-semibold cursor-pointer"
           (click)="toggleReadMore()">
           @if(readMore()) { Read less } @else { Read more }
         </button>
