@@ -1,4 +1,4 @@
-import { Component, computed, input } from '@angular/core';
+import { Component, computed, input, signal } from '@angular/core';
 import { BadgeComponent } from '@/app/components/shared/badge/badge.component';
 
 @Component({
@@ -10,15 +10,23 @@ import { BadgeComponent } from '@/app/components/shared/badge/badge.component';
 export class JobKeywordsComponent {
   keywords = input<readonly string[]>([]);
   techStack = input<readonly string[]>([]);
-  displayTags = computed(() => {
+  isExpanded = signal(false);
+
+  allTags = computed(() => {
     const combined = [...this.keywords(), ...this.techStack()];
-    return [...new Set(combined)].slice(0, 10);
+    return [...new Set(combined)];
   });
 
-  // Count of remaining tags
-  remainingTagsCount = computed(() => {
-    const combined = [...this.keywords(), ...this.techStack()];
-    const unique = [...new Set(combined)];
-    return Math.max(0, unique.length - 4);
+  displayTags = computed(() => {
+    const tags = this.allTags();
+    return this.isExpanded() ? tags : tags.slice(0, 10);
   });
+
+  remainingTagsCount = computed(() => {
+    return Math.max(0, this.allTags().length - 10);
+  });
+
+  toggleExpanded() {
+    this.isExpanded.update(v => !v);
+  }
 }
