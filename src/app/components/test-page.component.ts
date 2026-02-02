@@ -197,7 +197,6 @@ export class TestPageComponent {
       salaryRange: '$50k',
       techStack: ['Angular'],
       submissionLink: 'https://www.friv.com/',
-      logoUrl: null,
     };
 
     console.log('🔵 Creating Job...');
@@ -274,5 +273,4 @@ export class TestPageComponent {
     this.filterSignal.update((f) => ({ ...f, cursor: nextCursor }));
     this.jobsResource.reload();
   }
-
 }
