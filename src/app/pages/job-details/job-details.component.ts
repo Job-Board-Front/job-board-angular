@@ -7,6 +7,7 @@ import { JobHeaderComponent } from '@/app/components/Jobs/job-details/job-header
 import { JobSkillsComponent } from '@/app/components/Jobs/job-details/job-skills/job-skills.component';
 import { SimilarJobsComponent } from '@/app/components/Jobs/job-details/similar-jobs/similar-jobs.component';
 import { JobSearchFilters } from '@/app/interfaces/api/job.models';
+import { Job } from '@/app/interfaces/api/job.models';
 import { Component, computed, inject } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -54,9 +55,10 @@ export class JobDetailsComponent {
     }
 
     return {
-      search: currentJob.techStack.join(''),
-      limit: 4,
+      search: currentJob.keywords.join(' '),
+      limit: 7
     };
+
   });
 
   private similarJobsResource = this.jobService.getJobsPaginated(this.similarJobsParams);
@@ -69,15 +71,19 @@ export class JobDetailsComponent {
       return [];
     }
 
-    return response.data.filter((j) => j.id !== currentJob.id).slice(0, 3);
+    return response.data
+      .filter(j => j.id !== currentJob.id)
+      .slice(0, 6);
   });
 
   onApplyClick() {
-    const url = 'https://www.youtube.com/watch?v=dQw4w9WgXcQ';
+    const currentJob = this.job();
+    const url = currentJob?.submissionLink;
+    
     if (url) {
       window.open(url, '_blank');
     } else {
-      console.warn('Job URL is not defined');
+      console.warn('Job submission link is not defined');
     }
   }
 
@@ -88,7 +94,6 @@ export class JobDetailsComponent {
       this.bookmarkService.toggleBookmark(jobId);
     }
   }
-
   onViewSimilarJobs() {
     const currentJob = this.job();
     if (!currentJob?.keywords || currentJob.keywords.length === 0) {
