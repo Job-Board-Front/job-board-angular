@@ -4,7 +4,7 @@
 
       <div
         [class]="'description-wrapper ' + (readMore() ? 'description-expanded' : 'description-collapsed')"
-        [innerHTML]="description()">
+        [innerHTML]="descriptionMoreLess()">
       </div>
 
       @if(description().length > 500) {

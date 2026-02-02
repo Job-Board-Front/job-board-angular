@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, input, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input, linkedSignal, signal } from '@angular/core';
 
 @Component({
   selector: 'app-job-description',
@@ -10,8 +10,16 @@ import { ChangeDetectionStrategy, Component, input, signal } from '@angular/core
 export class JobDescriptionComponent {
   description = input.required<string>();
   readMore = signal(false);
+  descriptionMoreLess = linkedSignal({
+    source: this.description,
+    computation: () => {
+      const words = this.description().trim().split(' ');
+      return `${words.slice(25).join(' ').normalize()}`;
+    },
+  });
 
   toggleReadMore() {
-    this.readMore.update(v => !v);
+    this.readMore.update((v) => !v);
+    this.descriptionMoreLess.update(() => this.description());
   }
 }
