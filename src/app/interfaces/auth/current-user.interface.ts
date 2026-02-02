@@ -1,5 +1,6 @@
 export interface CurrentUser {
   uid: string;
-  email: string|null;
-  displayName: string|null;
+  email: string | null;
+  displayName: string | null;
+  roles: readonly string[];
 }

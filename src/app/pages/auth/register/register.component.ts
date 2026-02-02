@@ -1,6 +1,13 @@
 import { AuthService } from '@/app/services/auth/auth.service';
-import { Component, inject, signal } from '@angular/core';
-import { AbstractControl, FormBuilder, ReactiveFormsModule, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
+import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
+import {
+  AbstractControl,
+  FormBuilder,
+  ReactiveFormsModule,
+  ValidationErrors,
+  ValidatorFn,
+  Validators,
+} from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { ButtonComponent } from '@/app/components/shared/button/button.component';
 import { IconComponent } from '@/app/components/shared/icon/icon.component';
@@ -11,6 +18,7 @@ import { AuthLayoutComponent } from '@/app/components/layout/auth-layout/auth-la
   imports: [ReactiveFormsModule, RouterLink, ButtonComponent, IconComponent, AuthLayoutComponent],
   templateUrl: './register.component.html',
   styleUrl: './register.component.css',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class RegisterComponent {
   private authService = inject(AuthService);
@@ -19,12 +27,15 @@ export class RegisterComponent {
   errorMessage = signal('');
   isLoading = signal(false);
 
-  form = this.formBuilder.group({
-    displayName: ['', [Validators.required]],
-    email: ['', [Validators.required, Validators.email]],
-    password: ['', [Validators.required, Validators.minLength(6)]],
-    confirmPassword: ['', [Validators.required]],
-  }, { validators: this.passwordMatchValidator() });
+  form = this.formBuilder.group(
+    {
+      displayName: ['', [Validators.required]],
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required, Validators.minLength(6)]],
+      confirmPassword: ['', [Validators.required]],
+    },
+    { validators: this.passwordMatchValidator() },
+  );
 
   passwordMatchValidator(): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
@@ -48,7 +59,7 @@ export class RegisterComponent {
         await this.authService.register(
           this.email.value!,
           this.password.value!,
-          this.displayName.value!
+          this.displayName.value!,
         );
       } catch (err: unknown) {
         const error = err as { message?: string };

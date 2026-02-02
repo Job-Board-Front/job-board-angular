@@ -26,6 +26,10 @@ export const UI_TOKENS = {
     icon_lg: 'w-12 h-12 p-3',
   },
 
+  // Form input base styles
+  input:
+    'w-full px-4 py-2 rounded-lg bg-white text-slate-900 border border-slate-300 placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-primary-600 focus:border-primary-600 transition-all duration-200 dark:bg-slate-800 dark:text-slate-100 dark:border-slate-600 dark:focus:ring-primary-600',
+
   // Color Variants (Light & Dark support built-in)
   variants: {
     primary: [

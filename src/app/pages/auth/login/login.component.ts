@@ -1,5 +1,5 @@
 import { AuthService } from '@/app/services/auth/auth.service';
-import { Component, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { ButtonComponent } from '@/app/components/shared/button/button.component';
@@ -11,6 +11,7 @@ import { AuthLayoutComponent } from '@/app/components/layout/auth-layout/auth-la
   imports: [ReactiveFormsModule, RouterLink, ButtonComponent, IconComponent, AuthLayoutComponent],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LoginComponent {
   private auth = inject(AuthService);

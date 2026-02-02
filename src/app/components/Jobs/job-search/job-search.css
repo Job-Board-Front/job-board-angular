@@ -49,10 +49,10 @@
 }
 
 .search-input::placeholder {
-  color: var(--color-text-secondary);
+  color: #94a3b8;
   transition: color 0.3s ease;
 }
 
 :host-context(.dark) .search-input::placeholder {
-  color: var(--color-text-gray-muted);
+  color: #64748b;
 }

@@ -1,10 +1,11 @@
-import { Component, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 
 @Component({
   selector: 'app-icon',
   imports: [],
   templateUrl: './icon.component.html',
   styleUrl: './icon.component.css',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class IconComponent {
   path = input.required<string>(); // SVG path string

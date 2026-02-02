@@ -1,4 +1,4 @@
-import { Component, computed, input, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, input, signal } from '@angular/core';
 import { BadgeComponent } from '@/app/components/shared/badge/badge.component';
 
 @Component({
@@ -6,6 +6,7 @@ import { BadgeComponent } from '@/app/components/shared/badge/badge.component';
   imports: [BadgeComponent],
   templateUrl: './job-keywords.component.html',
   styleUrl: './job-keywords.component.css',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class JobKeywordsComponent {
   keywords = input<readonly string[]>([]);

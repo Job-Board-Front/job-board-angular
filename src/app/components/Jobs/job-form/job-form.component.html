@@ -1,0 +1,222 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit()" class="job-form space-y-6">
+  @if (errorMessage()) {
+    <p class="text-sm text-destructive" role="alert">{{ errorMessage() }}</p>
+  }
+
+  <div class="space-y-2">
+    <label for="title" class="text-sm font-medium leading-none"> Job Title </label>
+    <input
+      id="title"
+      type="text"
+      formControlName="title"
+      placeholder="e.g. Senior Angular Developer"
+      class="input"
+      [class.border-destructive]="form.get('title')?.invalid && form.get('title')?.touched"
+      aria-describedby="title-error"
+    />
+    @if (form.get('title')?.invalid && form.get('title')?.touched) {
+      <p id="title-error" class="text-sm text-destructive">
+        @if (form.get('title')?.hasError('required')) {
+          Title is required
+        } @else if (form.get('title')?.hasError('minlength')) {
+          Title must be at least 2 characters
+        }
+      </p>
+    }
+  </div>
+
+  <div class="space-y-2">
+    <label for="logo" class="text-sm font-medium leading-none">
+      Logo <span class="text-muted-foreground">(optional)</span>
+    </label>
+    <div class="flex items-center gap-4">
+      @if (logoPreviewUrl(); as preview) {
+        <img
+          [src]="preview"
+          alt="Logo preview"
+          class="h-16 w-16 rounded-lg object-cover border border-input"
+        />
+        <button
+          type="button"
+          (click)="clearLogo()"
+          class="text-sm text-destructive hover:underline"
+        >
+          Remove
+        </button>
+      } @else if (jobInput()?.logoUrl; as logoUrl) {
+        <img
+          [src]="logoUrl ?? '' | absoluteUrl"
+          alt="Current logo"
+          class="h-16 w-16 rounded-lg object-cover border border-input"
+        />
+        <span class="text-xs text-muted-foreground">Change logo below</span>
+      }
+    </div>
+    <input
+      #logoInput
+      id="logo"
+      type="file"
+      accept="image/*"
+      (change)="onLogoChange($event)"
+      class="input file:mr-4 file:rounded file:border-0 file:bg-primary file:px-4 file:py-2 file:text-sm file:font-medium file:text-primary-foreground hover:file:bg-primary/90"
+      [class.border-destructive]="form.get('logo')?.invalid && form.get('logo')?.touched"
+      aria-describedby="logo-hint logo-error"
+    />
+    <p id="logo-hint" class="text-xs text-muted-foreground">
+      Image files only (jpg, jpeg, png, gif, webp), max 2MB
+    </p>
+    @if (form.get('logo')?.invalid && form.get('logo')?.touched) {
+      <p id="logo-error" class="text-sm text-destructive">
+        @if (form.get('logo')?.hasError('logoFileType')) {
+          Invalid file type. Allowed: jpg, jpeg, png, gif, webp
+        } @else if (form.get('logo')?.hasError('logoFileSize')) {
+          File size must not exceed 2MB
+        }
+      </p>
+    }
+  </div>
+
+  <div class="space-y-2">
+    <label for="company" class="text-sm font-medium leading-none"> Company </label>
+    <input
+      id="company"
+      type="text"
+      formControlName="company"
+      placeholder="e.g. Acme Inc."
+      class="input"
+      [class.border-destructive]="form.get('company')?.invalid && form.get('company')?.touched"
+      aria-describedby="company-error"
+    />
+    @if (form.get('company')?.invalid && form.get('company')?.touched) {
+      <p id="company-error" class="text-sm text-destructive">
+        @if (form.get('company')?.hasError('required')) {
+          Company is required
+        } @else if (form.get('company')?.hasError('minlength')) {
+          Company must be at least 2 characters
+        }
+      </p>
+    }
+  </div>
+
+  <div class="space-y-2">
+    <label for="description" class="text-sm font-medium leading-none"> Description </label>
+    <textarea
+      id="description"
+      formControlName="description"
+      rows="6"
+      placeholder="Describe the role, responsibilities, and requirements..."
+      class="input"
+      [class.border-destructive]="
+        form.get('description')?.invalid && form.get('description')?.touched
+      "
+      aria-describedby="description-error"
+    ></textarea>
+    @if (form.get('description')?.invalid && form.get('description')?.touched) {
+      <p id="description-error" class="text-sm text-destructive">Description is required</p>
+    }
+  </div>
+
+  <div class="space-y-2">
+    <label for="location" class="text-sm font-medium leading-none"> Location </label>
+    <input
+      id="location"
+      type="text"
+      formControlName="location"
+      placeholder="e.g. Remote, New York, NY"
+      class="input"
+      [class.border-destructive]="form.get('location')?.invalid && form.get('location')?.touched"
+      aria-describedby="location-error"
+    />
+    @if (form.get('location')?.invalid && form.get('location')?.touched) {
+      <p id="location-error" class="text-sm text-destructive">Location is required</p>
+    }
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <div class="space-y-2">
+      <label for="employmentType" class="text-sm font-medium leading-none"> Employment Type </label>
+      <select
+        id="employmentType"
+        formControlName="employmentType"
+        class="input"
+        aria-describedby="employmentType-error"
+      >
+        @for (opt of employmentTypes; track opt.value) {
+          <option [value]="opt.value">{{ opt.label }}</option>
+        }
+      </select>
+    </div>
+
+    <div class="space-y-2">
+      <label for="experienceLevel" class="text-sm font-medium leading-none">
+        Experience Level
+      </label>
+      <select
+        id="experienceLevel"
+        formControlName="experienceLevel"
+        class="input"
+        aria-describedby="experienceLevel-error"
+      >
+        @for (opt of experienceLevels; track opt.value) {
+          <option [value]="opt.value">{{ opt.label }}</option>
+        }
+      </select>
+    </div>
+  </div>
+
+  <div class="space-y-2">
+    <label for="salaryRange" class="text-sm font-medium leading-none">
+      Salary Range <span class="text-muted-foreground">(optional)</span>
+    </label>
+    <select id="salaryRange" formControlName="salaryRange" class="input">
+      <option value="">Not specified</option>
+      @for (opt of salaryRanges; track opt.value) {
+        <option [value]="opt.value">{{ opt.label }}</option>
+      }
+    </select>
+  </div>
+
+  <div class="space-y-2">
+    <label for="submissionLink" class="text-sm font-medium leading-none">
+      Application / Submission Link <span class="text-muted-foreground">(optional)</span>
+    </label>
+    <input
+      id="submissionLink"
+      type="url"
+      formControlName="submissionLink"
+      placeholder="https://company.com/careers/apply"
+      class="input"
+      aria-describedby="submissionLink-hint"
+    />
+    <p id="submissionLink-hint" class="text-xs text-muted-foreground">
+      URL where candidates can apply for this job
+    </p>
+  </div>
+
+  <div class="space-y-2">
+    <label for="techStack" class="text-sm font-medium leading-none"> Tech Stack </label>
+    <input
+      id="techStack"
+      type="text"
+      formControlName="techStack"
+      placeholder="e.g. Angular, TypeScript, Node.js"
+      class="input"
+      aria-describedby="techStack-hint"
+    />
+    <p id="techStack-hint" class="text-xs text-muted-foreground">
+      Comma-separated list of technologies
+    </p>
+  </div>
+
+  <div class="flex gap-4 pt-4">
+    <app-button type="submit" variant="primary" [disabled]="form.invalid || isSubmitting()">
+      {{ submitLabel() }}
+    </app-button>
+    <a
+      [routerLink]="cancelRoute()"
+      class="inline-flex items-center justify-center rounded-md text-sm font-medium border border-input bg-background px-4 py-2 hover:bg-accent hover:text-accent-foreground"
+    >
+      Cancel
+    </a>
+  </div>
+</form>

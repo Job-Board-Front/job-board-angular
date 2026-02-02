@@ -8,7 +8,6 @@ import {
   RouterOutlet,
 } from '@angular/router';
 import { NgxUiLoaderModule, NgxUiLoaderService, SPINNER } from 'ngx-ui-loader';
-import { ThemeService } from './services/theme/theme.service';
 import { Navbar } from './components/shared/navbar/navbar';
 import { ToastModule } from 'primeng/toast';
 import { FooterComponent } from './components/shared/footer/footer.component';
@@ -29,12 +28,6 @@ export class App {
   loader = inject(NgxUiLoaderService);
   isLoading = signal<boolean>(true);
   SPINNER = SPINNER;
-
-  darkTheme = signal<boolean>(false);
-  @HostBinding('class.dark')
-  get isDarkMode() {
-    return this.darkTheme();
-  }
 
   private currentUrl = toSignal(
     this.router.events.pipe(
