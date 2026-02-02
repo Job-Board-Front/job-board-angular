@@ -14,5 +14,5 @@ export class SimilarJobsComponent {
   readonly ArrowRight = ArrowRight;
   
   similarJobs = input.required<Job[]>();
-  //viewAllClick = output<void>();
+  viewAllClick = output<void>();
 }

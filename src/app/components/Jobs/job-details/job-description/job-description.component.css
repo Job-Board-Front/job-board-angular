@@ -26,3 +26,32 @@
 :host-context(.dark) .description-wrapper * {
   color: inherit;
 }
+
+.description-collapsed {
+  max-height: 13.5em; 
+  line-height: 1.5;
+  overflow: hidden;
+  position: relative;
+}
+
+.description-collapsed::after {
+  content: '...';
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  background: var(--color-bg-surface);
+  padding-left: 0.5em;
+  transition: background-color 0.3s;
+}
+
+:host-context(.dark) .description-collapsed::after {
+  background: var(--color-bg-surface); 
+}
+
+.description-expanded {
+  max-height: none;
+}
+
+.description-expanded::after {
+  display: none;
+}

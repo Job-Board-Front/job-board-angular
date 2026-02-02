@@ -94,7 +94,6 @@ export class JobDetailsComponent {
       this.bookmarkService.toggleBookmark(jobId);
     }
   }
-/*
   onViewSimilarJobs() {
     const currentJob = this.job();
     if (!currentJob?.keywords || currentJob.keywords.length === 0) {
@@ -106,5 +105,5 @@ export class JobDetailsComponent {
         search: currentJob.keywords.slice(0, 5).join(' '),
       },
     });
-  }*/
+  }
 }
