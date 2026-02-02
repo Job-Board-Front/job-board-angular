@@ -10,6 +10,7 @@ import {
 import { NgxUiLoaderModule, NgxUiLoaderService, SPINNER } from 'ngx-ui-loader';
 import { ThemeService } from './services/theme/theme.service';
 import { Navbar } from './components/shared/navbar/navbar';
+import { ToastModule } from 'primeng/toast';
 import { FooterComponent } from './components/shared/footer/footer.component';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { filter, map } from 'rxjs';
@@ -17,7 +18,7 @@ import { AUTH_ROUTES } from './route-names/route-names.constants';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, Navbar, NgxUiLoaderModule, FooterComponent],
+  imports: [RouterOutlet, Navbar, NgxUiLoaderModule,FooterComponent, ToastModule],
   templateUrl: './app.html',
   styleUrl: './app.css',
   changeDetection: ChangeDetectionStrategy.OnPush,

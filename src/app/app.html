@@ -2,13 +2,14 @@
 
 <div class="app-container">
   @if (showLayout()) {
-    <app-navbar></app-navbar>
+      <app-navbar></app-navbar>
   }
 
-  @if (!isLoading()) {
+    @if (!isLoading()) {
     <div [class.px-50]="showLayout()" class="mx-auto">
-      <router-outlet></router-outlet>
-    </div>
+        <p-toast position="top-right" />
+          <router-outlet></router-outlet>
+      </div>
   }
 
   @if (showLayout()) {
