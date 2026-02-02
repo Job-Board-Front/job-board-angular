@@ -35,7 +35,7 @@ export class JobsService {
     return httpResource<PaginatedResponse<Job>>(() => {
       const filters = paramsSignal();
       const params = this.buildHttpParams(filters);
-      return { url: `${this.baseUrl}/jobs`, params };
+      return { url: `${this.baseUrl}`, params };
     });
   }
 
@@ -45,7 +45,7 @@ export class JobsService {
       if (!id) return undefined;
 
       return {
-        url: `${this.baseUrl}/jobs/${id}`,
+        url: `${this.baseUrl}/${id}`,
       };
     });
   }
@@ -59,7 +59,7 @@ export class JobsService {
       const params = new HttpParams().set('ids', idsString);
 
       return {
-        url: `${this.baseUrl}/jobs/bulk`,
+        url: `${this.baseUrl}/bulk`,
         params: params,
       };
     });
@@ -69,7 +69,7 @@ export class JobsService {
     return httpResource<FiltersData>(
       () => {
         return {
-          url: `${this.baseUrl}/filters`,
+          url: `${environment.apiUrl}/filters`,
         };
       },
       {
@@ -93,7 +93,7 @@ export class JobsService {
   }
 
   deleteJob(id: string): Observable<void> {
-    return this.http.delete<void>(`${this.baseUrl}/jobs/${id}`);
+    return this.http.delete<void>(`${this.baseUrl}/${id}`);
   }
 
   private buildHttpParams(filters?: JobSearchFilters): HttpParams {
