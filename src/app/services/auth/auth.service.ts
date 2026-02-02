@@ -1,11 +1,16 @@
 import { CurrentUser } from '@/app/interfaces/auth/current-user.interface';
 import { APP_ROUTES, AUTH_ROUTES } from '@/app/route-names/route-names.constants';
-import { computed, inject, Injectable } from '@angular/core';
-import { toSignal } from '@angular/core/rxjs-interop';
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from 'firebase/auth';
+import { computed, inject, Injectable, signal } from '@angular/core';
+import { Auth, authState, user } from '@angular/fire/auth';
 import { Router } from '@angular/router';
-import { updateProfile } from 'firebase/auth';
-import { Auth, user } from '@angular/fire/auth';
+import {
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  signOut,
+  updateProfile,
+  User,
+} from 'firebase/auth';
+import { filter, firstValueFrom } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -14,11 +19,13 @@ export class AuthService {
   private _auth = inject(Auth);
   private _router = inject(Router);
 
-  private _currentUser = toSignal(user(this._auth), {
-    initialValue: null,
-  });
+  private _currentUser = signal<User | null>(null);
 
-  constructor() {}
+  constructor() {
+    user(this._auth).subscribe((u) => {
+      this._currentUser.set(u);
+    });
+  }
 
   currentUser = computed<CurrentUser | null>(() => {
     const user = this._currentUser();
@@ -36,22 +43,24 @@ export class AuthService {
     const creds = await createUserWithEmailAndPassword(this._auth, email, password);
     await updateProfile(creds.user, { displayName, photoURL: null });
     await creds.user.reload();
-    this._router.navigate([AUTH_ROUTES.login]);
+    this._router.navigate([APP_ROUTES.home]);
+    window.location.reload();
   }
 
-  login(email: string, password: string) {
-    if (this.currentUser()?.uid) {
-      console.log(this.currentUser());
-      return;
-    }
-    return signInWithEmailAndPassword(this._auth, email, password).then((value) => {
+  async login(email: string, password: string) {
+    const userCredentials = await signInWithEmailAndPassword(this._auth, email, password);
+    await firstValueFrom(authState(this._auth).pipe(filter((user) => !!user)));
+    if (userCredentials) {
+      this._currentUser.set(userCredentials.user);
       this._router.navigate([APP_ROUTES.home]);
-    });
+      window.location.reload();
+    }
   }
 
-  logout() {
-    return signOut(this._auth).then((value) => {
-      this._router.navigate([AUTH_ROUTES.login]);
+  async logout() {
+    return await signOut(this._auth).then((value) => {
+      this._router.navigate([APP_ROUTES.home]);
+      window.location.reload();
     });
   }
 }

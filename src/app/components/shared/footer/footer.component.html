@@ -18,8 +18,8 @@
       <nav class="footer-links-inline">
         <a routerLink="/" class="footer-link">Home</a>
         <a routerLink="/jobs" class="footer-link">Jobs</a>
-        <a routerLink="/bookmarked" class="footer-link">Bookmarked</a>
         @if (isLoggedIn()) {
+        <a routerLink="/bookmarked" class="footer-link">Bookmarked</a>
         <a [routerLink]="['/', AUTH_ROUTES.logout]" class="footer-link">
           Logout
         </a>

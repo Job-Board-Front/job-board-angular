@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, HostBinding, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, HostBinding, inject, signal } from '@angular/core';
 import {
   NavigationCancel,
   NavigationEnd,
@@ -12,13 +12,16 @@ import { ThemeService } from './services/theme/theme.service';
 import { Navbar } from './components/shared/navbar/navbar';
 import { ToastModule } from 'primeng/toast';
 import { FooterComponent } from './components/shared/footer/footer.component';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { filter, map } from 'rxjs';
+import { AUTH_ROUTES } from './route-names/route-names.constants';
 
 @Component({
   selector: 'app-root',
   imports: [RouterOutlet, Navbar, NgxUiLoaderModule,FooterComponent, ToastModule],
   templateUrl: './app.html',
   styleUrl: './app.css',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class App {
   protected readonly title = signal('job-board-angular');
@@ -32,6 +35,19 @@ export class App {
   get isDarkMode() {
     return this.darkTheme();
   }
+
+  private currentUrl = toSignal(
+    this.router.events.pipe(
+      filter((event) => event instanceof NavigationEnd),
+      map((event) => (event as NavigationEnd).urlAfterRedirects),
+    ),
+    { initialValue: this.router.url },
+  );
+
+  showLayout = computed(() => {
+    const url = this.currentUrl();
+    return !Object.values(AUTH_ROUTES).some((route) => url.includes(route));
+  });
 
   constructor() {
     this.router.events.subscribe((event) => {
