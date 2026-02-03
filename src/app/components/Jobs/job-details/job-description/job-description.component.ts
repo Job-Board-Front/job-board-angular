@@ -14,7 +14,8 @@ export class JobDescriptionComponent {
     source: this.description,
     computation: () => {
       const words = this.description().trim().split(' ');
-      return `${words.slice(25).join(' ').normalize()}`;
+
+      return `${words.slice(0, 25).join(' ').normalize()}`;
     },
   });
 

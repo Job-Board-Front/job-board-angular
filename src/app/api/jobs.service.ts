@@ -91,14 +91,14 @@ export class JobsService {
 
   createJob(createJobDto: CreateJobDto): Observable<{ id: string; message: string }> {
     return this.http.post<{ id: string; message: string }>(
-      `${this.baseUrl}/jobs`,
+      `${this.baseUrl}`,
       createJobDto,
     );
   }
 
   updateJob(id: string, updateJobDto: UpdateJobDto): Observable<{ updatedJob: Job; message: string }> {
     return this.http.put<{ updatedJob: Job; message: string }>(
-      `${this.baseUrl}/jobs/${id}`,
+      `${this.baseUrl}/${id}`,
       updateJobDto,
     );
   }
@@ -111,7 +111,7 @@ export class JobsService {
     const formData = new FormData();
     formData.append('logo', file);
     return this.http.post<{ logoUrl: string; message: string }>(
-      `${this.baseUrl}/jobs/${jobId}/logo`,
+      `${this.baseUrl}/${jobId}/logo`,
       formData,
     );
   }
