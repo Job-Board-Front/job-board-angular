@@ -1,15 +1,16 @@
 <ngx-ui-loader [fgsSize]="75" [fgsType]="SPINNER.wanderingCubes"></ngx-ui-loader>
 
+<p-toast position="top-right"></p-toast>
+
 <div class="app-container">
   @if (showLayout()) {
       <app-navbar></app-navbar>
   }
 
-    @if (!isLoading()) {
+  @if (!isLoading()) {
     <div [class.px-50]="showLayout()" class="mx-auto">
-        <p-toast position="top-right" />
-          <router-outlet></router-outlet>
-      </div>
+        <router-outlet></router-outlet>
+    </div>
   }
 
   @if (showLayout()) {

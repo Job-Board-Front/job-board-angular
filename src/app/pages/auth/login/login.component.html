@@ -55,9 +55,6 @@
             </p>
           }
         </div>
-        @if (errorMessage()) {
-          <p class="text-sm text-destructive">{{ errorMessage() }}</p>
-        }
         <app-button type="submit" variant="primary" [disabled]="form.invalid || isLoading()" class="w-full">
           @if (isLoading()) {
             Signing in...
