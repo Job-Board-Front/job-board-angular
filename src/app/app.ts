@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, computed, HostBinding, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
 import {
   NavigationCancel,
   NavigationEnd,
@@ -17,7 +17,7 @@ import { AUTH_ROUTES } from './route-names/route-names.constants';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, Navbar, NgxUiLoaderModule,FooterComponent, ToastModule],
+  imports: [RouterOutlet, Navbar, NgxUiLoaderModule, FooterComponent, ToastModule],
   templateUrl: './app.html',
   styleUrl: './app.css',
   changeDetection: ChangeDetectionStrategy.OnPush,

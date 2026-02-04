@@ -22,6 +22,7 @@ import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { Auth, authState, getAuth, provideAuth } from '@angular/fire/auth';
 import { environment } from '../environments/environment';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
+import { provideAnimations } from '@angular/platform-browser/animations'; 
 import { authInterceptor } from './interceptors/auth/auth-interceptor';
 import { logInterceptor } from './interceptors/log/log-interceptor';
 import { errorInterceptor } from './interceptors/error/error.interceptor';
@@ -48,6 +49,7 @@ export const appConfig: ApplicationConfig = {
       return firstValueFrom(authState(auth).pipe(take(1)));
     }),
     provideHttpClient(withInterceptors([authInterceptor, logInterceptor, errorInterceptor])),
+    provideAnimations(),
     providePrimeNG({
       theme: {
         preset: Lara,

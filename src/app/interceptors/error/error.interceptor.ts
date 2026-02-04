@@ -10,14 +10,15 @@ export const errorInterceptor: HttpInterceptorFn = (req, next) => {
 
   return next(req).pipe(
     catchError((error: HttpErrorResponse) => {
+      
+      
+
       let errorMessage = 'An unexpected error occurred.';
       let summary = 'Error';
 
       if (error.error instanceof ErrorEvent) {
-        // Client-side error
         errorMessage = `Client Error: ${error.error.message}`;
       } else {
-        // Server-side error
         switch (error.status) {
           case 400:
             summary = 'Bad Request';
@@ -50,12 +51,12 @@ export const errorInterceptor: HttpInterceptorFn = (req, next) => {
 
       logger.logError(errorMessage, error);
 
-      messageService.add({
-        severity: 'error',
-        summary: summary,
-        detail: errorMessage,
-        life: 5000 
-      });
+        messageService.add({
+          severity: 'error',
+          summary: summary,
+          detail: errorMessage,
+          life: 5000 
+        });
 
       const handledError = error as any;
       handledError.isHandled = true;
