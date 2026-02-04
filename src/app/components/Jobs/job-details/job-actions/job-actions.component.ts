@@ -1,4 +1,4 @@
-import { Component, input, output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
 import { LucideAngularModule, ExternalLink, Bookmark } from 'lucide-angular';
 import { ButtonComponent } from "@/app/components/shared/button/button.component";
 
@@ -8,6 +8,7 @@ import { ButtonComponent } from "@/app/components/shared/button/button.component
   imports: [LucideAngularModule, ButtonComponent],
   templateUrl: './job-actions.component.html',
   styleUrl: './job-actions.component.css',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class JobActionsComponent {
   readonly ExternalLink = ExternalLink;

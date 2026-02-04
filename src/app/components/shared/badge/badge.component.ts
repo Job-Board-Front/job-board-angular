@@ -1,11 +1,12 @@
 import { UI_TOKENS } from '@/app/core/ui/ui.config';
-import { Component, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 
 @Component({
   selector: 'app-badge',
   imports: [],
   templateUrl: './badge.component.html',
   styleUrl: './badge.component.css',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BadgeComponent {
   label = input.required<string>();

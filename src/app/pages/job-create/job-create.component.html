@@ -1,0 +1,13 @@
+<div class="job-create-page max-w-3xl mx-auto px-6 py-12">
+  <h1 class="text-2xl font-bold mb-2">Create a new job</h1>
+  <p class="text-muted-foreground mb-8">Fill in the details below to post a new job listing.</p>
+
+  <app-job-form
+    submitLabel="Create Job"
+    [cancelRoute]="['/', APP_ROUTES.jobs]"
+    [isSubmittingInput]="isSubmitting()"
+    [errorMessageInput]="errorMessage()"
+    (formSubmit)="onFormSubmit($event)"
+  />
+</div>
+{{ log() }}

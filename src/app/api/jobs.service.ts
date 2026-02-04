@@ -10,6 +10,7 @@ import {
   Job,
   JobSearchFilters,
   PaginatedResponse,
+  UpdateJobDto,
 } from '../interfaces/api/job.models';
 import { FiltersData } from '../interfaces/api/filters-data.interface';
 
@@ -88,12 +89,31 @@ export class JobsService {
     );
   }
 
-  createJob(createJobDto: CreateJobDto): Observable<Job> {
-    return this.http.post<Job>(this.baseUrl, createJobDto);
+  createJob(createJobDto: CreateJobDto): Observable<{ id: string; message: string }> {
+    return this.http.post<{ id: string; message: string }>(
+      `${this.baseUrl}`,
+      createJobDto,
+    );
+  }
+
+  updateJob(id: string, updateJobDto: UpdateJobDto): Observable<{ updatedJob: Job; message: string }> {
+    return this.http.put<{ updatedJob: Job; message: string }>(
+      `${this.baseUrl}/${id}`,
+      updateJobDto,
+    );
   }
 
   deleteJob(id: string): Observable<void> {
     return this.http.delete<void>(`${this.baseUrl}/${id}`);
+  }
+
+  uploadLogo(jobId: string, file: File): Observable<{ logoUrl: string; message: string }> {
+    const formData = new FormData();
+    formData.append('logo', file);
+    return this.http.post<{ logoUrl: string; message: string }>(
+      `${this.baseUrl}/${jobId}/logo`,
+      formData,
+    );
   }
 
   private buildHttpParams(filters?: JobSearchFilters): HttpParams {

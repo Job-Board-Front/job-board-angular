@@ -1,45 +1,57 @@
 import { CurrentUser } from '@/app/interfaces/auth/current-user.interface';
 import { APP_ROUTES } from '@/app/route-names/route-names.constants';
-import { computed, inject, Injectable, signal } from '@angular/core';
+import { computed, inject, Injectable } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { Auth, authState, user } from '@angular/fire/auth';
 import { Router } from '@angular/router';
-import { MessageService } from 'primeng/api'; // 👈 Added for Toasts
+import { MessageService } from 'primeng/api'; 
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   signOut,
   updateProfile,
-  User,
 } from 'firebase/auth';
-import { filter, firstValueFrom } from 'rxjs';
+import { catchError, filter, firstValueFrom, from, map, of, switchMap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  private _auth = inject(Auth);
-  private _router = inject(Router);
+  private readonly _auth = inject(Auth);
+  private readonly _router = inject(Router);
   private _messageService = inject(MessageService); 
 
-  private _currentUser = signal<User | null>(null);
+  readonly currentUser = toSignal(
+    user(this._auth).pipe(
+      switchMap((u) =>
+        u
+          ? from(u.getIdTokenResult()).pipe(
+              map((result) => ({
+                uid: u.uid,
+                email: u.email ?? null,
+                displayName: u.displayName ?? null,
+                roles: ((result.claims['roles'] as string[]) || ['user']) as readonly string[],
+              })),
+              catchError(() =>
+                of({
+                  uid: u.uid,
+                  email: u.email ?? null,
+                  displayName: u.displayName ?? null,
+                  roles: ['user'] as readonly string[],
+                }),
+              ),
+            )
+          : of(null),
+      ),
+    ),
+    { initialValue: null },
+  );
 
-  constructor() {
-    user(this._auth).subscribe((u) => {
-      this._currentUser.set(u);
-    });
+  isAdmin = computed(() => this.currentUser()?.roles?.includes('admin') ?? false);
+
+  hasRole(role: string): boolean {
+    return this.currentUser()?.roles?.includes(role) ?? false;
   }
-
-  currentUser = computed<CurrentUser | null>(() => {
-    const user = this._currentUser();
-
-    return user
-      ? {
-          uid: user.uid,
-          email: user.email,
-          displayName: user.displayName,
-        }
-      : null;
-  });
 
   async register(email: string, password: string, displayName: string) {
     try {
@@ -59,8 +71,7 @@ export class AuthService {
       const userCredentials = await signInWithEmailAndPassword(this._auth, email, password);
       await firstValueFrom(authState(this._auth).pipe(filter((user) => !!user)));
       if (userCredentials) {
-        this._currentUser.set(userCredentials.user);
-        this._router.navigate([APP_ROUTES.home]);
+          this._router.navigate([APP_ROUTES.home]);
         window.location.reload();
       }
     } catch (error: any) {

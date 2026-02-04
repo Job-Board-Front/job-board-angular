@@ -197,14 +197,12 @@ export class TestPageComponent {
       salaryRange: '$50k',
       techStack: ['Angular'],
       submissionLink: 'https://www.friv.com/',
-      logoUrl: null,
     };
 
     console.log('🔵 Creating Job...');
     this.jobsService.createJob(newJob).subscribe({
-      next: (job) => {
-        this.showStatus(`Created: ${job.title}`, 'success');
-
+      next: (res) => {
+        this.showStatus(`Created job: ${res.id}`, 'success');
         this.jobsResource.reload();
       },
       error: (err) => this.showStatus(err.message, 'error'),
@@ -275,5 +273,4 @@ export class TestPageComponent {
     this.filterSignal.update((f) => ({ ...f, cursor: nextCursor }));
     this.jobsResource.reload();
   }
-
 }
