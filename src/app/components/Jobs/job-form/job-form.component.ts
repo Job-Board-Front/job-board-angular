@@ -1,5 +1,6 @@
 import {
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   computed,
   effect,
@@ -28,17 +29,27 @@ import {
   MAX_LOGO_SIZE_BYTES,
 } from '@/app/validators/logo.validators';
 import { UI_TOKENS } from '@/app/core/ui/ui.config';
+import { CdOnFocusBlurValueAccessorDirective } from '@/app/directives/cd-on-focus-blur-value-accessor.directive';
+import { FormNoCdOnInputDirective } from '@/app/directives/form-no-cd-on-input.directive';
 
 @Component({
   selector: 'app-job-form',
   standalone: true,
-  imports: [ReactiveFormsModule, RouterLink, ButtonComponent, AbsoluteUrlPipe],
+  imports: [
+    ReactiveFormsModule,
+    RouterLink,
+    ButtonComponent,
+    AbsoluteUrlPipe,
+    CdOnFocusBlurValueAccessorDirective,
+    FormNoCdOnInputDirective,
+  ],
   templateUrl: './job-form.component.html',
   styleUrl: './job-form.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class JobFormComponent {
   private readonly fb = inject(FormBuilder);
+  private readonly cdr = inject(ChangeDetectorRef);
   readonly jobInput = input<Job | null>(null);
 
   readonly submitLabel = input<string>('Create Job');
@@ -72,7 +83,7 @@ export class JobFormComponent {
 
   readonly form = this.fb.nonNullable.group({
     title: ['', [Validators.required, Validators.minLength(2)]],
-    description: ['', [Validators.required]],
+    description: ['', [Validators.required, Validators.minLength(10)]],
     company: ['', [Validators.required, Validators.minLength(2)]],
     location: ['', [Validators.required]],
     employmentType: [EmploymentType.FULL_TIME, [Validators.required]],
@@ -158,6 +169,7 @@ export class JobFormComponent {
       });
     } else {
       this.form.markAllAsTouched();
+      this.cdr.markForCheck();
     }
   }
 }

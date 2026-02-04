@@ -24,10 +24,6 @@ export class JobCreateComponent {
   readonly isSubmitting = signal(false);
   readonly errorMessage = signal('');
 
-  log() {
-    console.log('test cd');
-  }
-
   onFormSubmit(event: { payload: CreateJobDto; logoFile: File | null }) {
     this.isSubmitting.set(true);
     this.errorMessage.set('');
