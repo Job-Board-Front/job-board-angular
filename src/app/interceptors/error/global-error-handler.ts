@@ -1,30 +1,27 @@
-import { ErrorHandler, inject, Injectable, NgZone } from '@angular/core';
+import { ErrorHandler, inject, Injectable} from '@angular/core';
 import { MessageService } from 'primeng/api';
 import { LoggingService } from './logging.service';
 
 @Injectable()
 export class GlobalErrorHandler implements ErrorHandler {
   constructor() {}
+    private logger = inject(LoggingService);
+    private messageService = inject(MessageService);
 
   handleError(error: any): void {
     const effectiveError = error.cause || error;
     if (effectiveError.isHandled || effectiveError.rejection?.isHandled) {
       return;
     }
-    const logger = inject(LoggingService);
-    const messageService = inject(MessageService);
-    const zone = inject(NgZone);
 
     const message = error.message ? error.message : error.toString();
-    logger.logError(message, error);
+    this.logger.logError(message, error);
 
-    zone.run(() => {
-      messageService.add({
+      this.messageService.add({
         severity: 'error',
         summary: 'Application Error',
         detail: 'An unexpected error occurred. Please reload the page.',
         sticky: true,
       });
-    });
   }
 }

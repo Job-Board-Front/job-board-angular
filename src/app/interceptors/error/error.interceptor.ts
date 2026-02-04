@@ -2,13 +2,11 @@ import { HttpErrorResponse, HttpInterceptorFn } from '@angular/common/http';
 import { inject } from '@angular/core';
 import { MessageService } from 'primeng/api';
 import { catchError, throwError } from 'rxjs';
-import { NgxUiLoaderService } from 'ngx-ui-loader'; 
 import { LoggingService } from './logging.service';
 
 export const errorInterceptor: HttpInterceptorFn = (req, next) => {
   const messageService = inject(MessageService);
   const logger = inject(LoggingService);
-  const ngxLoader = inject(NgxUiLoaderService); 
 
   return next(req).pipe(
     catchError((error: HttpErrorResponse) => {
@@ -53,14 +51,12 @@ export const errorInterceptor: HttpInterceptorFn = (req, next) => {
 
       logger.logError(errorMessage, error);
 
-      setTimeout(() => {
         messageService.add({
           severity: 'error',
           summary: summary,
           detail: errorMessage,
           life: 5000 
         });
-      }, 0);
 
       const handledError = error as any;
       handledError.isHandled = true;
